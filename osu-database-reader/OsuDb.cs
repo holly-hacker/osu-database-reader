@@ -17,7 +17,7 @@ namespace osu_database_reader
         public string PlayerName;
         public int AmountOfBeatmaps => Beatmaps.Count;
         public List<BeatmapEntry> Beatmaps;
-        public int UserStatus;  //TODO: make enum, contains supporter and stuff (playerrank)
+        public int UserRank;  //TODO: make enum, contains supporter and stuff (playerrank)
 
         public static OsuDb Read(string path) {
             OsuDb db = new OsuDb();
@@ -40,8 +40,9 @@ namespace osu_database_reader
                         throw;
                     }
                 }
-                db.UserStatus = r.ReadByte();   //TODO: cast as rank
+                db.UserRank = r.ReadByte();   //TODO: cast as rank
             }
+            return db;
         }
     }
 }

@@ -31,7 +31,26 @@ namespace osu_database_reader
         }
 
         public DateTime ReadDateTime() {
-            throw new NotImplementedException();
+            long idk = ReadInt64();
+            return new DateTime(idk, DateTimeKind.Utc);
         }
+
+        public Dictionary<int, double> ReadIntDoubleDictionary() {
+            int length = ReadInt32();
+            Dictionary<int, double> dicks = new Dictionary<int, double>();
+            for (int i = 0; i < length; i++) {
+                int key = ReadInt32();
+                int value = ReadInt32();
+                dicks.Add(key, value);
+            }
+            return dicks;
+        }
+
+        public List<double> ReadDoubleList() {
+            List<double> list = new List<double>();
+            int length = ReadInt32();
+            for (int i = 0; i < length; i++) list.Add(ReadDouble());
+            return list;
+        } 
     }
 }
