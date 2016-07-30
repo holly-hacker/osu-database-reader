@@ -20,17 +20,17 @@ namespace osu_database_reader
         public float DiffAR, DiffCS, DiffHP, DiffOD;
         public double SliderVelocity;
         public Dictionary<int, double> DiffStarRatingStandard, DiffStarRatingTaiko, DiffStarRatingCtB, DiffStarRatingMania;    //TODO: Dictionary<Mods, double>
-        public int DrainTime;   //NOTE: in s
+        public int DrainTimeSeconds;   //NOTE: in s
         public int TotalTime;   //NOTE: in ms
         public int AudioPreviewTime;    //NOTE: in ms
         public List<TimingPoint> TimingPoints;   //TODO: check if double
         public int BeatmapId, BeatmapSetId, ThreadId;
         public byte GradeStandard, GradeTaiko, GradeCtB, GradeMania;    //TODO: make enum
-        public short LocalOffset;
+        public short OffsetLocal;
         public float StackLeniency;
         public byte GameMode;   //TODO: make enum
         public string SongSource, SongTags;
-        public short OnlineOffset;
+        public short OffsetOnline;
         public string TitleFont;
         public bool Unplayed;
         public DateTime LastPlayed;
@@ -38,7 +38,7 @@ namespace osu_database_reader
         public string FolderName;
         public DateTime LastCheckAgainstOsuRepo;    //wtf
         public bool IgnoreBeatmapSounds, IgnoreBeatmapSkin, DisableStoryBoard, DisableVideo, VisualOverride;
-        public short OldUnknown1;
+        public short OldUnknown1;   //unused
         public int Unknown2;
         public byte ManiaScrollSpeed;
 
@@ -93,7 +93,7 @@ namespace osu_database_reader
                 e.DiffStarRatingMania = r.ReadIntDoubleDictionary();
             }
 
-            e.DrainTime = r.ReadInt32();
+            e.DrainTimeSeconds = r.ReadInt32();
             e.TotalTime = r.ReadInt32();
             e.AudioPreviewTime = r.ReadInt32();
 
@@ -107,7 +107,7 @@ namespace osu_database_reader
             e.GradeCtB = r.ReadByte();
             e.GradeMania = r.ReadByte();
 
-            e.LocalOffset = r.ReadInt16();
+            e.OffsetLocal = r.ReadInt16();
             e.StackLeniency = r.ReadSingle();
             e.GameMode = r.ReadByte(); //TODO: cast as mode
 
@@ -115,7 +115,7 @@ namespace osu_database_reader
 
             e.SongSource = r.ReadString();
             e.SongTags = r.ReadString();
-            e.OnlineOffset = r.ReadInt16();
+            e.OffsetOnline = r.ReadInt16();
             e.TitleFont = r.ReadString();
             e.Unplayed = r.ReadBoolean();
             e.LastPlayed = r.ReadDateTime();

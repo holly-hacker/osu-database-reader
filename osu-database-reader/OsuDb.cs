@@ -11,10 +11,10 @@ namespace osu_database_reader
         public int FolderCount;
         public bool AccountUnlocked;
         public DateTime AccountUnlockDate;
-        public string PlayerName;
+        public string AccountName;
         public int AmountOfBeatmaps => Beatmaps.Count;
         public List<BeatmapEntry> Beatmaps;
-        public int UserRank;  //TODO: make enum, contains supporter and stuff (playerrank)
+        public int AccountRank;  //TODO: make enum, contains supporter and stuff (playerrank)
 
         public static OsuDb Read(string path) {
             OsuDb db = new OsuDb();
@@ -23,7 +23,7 @@ namespace osu_database_reader
                 db.FolderCount = r.ReadInt32();
                 db.AccountUnlocked = r.ReadBoolean();
                 db.AccountUnlockDate = r.ReadDateTime();
-                db.PlayerName = r.ReadString();
+                db.AccountName = r.ReadString();
 
                 db.Beatmaps = new List<BeatmapEntry>();
                 int length = r.ReadInt32();
@@ -38,7 +38,7 @@ namespace osu_database_reader
                         Debug.Fail($"Length doesn't match, {r.BaseStream.Position} instead of expected {currentIndex + entryLength + 4}");
                     }
                 }
-                db.UserRank = r.ReadByte();   //TODO: cast as rank
+                db.AccountRank = r.ReadByte();   //TODO: cast as rank
             }
             return db;
         }
