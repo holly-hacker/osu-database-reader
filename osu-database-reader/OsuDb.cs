@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace osu_database_reader
 {
@@ -25,19 +22,20 @@ namespace osu_database_reader
                 db.OsuVersion = r.ReadInt32();
                 db.FolderCount = r.ReadInt32();
                 db.AccountUnlocked = r.ReadBoolean();
-                r.ReadUInt64(); //TODO: read datetime
+                db.AccountUnlockDate = r.ReadDateTime();
                 db.PlayerName = r.ReadString();
 
+                db.Beatmaps = new List<BeatmapEntry>();
                 int length = r.ReadInt32();
                 for (int i = 0; i < length; i++) {
                     int currentIndex = (int)r.BaseStream.Position;
                     int entryLength = r.ReadInt32();
-                    try {
-                        db.Beatmaps.Add(BeatmapEntry.ReadFromStream(r.BaseStream, false));
-                    }
-                    catch (Exception) {
-                        //TODO: go to index+entryLength
-                        throw;
+
+                    var entry = BeatmapEntry.ReadFromReader(r, false, db.OsuVersion);
+
+                    db.Beatmaps.Add(entry);
+                    if (r.BaseStream.Position != currentIndex + entryLength + 4) {
+                        Debug.Fail($"Length doesn't match, {r.BaseStream.Position} instead of expected {currentIndex + entryLength + 4}");
                     }
                 }
                 db.UserRank = r.ReadByte();   //TODO: cast as rank

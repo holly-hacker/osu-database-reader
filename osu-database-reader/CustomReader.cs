@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,12 +23,12 @@ namespace osu_database_reader
 
         public override string ReadString() {
             byte b = ReadByte();
-            if (b == 0x11)
+            if (b == 0x0B)
                 return base.ReadString();
-            else if (b == 0)
+            else if (b == 0x00)
                 return string.Empty;
             else
-                throw new Exception("Continuation byte is not 0x00 or 0x11");
+                throw new Exception("Continuation byte is not 0x00 or 0x11, but is 0x" + b.ToString("X2"));
         }
 
         public DateTime ReadDateTime() {
@@ -39,18 +40,29 @@ namespace osu_database_reader
             int length = ReadInt32();
             Dictionary<int, double> dicks = new Dictionary<int, double>();
             for (int i = 0; i < length; i++) {
+                ReadByte(); //type (0x08)
                 int key = ReadInt32();
-                int value = ReadInt32();
+                ReadByte(); //type (0x0D)
+                double value = ReadDouble();
                 dicks.Add(key, value);
             }
             return dicks;
         }
 
-        public List<double> ReadDoubleList() {
-            List<double> list = new List<double>();
+        public List<TimingPoint> ReadTimingPointList() {
+            List<TimingPoint> list = new List<TimingPoint>();
             int length = ReadInt32();
-            for (int i = 0; i < length; i++) list.Add(ReadDouble());
+            for (int i = 0; i < length; i++) list.Add(ReadTimingPoint());
             return list;
-        } 
+        }
+
+        private TimingPoint ReadTimingPoint() {
+            TimingPoint t = new TimingPoint {
+                Time = ReadDouble(),
+                Speed = ReadDouble(),
+                Something = ReadByte()
+            };
+            return t;
+        }
     }
 }
