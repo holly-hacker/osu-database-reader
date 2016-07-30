@@ -14,7 +14,7 @@ namespace osu_database_reader
         public string AccountName;
         public int AmountOfBeatmaps => Beatmaps.Count;
         public List<BeatmapEntry> Beatmaps;
-        public int AccountRank;  //TODO: make enum, contains supporter and stuff (playerrank)
+        public PlayerRank AccountRank;
 
         public static OsuDb Read(string path) {
             OsuDb db = new OsuDb();
@@ -38,7 +38,7 @@ namespace osu_database_reader
                         Debug.Fail($"Length doesn't match, {r.BaseStream.Position} instead of expected {currentIndex + entryLength + 4}");
                     }
                 }
-                db.AccountRank = r.ReadByte();   //TODO: cast as rank
+                db.AccountRank = (PlayerRank)r.ReadByte();
             }
             return db;
         }

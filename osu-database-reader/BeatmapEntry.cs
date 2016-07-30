@@ -14,21 +14,21 @@ namespace osu_database_reader
         public string AudioFileName;
         public string BeatmapChecksum;
         public string BeatmapFileName;
-        public byte RankedStatus;   //TODO: make enum, automatically convert (subtract 3?)
+        public SubmissionStatus RankedStatus;
         public ushort CountHitCircles, CountSliders, CountSpinners;
         public DateTime LastModifiedTime;
         public float DiffAR, DiffCS, DiffHP, DiffOD;
         public double SliderVelocity;
-        public Dictionary<int, double> DiffStarRatingStandard, DiffStarRatingTaiko, DiffStarRatingCtB, DiffStarRatingMania;    //TODO: Dictionary<Mods, double>
+        public Dictionary<Mods, double> DiffStarRatingStandard, DiffStarRatingTaiko, DiffStarRatingCtB, DiffStarRatingMania;
         public int DrainTimeSeconds;   //NOTE: in s
         public int TotalTime;   //NOTE: in ms
         public int AudioPreviewTime;    //NOTE: in ms
-        public List<TimingPoint> TimingPoints;   //TODO: check if double
+        public List<TimingPoint> TimingPoints;
         public int BeatmapId, BeatmapSetId, ThreadId;
-        public byte GradeStandard, GradeTaiko, GradeCtB, GradeMania;    //TODO: make enum
+        public Ranking GradeStandard, GradeTaiko, GradeCtB, GradeMania;
         public short OffsetLocal;
         public float StackLeniency;
-        public byte GameMode;   //TODO: make enum
+        public GameMode GameMode;
         public string SongSource, SongTags;
         public short OffsetOnline;
         public string TitleFont;
@@ -61,7 +61,7 @@ namespace osu_database_reader
 
             //Debug.WriteLine($"{e.Artist} - {e.Title} [{e.Difficulty}]");
 
-            e.RankedStatus = r.ReadByte(); //TODO: to enum
+            e.RankedStatus = (SubmissionStatus)r.ReadByte();
             e.CountHitCircles = r.ReadUInt16();
             e.CountSliders = r.ReadUInt16();
             e.CountSpinners = r.ReadUInt16();
@@ -87,10 +87,10 @@ namespace osu_database_reader
             e.SliderVelocity = r.ReadDouble();
 
             if (version >= 20140609) {
-                e.DiffStarRatingStandard = r.ReadIntDoubleDictionary();
-                e.DiffStarRatingTaiko = r.ReadIntDoubleDictionary();
-                e.DiffStarRatingCtB = r.ReadIntDoubleDictionary();
-                e.DiffStarRatingMania = r.ReadIntDoubleDictionary();
+                e.DiffStarRatingStandard = r.ReadModsDoubleDictionary();
+                e.DiffStarRatingTaiko = r.ReadModsDoubleDictionary();
+                e.DiffStarRatingCtB = r.ReadModsDoubleDictionary();
+                e.DiffStarRatingMania = r.ReadModsDoubleDictionary();
             }
 
             e.DrainTimeSeconds = r.ReadInt32();
@@ -102,14 +102,14 @@ namespace osu_database_reader
             e.BeatmapSetId = r.ReadInt32();
             e.ThreadId = r.ReadInt32(); //no idea what this is
 
-            e.GradeStandard = r.ReadByte(); //TODO: cast these as mods
-            e.GradeTaiko = r.ReadByte();
-            e.GradeCtB = r.ReadByte();
-            e.GradeMania = r.ReadByte();
+            e.GradeStandard = (Ranking)r.ReadByte();
+            e.GradeTaiko = (Ranking)r.ReadByte();
+            e.GradeCtB = (Ranking)r.ReadByte();
+            e.GradeMania = (Ranking)r.ReadByte();
 
             e.OffsetLocal = r.ReadInt16();
             e.StackLeniency = r.ReadSingle();
-            e.GameMode = r.ReadByte(); //TODO: cast as mode
+            e.GameMode = (GameMode)r.ReadByte();
 
             //Debug.WriteLine("gamemode: " + e.GameMode);
 

@@ -36,15 +36,15 @@ namespace osu_database_reader
             return new DateTime(idk, DateTimeKind.Utc);
         }
 
-        public Dictionary<int, double> ReadIntDoubleDictionary() {
+        public Dictionary<Mods, double> ReadModsDoubleDictionary() {
             int length = ReadInt32();
-            Dictionary<int, double> dicks = new Dictionary<int, double>();
+            Dictionary<Mods, double> dicks = new Dictionary<Mods, double>();
             for (int i = 0; i < length; i++) {
                 ReadByte(); //type (0x08)
                 int key = ReadInt32();
                 ReadByte(); //type (0x0D)
                 double value = ReadDouble();
-                dicks.Add(key, value);
+                dicks.Add((Mods)key, value);
             }
             return dicks;
         }
