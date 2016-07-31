@@ -60,7 +60,7 @@ namespace osu_database_reader
             TimingPoint t = new TimingPoint {
                 Time = ReadDouble(),
                 Speed = ReadDouble(),
-                Something = ReadByte()
+                NotInherited = ReadByte()
             };
             return t;
         }
