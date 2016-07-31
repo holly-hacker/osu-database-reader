@@ -8,10 +8,17 @@ namespace UnitTestProject
     [TestClass]
     public class UnitTest1
     {
+        private static readonly string OsuPath;
+
+        static UnitTest1() {
+            OsuPath = $@"C:\Users\{Environment.UserName}\AppData\Local\osu!\";
+        }
+
         [TestMethod]
         public void ReadOsuDb()
         {
-            OsuDb db = OsuDb.Read($@"C:\Users\{Environment.UserName}\AppData\Local\osu!\osu!.db");
+            OsuDb db = OsuDb.Read(OsuPath + "osu!.db");
+            Debug.WriteLine("Version: " + db.OsuVersion);
             Debug.WriteLine("Amount of beatmaps: " + db.AmountOfBeatmaps);
             Debug.WriteLine($"Account name: {db.AccountName} (account {(db.AccountUnlocked ? "unlocked" : "locked, unlocked at "+db.AccountUnlockDate)})");
             Debug.WriteLine("Account rank: " + db.AccountRank);
@@ -22,6 +29,12 @@ namespace UnitTestProject
         }
 
         [TestMethod]
-        public void Something() { }
+        public void ReadCollectionDb() {
+            CollectionDb db = CollectionDb.Read(OsuPath + "collection.db");
+            Debug.WriteLine("Version: " + db.OsuVersion);
+            Debug.WriteLine("Amount of collections: " + db.AmountOfCollections);
+            foreach (var c in db.Collections)
+                Debug.WriteLine($" - Collection {c.Name} with {c.Md5Hashes.Count} item" + (c.Md5Hashes.Count == 1 ? "" : "s"));
+        }
     }
 }

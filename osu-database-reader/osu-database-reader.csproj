@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BeatmapEntry.cs" />
+    <Compile Include="CollectionDb.cs" />
     <Compile Include="CustomReader.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="OsuDb.cs" />
