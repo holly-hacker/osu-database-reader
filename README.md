@@ -5,10 +5,10 @@ In the future, this will read more file formats, and likely write them too.
 
 Currently finished:
 * osu!.db reading
+* reading collection.db files
 
 Planned:
 * writing everything but replay files
-* reading collection.db files
 * reading scores.db
 * reading presence.db
 * reading replays
