@@ -3,13 +3,21 @@ Allows for parsing/reading osu!'s database files
 
 In the future, this will read more file formats, and likely write them too.
 
-Currently finished:
+### Currently finished:
 * reading osu!.db
-* reading collection.db files
+* reading collection.db
 * reading scores.db
 * reading presence.db
 
-Planned:
-* writing everything but replay files
+### Planned:
 * reading replays
-* reading osu! beatmaps (?)
+* reading osu! beatmaps (maybe?)
+* writing osu!.db
+* writing collection.db
+* writing scores.db
+* writing presence.db
+* writing osu! beatmaps (maybe?)
+
+## Usage
+Add to your project and include the osu_database_reader namespace.
+See unit tests for more detailed usage.
