@@ -7,9 +7,9 @@ Currently finished:
 * reading osu!.db
 * reading collection.db files
 * reading scores.db
+* reading presence.db
 
 Planned:
 * writing everything but replay files
-* reading presence.db
 * reading replays
 * reading osu! beatmaps (?)

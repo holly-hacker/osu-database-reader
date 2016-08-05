@@ -45,6 +45,8 @@
     <Compile Include="CustomReader.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="OsuDb.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="PresenceDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Replay.cs" />
     <Compile Include="ScoresDb.cs" />

@@ -59,5 +59,18 @@ namespace UnitTestProject
                 }
             }
         }
+
+        [TestMethod]
+        public void ReadPresenceDb()
+        {
+            var db = PresenceDb.Read(OsuPath + "presence.db");
+            Debug.WriteLine("Version: " + db.OsuVersion);
+            Debug.WriteLine("Amount of scores: " + db.AmountOfPlayers);
+
+            for (int i = 0; i < Math.Min(db.AmountOfPlayers, 10); i++) {    //10 at most
+                var p = db.Players[i];
+                Debug.WriteLine($"Player {p.PlayerName} lives at long {p.Longitude} and lat {p.Latitude}. Some DateTime: {p.Unknown1}. Rank: {p.PlayerRank}. {p.GameMode}, #{p.GlobalRank}, id {p.PlayerId}");
+            }
+        }
     }
 }
