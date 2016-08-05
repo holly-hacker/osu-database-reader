@@ -28,7 +28,7 @@ namespace osu_database_reader
             else if (b == 0x00)
                 return string.Empty;
             else
-                throw new Exception("Continuation byte is not 0x00 or 0x11, but is 0x" + b.ToString("X2"));
+                throw new Exception($"Continuation byte is not 0x00 or 0x11, but is 0x{b.ToString("X2")} (position: {BaseStream.Position})");
         }
 
         public DateTime ReadDateTime() {
