@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using osu_database_reader;
@@ -17,8 +18,7 @@ namespace UnitTestProject
         }
 
         [TestMethod]
-        public void ReadOsuDb()
-        {
+        public void ReadOsuDb() {
             OsuDb db = OsuDb.Read(OsuPath + "osu!.db");
             Debug.WriteLine("Version: " + db.OsuVersion);
             Debug.WriteLine("Amount of beatmaps: " + db.AmountOfBeatmaps);
@@ -40,8 +40,7 @@ namespace UnitTestProject
         }
 
         [TestMethod]
-        public void ReadScoresDb()
-        {
+        public void ReadScoresDb() {
             ScoresDb db = ScoresDb.Read(OsuPath + "scores.db");
             Debug.WriteLine("Version: " + db.OsuVersion);
             Debug.WriteLine("Amount of beatmaps: " + db.AmountOfBeatmaps);
@@ -61,8 +60,7 @@ namespace UnitTestProject
         }
 
         [TestMethod]
-        public void ReadPresenceDb()
-        {
+        public void ReadPresenceDb() {
             var db = PresenceDb.Read(OsuPath + "presence.db");
             Debug.WriteLine("Version: " + db.OsuVersion);
             Debug.WriteLine("Amount of scores: " + db.AmountOfPlayers);
@@ -70,6 +68,24 @@ namespace UnitTestProject
             for (int i = 0; i < Math.Min(db.AmountOfPlayers, 10); i++) {    //10 at most
                 var p = db.Players[i];
                 Debug.WriteLine($"Player {p.PlayerName} lives at long {p.Longitude} and lat {p.Latitude}. Some DateTime: {p.Unknown1}. Rank: {p.PlayerRank}. {p.GameMode}, #{p.GlobalRank}, id {p.PlayerId}");
+            }
+        }
+
+        [TestMethod]
+        public void ReadReplay() {
+            //get random path
+            string path = OsuPath + "Replays\\";
+            string[] files = Directory.GetFiles(path);
+
+            Assert.IsNotNull(files);
+            Assert.AreNotEqual(files.Length, 0, "No replays in your replay folder!");
+
+            for (int i = 0; i < Math.Max(files.Length, 10); i++) {  //10 at most
+                var r = Replay.Read(files[i]);
+                Debug.WriteLine("Version: " + r.OsuVersion);
+                Debug.WriteLine("Beatmap hash: " + r.BeatmapHash);
+                Debug.WriteLine($"Replay by {r.PlayerName}, for {r.Score} score with {r.Combo}x combo. Played at {r.TimePlayed}");
+                Debug.WriteLine("");
             }
         }
     }
