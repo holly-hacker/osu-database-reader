@@ -8,9 +8,9 @@ In the future, this will read more file formats, and likely write them too.
 * reading collection.db
 * reading scores.db
 * reading presence.db
+* reading replays
 
 ### Planned:
-* reading replays
 * reading osu! beatmaps (maybe?)
 * writing osu!.db
 * writing collection.db
