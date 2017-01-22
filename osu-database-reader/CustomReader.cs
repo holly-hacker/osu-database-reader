@@ -58,9 +58,9 @@ namespace osu_database_reader
 
         private TimingPoint ReadTimingPoint() {
             TimingPoint t = new TimingPoint {
+                MsPerQuarter = ReadDouble(),
                 Time = ReadDouble(),
-                Speed = ReadDouble(),
-                NotInherited = ReadByte()
+                NotInherited = ReadByte() != 0
             };
             return t;
         }

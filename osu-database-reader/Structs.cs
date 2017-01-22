@@ -8,8 +8,8 @@ namespace osu_database_reader
 {
     public struct TimingPoint
     {
-        public double Time, Speed;
-        public byte NotInherited;
+        public double Time, MsPerQuarter;
+        public bool NotInherited;
     }
 
     public struct Collection
