@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,12 +41,14 @@ namespace osu_database_reader
 
     public enum SubmissionStatus : byte
     {
-        Unknown,
-        NotSubmitted,
-        Pending,        //both pending and graveyarded
-        EditableCutoff, //not used anymore?
-        Ranked,
-        Approved
+        Unknown = 0,
+        NotSubmitted = 1,
+        Pending = 2,        //both pending and graveyarded
+        EditableCutoff = 3, //not used anymore?
+        Ranked = 4,
+        Approved = 5,
+        Unknown1 = 6,
+        Loved = 7
     }
 
     [Flags]
