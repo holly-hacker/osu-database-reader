@@ -41,13 +41,13 @@ namespace osu_database_reader
 
     public enum SubmissionStatus : byte
     {
-        Unknown = 0,
+        Unknown = 0,        //seems to include Qualified
         NotSubmitted = 1,
         Pending = 2,        //both pending and graveyarded
         EditableCutoff = 3, //not used anymore?
         Ranked = 4,
         Approved = 5,
-        Unknown1 = 6,
+        Unknown1 = 6,       //TODO: figure out
         Loved = 7
     }
 
