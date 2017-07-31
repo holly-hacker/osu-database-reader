@@ -49,6 +49,7 @@ namespace osu_database_reader
         Approved
     }
 
+    [Flags]
     public enum Mods : int
     {
         None            = 0,
