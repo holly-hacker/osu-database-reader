@@ -47,11 +47,14 @@
     <Compile Include="BinaryFiles\OsuDb.cs" />
     <Compile Include="BinaryFiles\Parts\Player.cs" />
     <Compile Include="BinaryFiles\PresenceDb.cs" />
+    <Compile Include="IO\CustomStreamReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BinaryFiles\Parts\Replay.cs" />
     <Compile Include="BinaryFiles\ScoresDb.cs" />
     <Compile Include="BinaryFiles\Parts\Structs.cs" />
+    <Compile Include="TextFiles\BeatmapFile.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

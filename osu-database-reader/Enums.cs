@@ -86,4 +86,18 @@ namespace osu_database_reader
         Key3            = 134217728,
         Key2            = 268435456
     }
+
+    public enum BeatmapSection
+    {
+        // ReSharper disable once InconsistentNaming
+        _EndOfFile,
+        General,
+        Editor,
+        Metadata,
+        Difficulty,
+        Events,
+        TimingPoints,
+        Colours,
+        HitObjects,
+    }
 }
