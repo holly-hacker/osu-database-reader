@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace osu_database_reader.Databases.Parts
+namespace osu_database_reader.BinaryFiles.Parts
 {
     public struct TimingPoint
     {

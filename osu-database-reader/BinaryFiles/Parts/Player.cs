@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using osu_database_reader.IO;
 
-namespace osu_database_reader.Databases.Parts
+namespace osu_database_reader.BinaryFiles.Parts
 {
     public class Player
     {

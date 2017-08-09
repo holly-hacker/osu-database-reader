@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using osu_database_reader.Databases.Parts;
+using osu_database_reader.BinaryFiles.Parts;
 using osu_database_reader.IO;
 
-namespace osu_database_reader.Databases
+namespace osu_database_reader.BinaryFiles
 {
     public class CollectionDb
     {
