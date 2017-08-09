@@ -8,7 +8,6 @@ namespace osu_database_reader.BinaryFiles
     public class PresenceDb
     {
         public int OsuVersion;
-        public int AmountOfPlayers => Players.Count;
         public List<Player> Players = new List<Player>();
 
         public static PresenceDb Read(string path) {

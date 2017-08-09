@@ -141,7 +141,7 @@ namespace osu_database_reader.BinaryFiles.Parts
             //Debug.WriteLine("Mania scroll speed: " + e.ManiaScrollSpeed);
 
             int endPosition = (int) r.BaseStream.Position;
-            Debug.Assert(!readLength || length == endPosition - startPosition); //TODO: could throw error here
+            Debug.Assert(!readLength || length == endPosition - startPosition); //could throw error here
             //Debug.WriteLine("---");
 
             return e;

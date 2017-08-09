@@ -33,9 +33,8 @@ namespace osu_database_reader.BinaryFiles
                     int currentIndex = (int)r.BaseStream.Position;
                     int entryLength = r.ReadInt32();
 
-                    var entry = BeatmapEntry.ReadFromReader(r, false, db.OsuVersion);
+                    db.Beatmaps.Add(BeatmapEntry.ReadFromReader(r, false, db.OsuVersion));
 
-                    db.Beatmaps.Add(entry);
                     if (r.BaseStream.Position != currentIndex + entryLength + 4) {
                         Debug.Fail($"Length doesn't match, {r.BaseStream.Position} instead of expected {currentIndex + entryLength + 4}");
                     }

@@ -8,7 +8,6 @@ namespace osu_database_reader.BinaryFiles
     public class CollectionDb
     {
         public int OsuVersion;
-        public int AmountOfCollections => Collections.Count;
         public List<Collection> Collections = new List<Collection>();
 
         public static CollectionDb Read(string path) {

@@ -11,8 +11,7 @@ namespace osu_database_reader.BinaryFiles
     {
         public int OsuVersion;
         public Dictionary<string, List<Replay>> Beatmaps = new Dictionary<string, List<Replay>>();
-        public int AmountOfBeatmaps => Beatmaps.Count;
-        public int AmountOfScores => Beatmaps.Sum(a => a.Value.Count);
+        public IEnumerable<Replay> Scores => Beatmaps.SelectMany(a => a.Value);
 
         public static ScoresDb Read(string path) {
             var db = new ScoresDb();
@@ -27,8 +26,9 @@ namespace osu_database_reader.BinaryFiles
                     Tuple<string, List<Replay>> tuple = new Tuple<string, List<Replay>>(md5, new List<Replay>());
 
                     int amount2 = r.ReadInt32();
-                    for (int j = 0; j < amount2; j++)
+                    for (int j = 0; j < amount2; j++) {
                         tuple.Item2.Add(Replay.ReadFromReader(r, true));
+                    }
 
                     db.Beatmaps.Add(tuple.Item1, tuple.Item2);
                 }
