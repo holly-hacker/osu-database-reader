@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using osu_database_reader.Databases.Parts;
+using osu_database_reader.IO;
 
-namespace osu_database_reader
+namespace osu_database_reader.Databases
 {
     public class OsuDb
     {
@@ -18,7 +20,7 @@ namespace osu_database_reader
 
         public static OsuDb Read(string path) {
             OsuDb db = new OsuDb();
-            using (CustomReader r = new CustomReader(File.OpenRead(path))) {
+            using (CustomBinaryReader r = new CustomBinaryReader(File.OpenRead(path))) {
                 db.OsuVersion = r.ReadInt32();
                 db.FolderCount = r.ReadInt32();
                 db.AccountUnlocked = r.ReadBoolean();

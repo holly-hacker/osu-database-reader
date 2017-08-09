@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using osu_database_reader.Databases.Parts;
+using osu_database_reader.IO;
 
-namespace osu_database_reader
+namespace osu_database_reader.Databases
 {
     public class CollectionDb
     {
@@ -15,7 +13,7 @@ namespace osu_database_reader
 
         public static CollectionDb Read(string path) {
             var db = new CollectionDb();
-            using (CustomReader r = new CustomReader(File.OpenRead(path))) {
+            using (CustomBinaryReader r = new CustomBinaryReader(File.OpenRead(path))) {
                 db.OsuVersion = r.ReadInt32();
                 int amount = r.ReadInt32();
 

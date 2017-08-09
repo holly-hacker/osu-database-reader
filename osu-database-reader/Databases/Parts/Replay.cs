@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using osu_database_reader.IO;
 
-namespace osu_database_reader
+namespace osu_database_reader.Databases.Parts
 {
     public class Replay //used for both scores.db and .osr files
     {
@@ -24,13 +21,13 @@ namespace osu_database_reader
 
         public static Replay Read(string path) {
             Replay replay;
-            using (CustomReader r = new CustomReader(File.OpenRead(path))) {
+            using (CustomBinaryReader r = new CustomBinaryReader(File.OpenRead(path))) {
                 replay = ReadFromReader(r); //scoreid should not be needed
             }
             return replay;
         }
 
-        public static Replay ReadFromReader(CustomReader r, bool readScoreId = false) {
+        public static Replay ReadFromReader(CustomBinaryReader r, bool readScoreId = false) {
             Replay replay = new Replay {
                 GameMode = (GameMode) r.ReadByte(),
                 OsuVersion = r.ReadInt32(),

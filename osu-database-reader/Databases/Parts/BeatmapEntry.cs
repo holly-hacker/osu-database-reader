@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
+using osu_database_reader.IO;
 
-namespace osu_database_reader
+namespace osu_database_reader.Databases.Parts
 {
     public class BeatmapEntry
     {
@@ -42,7 +42,7 @@ namespace osu_database_reader
         public int Unknown2;
         public byte ManiaScrollSpeed;
 
-        public static BeatmapEntry ReadFromReader(CustomReader r, bool readLength = true, int version = 20160729) {
+        public static BeatmapEntry ReadFromReader(CustomBinaryReader r, bool readLength = true, int version = 20160729) {
             BeatmapEntry e = new BeatmapEntry();
 
             int length = 0;

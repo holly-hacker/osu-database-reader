@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using osu_database_reader.IO;
 
-namespace osu_database_reader
+namespace osu_database_reader.Databases.Parts
 {
     public class Player
     {
@@ -19,7 +16,7 @@ namespace osu_database_reader
         public int GlobalRank;
         public DateTime Unknown1;   //TODO: name this. Last update time?
 
-        public static Player ReadFromReader(CustomReader r) {
+        public static Player ReadFromReader(CustomBinaryReader r) {
             Player p = new Player();
 
             p.PlayerId = r.ReadInt32();
