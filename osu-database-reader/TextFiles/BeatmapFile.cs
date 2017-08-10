@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using osu_database_reader.IO;
+using osu_database_reader.TextFiles.HitObjects;
 
 namespace osu_database_reader.TextFiles
 {
@@ -13,6 +14,8 @@ namespace osu_database_reader.TextFiles
         public Dictionary<string, string> SectionMetadata;
         public Dictionary<string, string> SectionDifficulty;
         public Dictionary<string, string> SectionColours;
+
+        public List<HitObject> HitObjects = new List<HitObject>();
 
         public static BeatmapFile Read(string path)
         {
@@ -49,8 +52,10 @@ namespace osu_database_reader.TextFiles
                             file.SectionColours = r.ReadBasicSection(true, true);
                             break;
                         case BeatmapSection.HitObjects:
-                            //TODO
-                            r.SkipSection();
+                            string line;
+                            while (!string.IsNullOrEmpty(line = r.ReadLine())) {
+                                file.HitObjects.Add(HitObject.FromString(line));
+                            }
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();

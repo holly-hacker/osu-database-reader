@@ -66,6 +66,7 @@ namespace osu_database_reader.IO
             return dic;
         }
 
+        [Obsolete("This method should never be used; all sections must be parsed.")]
         public void SkipSection()
         {
             while (!string.IsNullOrWhiteSpace(ReadLine())) { }

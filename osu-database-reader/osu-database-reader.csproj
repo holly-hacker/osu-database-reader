@@ -53,6 +53,12 @@
     <Compile Include="BinaryFiles\ScoresDb.cs" />
     <Compile Include="BinaryFiles\Parts\Structs.cs" />
     <Compile Include="TextFiles\BeatmapFile.cs" />
+    <Compile Include="TextFiles\HitObjects\Enums.cs" />
+    <Compile Include="TextFiles\HitObjects\HitObject.cs" />
+    <Compile Include="TextFiles\HitObjects\HitObjectCircle.cs" />
+    <Compile Include="TextFiles\HitObjects\HitObjectSlider.cs" />
+    <Compile Include="TextFiles\HitObjects\HitObjectSpinner.cs" />
+    <Compile Include="TextFiles\HitObjects\Structs.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
