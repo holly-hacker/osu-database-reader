@@ -3,6 +3,8 @@ Allows for parsing/reading osu!'s database files
 
 In the future, this will read more file formats, and likely write them too.
 
+NOTE: No parsing for storyboards, use [osuElements](https://github.com/JasperDeSutter/osuElements) for that.
+
 ### Currently finished:
 * reading osu!.db
 * reading collection.db
