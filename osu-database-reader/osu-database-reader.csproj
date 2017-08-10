@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="BinaryFiles\Parts\BeatmapEntry.cs" />
     <Compile Include="BinaryFiles\CollectionDb.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="IO\CustomBinaryReader.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="BinaryFiles\OsuDb.cs" />

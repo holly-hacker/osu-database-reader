@@ -58,7 +58,11 @@ namespace UnitTestProject
             //TODO
 
             //check TimingPoints
-            //TODO
+            Assert.AreEqual(bm.TimingPoints.Count, 5);
+            Assert.AreEqual(bm.TimingPoints[0].Time, 6966);
+            Assert.AreEqual(bm.TimingPoints[1].Kiai, true);
+            Assert.AreEqual(bm.TimingPoints[2].MsPerQuarter, -100); //means no timing change
+            Assert.AreEqual(bm.TimingPoints[3].TimingChange, false);
 
             //check Colours
             //TODO

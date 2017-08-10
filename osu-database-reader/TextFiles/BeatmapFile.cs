@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using osu_database_reader.BinaryFiles.Parts;
 using osu_database_reader.IO;
 using osu_database_reader.TextFiles.HitObjects;
 
@@ -15,6 +16,7 @@ namespace osu_database_reader.TextFiles
         public Dictionary<string, string> SectionDifficulty;
         public Dictionary<string, string> SectionColours;
 
+        public List<TimingPoint> TimingPoints = new List<TimingPoint>();
         public List<HitObject> HitObjects = new List<HitObject>();
 
         public static BeatmapFile Read(string path)
@@ -45,8 +47,7 @@ namespace osu_database_reader.TextFiles
                             r.SkipSection();
                             break;
                         case BeatmapSection.TimingPoints:
-                            //TODO
-                            r.SkipSection();
+                            file.TimingPoints.AddRange(r.ReadTimingPoints());
                             break;
                         case BeatmapSection.Colours:
                             file.SectionColours = r.ReadBasicSection(true, true);

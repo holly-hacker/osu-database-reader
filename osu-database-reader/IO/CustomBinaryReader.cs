@@ -50,17 +50,10 @@ namespace osu_database_reader.IO
         public List<TimingPoint> ReadTimingPointList() {
             List<TimingPoint> list = new List<TimingPoint>();
             int length = ReadInt32();
-            for (int i = 0; i < length; i++) list.Add(ReadTimingPoint());
+            for (int i = 0; i < length; i++) list.Add(TimingPoint.ReadFromReader(this));
             return list;
         }
 
-        private TimingPoint ReadTimingPoint() {
-            TimingPoint t = new TimingPoint {
-                MsPerQuarter = ReadDouble(),
-                Time = ReadDouble(),
-                NotInherited = ReadByte() != 0
-            };
-            return t;
-        }
+        
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using osu_database_reader.BinaryFiles.Parts;
 using osu_database_reader.TextFiles.HitObjects;
 
 namespace osu_database_reader.IO
@@ -72,6 +73,14 @@ namespace osu_database_reader.IO
             string line;
             while (!string.IsNullOrEmpty(line = ReadLine())) {
                 yield return HitObject.FromString(line);
+            }
+        }
+
+        public IEnumerable<TimingPoint> ReadTimingPoints()
+        {
+            string line;
+            while (!string.IsNullOrEmpty(line = ReadLine())) {
+                yield return TimingPoint.FromString(line);
             }
         }
 

@@ -11,9 +11,6 @@ namespace osu_database_reader.TextFiles.HitObjects
 {
     public abstract class HitObject
     {
-        //nfi so parsing works on all cultures
-        private static readonly NumberFormatInfo NumberFormat = new CultureInfo(@"en-US", false).NumberFormat;
-
         public int X, Y;  //based on a 512x384 field
         public int Time;
         public HitObjectType Type;
@@ -25,7 +22,7 @@ namespace osu_database_reader.TextFiles.HitObjects
         public static HitObject FromString(string s)
         {
             string[] split = s.Split(',');
-            HitObjectType t = (HitObjectType) int.Parse(split[3]);
+            HitObjectType t = (HitObjectType) int.Parse(split[3], Constants.NumberFormat);
 
             HitObject h = null;
             switch (t & (HitObjectType)0b1000_1011) {
@@ -37,9 +34,9 @@ namespace osu_database_reader.TextFiles.HitObjects
                 case HitObjectType.Slider:
                     h = new HitObjectSlider();
                     (h as HitObjectSlider).ParseSliderSegments(split[5]);
-                    (h as HitObjectSlider).RepeatCount = int.Parse(split[6]);
+                    (h as HitObjectSlider).RepeatCount = int.Parse(split[6], Constants.NumberFormat);
                     if (split.Length > 7)
-                        (h as HitObjectSlider).Length = double.Parse(split[7], NumberFormat);
+                        (h as HitObjectSlider).Length = double.Parse(split[7], Constants.NumberFormat);
                     //if (split.Length > 8)
                     //    (h as HitObjectSlider).HitSoundData = split[8];
                     //if (split.Length > 9)
@@ -61,9 +58,9 @@ namespace osu_database_reader.TextFiles.HitObjects
 
             //note: parsed as decimal but cast to int in osu!
             if (h != null) {
-                h.X = int.Parse(split[0], NumberFormat);
-                h.Y = int.Parse(split[1], NumberFormat);
-                h.Time = int.Parse(split[2], NumberFormat);
+                h.X = int.Parse(split[0], Constants.NumberFormat);
+                h.Y = int.Parse(split[1], Constants.NumberFormat);
+                h.Time = int.Parse(split[2], Constants.NumberFormat);
                 h.Type = t;
                 h.HitSound = (HitSound)int.Parse(split[4]);
             }
