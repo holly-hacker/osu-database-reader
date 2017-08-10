@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using osu_database_reader.TextFiles.HitObjects;
 
 namespace osu_database_reader.IO
 {
@@ -64,6 +65,14 @@ namespace osu_database_reader.IO
             }
 
             return dic;
+        }
+
+        public IEnumerable<HitObject> ReadHitObjects()
+        {
+            string line;
+            while (!string.IsNullOrEmpty(line = ReadLine())) {
+                yield return HitObject.FromString(line);
+            }
         }
 
         [Obsolete("This method should never be used; all sections must be parsed.")]

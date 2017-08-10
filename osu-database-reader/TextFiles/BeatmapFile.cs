@@ -52,10 +52,7 @@ namespace osu_database_reader.TextFiles
                             file.SectionColours = r.ReadBasicSection(true, true);
                             break;
                         case BeatmapSection.HitObjects:
-                            string line;
-                            while (!string.IsNullOrEmpty(line = r.ReadLine())) {
-                                file.HitObjects.Add(HitObject.FromString(line));
-                            }
+                            file.HitObjects.AddRange(r.ReadHitObjects());
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
