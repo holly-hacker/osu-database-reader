@@ -14,9 +14,9 @@ namespace osu_database_reader.Components.Player
         public ushort Combo;
         public bool FullCombo;
         public Mods Mods;
-        public string LifeGraphData;//null in scores.db, TODO: parse this when implementing .osr
+        public string LifeGraphData;    //null in scores.db, TODO: parse this when implementing .osr
         public DateTime TimePlayed;
-        public byte[] ReplayData;   //null in scores.db
+        public byte[] ReplayData;       //null in scores.db
         public long? ScoreId;
 
         public static Replay Read(string path) {

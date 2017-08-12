@@ -53,7 +53,5 @@ namespace osu_database_reader.IO
             for (int i = 0; i < length; i++) list.Add(TimingPoint.ReadFromReader(this));
             return list;
         }
-
-        
     }
 }
