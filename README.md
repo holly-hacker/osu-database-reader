@@ -1,3 +1,4 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/holly-hacker/osu-database-reader/badge)](https://www.codefactor.io/repository/github/holly-hacker/osu-database-reader)
 # osu-database-reader
 Allows for parsing/reading osu!'s database files
 
