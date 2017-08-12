@@ -16,10 +16,18 @@ namespace osu_database_reader.Components.HitObjects
             foreach (var s in split) {
                 if (s.Length == 1) {   //curve type
                     switch (s[0]) {
-                        case 'L': CurveType = CurveType.Linear;  break;
-                        case 'C': CurveType = CurveType.Catmull; break;
-                        case 'P': CurveType = CurveType.Perfect; break;
-                        case 'B': CurveType = CurveType.Bezier;  break;
+                        case 'L':
+                            CurveType = CurveType.Linear;
+                            break;
+                        case 'C':
+                            CurveType = CurveType.Catmull;
+                            break;
+                        case 'P':
+                            CurveType = CurveType.Perfect;
+                            break;
+                        case 'B':
+                            CurveType = CurveType.Bezier;
+                            break;
                     }
                     continue;
                 }
