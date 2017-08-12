@@ -11,17 +11,18 @@ using osu_database_reader.Components.Player;
 namespace UnitTestProject
 {
     [TestClass]
-    public class UnitTest1
+    public class TestsBinary
     {
-        private static readonly string OsuPath;
-
-        static UnitTest1() {
-            OsuPath = $@"C:\Users\{Environment.UserName}\AppData\Local\osu!\";
+        [TestInitialize]
+        public void Init()
+        {
+            SharedCode.PreTestCheck();
         }
 
         [TestMethod]
-        public void ReadOsuDb() {
-            OsuDb db = OsuDb.Read(OsuPath + "osu!.db");
+        public void ReadOsuDb()
+        {
+            OsuDb db = OsuDb.Read(SharedCode.GetRelativeFile("osu!.db"));
             Debug.WriteLine("Version: " + db.OsuVersion);
             Debug.WriteLine("Amount of beatmaps: " + db.AmountOfBeatmaps);
             Debug.WriteLine($"Account name: {db.AccountName} (account {(db.AccountUnlocked ? "unlocked" : "locked, unlocked at "+db.AccountUnlockDate)})");
@@ -33,8 +34,9 @@ namespace UnitTestProject
         }
 
         [TestMethod]
-        public void ReadCollectionDb() {
-            CollectionDb db = CollectionDb.Read(OsuPath + "collection.db");
+        public void ReadCollectionDb()
+        {
+            CollectionDb db = CollectionDb.Read(SharedCode.GetRelativeFile("collection.db"));
             Debug.WriteLine("Version: " + db.OsuVersion);
             Debug.WriteLine("Amount of collections: " + db.Collections.Count);
             foreach (var c in db.Collections) {
@@ -43,8 +45,9 @@ namespace UnitTestProject
         }
 
         [TestMethod]
-        public void ReadScoresDb() {
-            ScoresDb db = ScoresDb.Read(OsuPath + "scores.db");
+        public void ReadScoresDb()
+        {
+            ScoresDb db = ScoresDb.Read(SharedCode.GetRelativeFile("scores.db"));
             Debug.WriteLine("Version: " + db.OsuVersion);
             Debug.WriteLine("Amount of beatmaps: " + db.Beatmaps.Count);
             Debug.WriteLine("Amount of scores: " + db.Scores.Count());
@@ -63,8 +66,9 @@ namespace UnitTestProject
         }
 
         [TestMethod]
-        public void ReadPresenceDb() {
-            var db = PresenceDb.Read(OsuPath + "presence.db");
+        public void ReadPresenceDb()
+        {
+            var db = PresenceDb.Read(SharedCode.GetRelativeFile("presence.db"));
             Debug.WriteLine("Version: " + db.OsuVersion);
             Debug.WriteLine("Amount of scores: " + db.Players.Count);
 
@@ -75,9 +79,10 @@ namespace UnitTestProject
         }
 
         [TestMethod]
-        public void ReadReplay() {
-            //get random path
-            string path = OsuPath + "Replays\\";
+        public void ReadReplay()
+        {
+            //get random file
+            string path = SharedCode.GetRelativeDirectory("Replays");
             string[] files = Directory.GetFiles(path);
             
             if (files == null || files.Length == 0)

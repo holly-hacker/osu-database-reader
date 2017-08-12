@@ -10,23 +10,24 @@ using osu_database_reader.TextFiles;
 namespace UnitTestProject
 {
     [TestClass]
-    public class UnitTest2
+    public class TestsText
     {
-        private static readonly string OsuPath;
-
-        static UnitTest2()
+        [TestInitialize]
+        public void Init()
         {
-            OsuPath = $@"C:\Users\{Environment.UserName}\AppData\Local\osu!\";
+            SharedCode.PreTestCheck();
         }
 
         [TestMethod]
-        public void ReadBigBlack()
+        public void VerifyBigBlack()
         {
             //most people should have this map
-            string beatmap = OsuPath + @"Songs\41823 The Quick Brown Fox - The Big Black\The Quick Brown Fox - The Big Black (Blue Dragon) [WHO'S AFRAID OF THE BIG BLACK].osu";
+            string beatmap = SharedCode.GetRelativeFile(@"Songs\41823 The Quick Brown Fox - The Big Black\The Quick Brown Fox - The Big Black (Blue Dragon) [WHO'S AFRAID OF THE BIG BLACK].osu");
 
             if (!File.Exists(beatmap))
-                Assert.Inconclusive("Hardcoded beatmap not found at location " + beatmap);
+                Assert.Inconclusive("Hardcoded path does not exist:  " + beatmap);
+            if (!SharedCode.VerifyFileChecksum(beatmap, "2D687E5EE79F3862AD0C60651471CDCC"))
+                Assert.Inconclusive("Beatmap was modified.");
             //TODO: check file to not be modified. if it is: inconclusive
 
             var bm = BeatmapFile.Read(beatmap);
@@ -66,7 +67,12 @@ namespace UnitTestProject
             Assert.AreEqual(bm.TimingPoints[3].TimingChange, false);
 
             //check Colours
-            //TODO
+            //Combo1 : 249,91,9
+            //(...)
+            //Combo5 : 255,255,128
+            Assert.AreEqual(bm.SectionColours["Combo1"], "249,91,91");
+            Assert.AreEqual(bm.SectionColours["Combo5"], "255,255,128");
+            Assert.AreEqual(bm.SectionColours.Count, 5);
 
             //check HitObjects
             Assert.AreEqual(bm.HitObjects.Count, 746);

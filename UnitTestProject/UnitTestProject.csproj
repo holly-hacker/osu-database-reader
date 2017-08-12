@@ -50,9 +50,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="SharedCode.cs" />
+    <Compile Include="TestsBinary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTest2.cs" />
+    <Compile Include="TestsText.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\osu-database-reader\osu-database-reader.csproj">
