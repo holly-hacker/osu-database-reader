@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -31,7 +30,8 @@ namespace UnitTestProject
             //TODO: check file to not be modified. if it is: inconclusive
 
             var bm = BeatmapFile.Read(beatmap);
-            Debug.WriteLine("Beatmap version: " + bm.BeatmapVersion);
+
+            Assert.AreEqual(bm.BeatmapVersion, 9);
 
             Assert.IsTrue(bm.SectionGeneral.Count >= 2);   //disco prince only has 2
             Assert.IsTrue(bm.SectionMetadata.Count >= 4);  //disco prince only has 4
@@ -42,7 +42,7 @@ namespace UnitTestProject
             Assert.AreEqual(bm.SectionGeneral["AudioLeadIn"], "0");
             Assert.AreEqual(bm.SectionGeneral["PreviewTime"], "18957");
             
-            //check MetaData
+            //check Metadata
             Assert.AreEqual(bm.SectionMetadata["Title"], "The Big Black");
             Assert.AreEqual(bm.SectionMetadata["Artist"], "The Quick Brown Fox");
             Assert.AreEqual(bm.SectionMetadata["Creator"], "Blue Dragon");

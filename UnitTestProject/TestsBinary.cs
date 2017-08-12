@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using osu_database_reader;
 using osu_database_reader.BinaryFiles;
 using osu_database_reader.Components.Player;
 
@@ -25,7 +24,7 @@ namespace UnitTestProject
             OsuDb db = OsuDb.Read(SharedCode.GetRelativeFile("osu!.db"));
             Debug.WriteLine("Version: " + db.OsuVersion);
             Debug.WriteLine("Amount of beatmaps: " + db.AmountOfBeatmaps);
-            Debug.WriteLine($"Account name: {db.AccountName} (account {(db.AccountUnlocked ? "unlocked" : "locked, unlocked at "+db.AccountUnlockDate)})");
+            Debug.WriteLine($"Account name: \"{db.AccountName}\" (account {(db.AccountUnlocked ? "not locked" : "locked, unlocked at " + db.AccountUnlockDate)})");
             Debug.WriteLine("Account rank: " + db.AccountRank);
             for (int i = 0; i < Math.Min(10, db.AmountOfBeatmaps); i++) {   //print 10 at most
                 var b = db.Beatmaps[i];
@@ -40,7 +39,7 @@ namespace UnitTestProject
             Debug.WriteLine("Version: " + db.OsuVersion);
             Debug.WriteLine("Amount of collections: " + db.Collections.Count);
             foreach (var c in db.Collections) {
-                Debug.WriteLine($" - Collection {c.Name} with {c.Md5Hashes.Count} item" + (c.Md5Hashes.Count == 1 ? "" : "s"));
+                Debug.WriteLine($" - Collection {c.Name} has {c.Md5Hashes.Count} item" + (c.Md5Hashes.Count == 1 ? "" : "s"));
             }
         }
 
@@ -85,7 +84,7 @@ namespace UnitTestProject
             string path = SharedCode.GetRelativeDirectory("Replays");
             string[] files = Directory.GetFiles(path);
             
-            if (files == null || files.Length == 0)
+            if (files.Length == 0)
                 Assert.Inconclusive("No replays in your replay folder!");
 
             for (int i = 0; i < Math.Min(files.Length, 10); i++) {  //10 at most

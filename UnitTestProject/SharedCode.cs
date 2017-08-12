@@ -17,8 +17,8 @@ namespace UnitTestProject
         {
             //find osu! installation
             if (!Directory.Exists(PathOsu = $@"C:\Users\{Environment.UserName}\AppData\Local\osu!\")    //current install dir
-                && !Directory.Exists(PathOsu = $@"C:\Program Files (x86)\osu!\")    //old install dir (x64-based)
-                && !Directory.Exists(PathOsu = $@"C:\Program Files\osu!\")) {       //old install dir (x86-based)
+                && !Directory.Exists(PathOsu = @"C:\Program Files (x86)\osu!\")     //old install dir (x64-based)
+                && !Directory.Exists(PathOsu = @"C:\Program Files\osu!\")) {        //old install dir (x86-based)
                 PathOsu = string.Empty; //if none of the previous paths exist
             }
             //TODO: dev to create file with custom location
@@ -48,9 +48,9 @@ namespace UnitTestProject
             if (!Directory.Exists(absolute))
             {
                 if (shouldError)
-                    Assert.Fail($"File does not exist: {absolute}");
+                    Assert.Fail($"Directory does not exist: {absolute}");
                 else
-                    Assert.Inconclusive($"File does not exist: {absolute}");
+                    Assert.Inconclusive($"Directory does not exist: {absolute}");
             }
             return absolute;
         }
