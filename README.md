@@ -11,9 +11,9 @@ NOTE: No parsing for storyboards, use [osuElements](https://github.com/JasperDeS
 * reading scores.db
 * reading presence.db
 * reading replays
+* reading osu! beatmaps
 
 ### Planned:
-* reading osu! beatmaps (maybe?)
 * writing osu!.db
 * writing collection.db
 * writing scores.db
