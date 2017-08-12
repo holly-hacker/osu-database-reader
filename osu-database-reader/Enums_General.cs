@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace osu_database_reader
 {
@@ -85,18 +81,5 @@ namespace osu_database_reader
         Key1            = 67108864,
         Key3            = 134217728,
         Key2            = 268435456
-    }
-
-    public enum BeatmapSection
-    {
-        _EndOfFile,
-        General,
-        Editor,
-        Metadata,
-        Difficulty,
-        Events,
-        TimingPoints,
-        Colours,
-        HitObjects,
     }
 }

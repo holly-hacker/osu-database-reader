@@ -23,10 +23,10 @@ namespace UnitTestProject
         {
             OsuDb db = OsuDb.Read(SharedCode.GetRelativeFile("osu!.db"));
             Debug.WriteLine("Version: " + db.OsuVersion);
-            Debug.WriteLine("Amount of beatmaps: " + db.AmountOfBeatmaps);
+            Debug.WriteLine("Amount of beatmaps: " + db.Beatmaps.Count);
             Debug.WriteLine($"Account name: \"{db.AccountName}\" (account {(db.AccountUnlocked ? "not locked" : "locked, unlocked at " + db.AccountUnlockDate)})");
             Debug.WriteLine("Account rank: " + db.AccountRank);
-            for (int i = 0; i < Math.Min(10, db.AmountOfBeatmaps); i++) {   //print 10 at most
+            for (int i = 0; i < Math.Min(10, db.Beatmaps.Count); i++) {   //print 10 at most
                 var b = db.Beatmaps[i];
                 Debug.WriteLine($"{b.Artist} - {b.Title} [{b.Version}]");
             }
@@ -39,7 +39,7 @@ namespace UnitTestProject
             Debug.WriteLine("Version: " + db.OsuVersion);
             Debug.WriteLine("Amount of collections: " + db.Collections.Count);
             foreach (var c in db.Collections) {
-                Debug.WriteLine($" - Collection {c.Name} has {c.Md5Hashes.Count} item" + (c.Md5Hashes.Count == 1 ? "" : "s"));
+                Debug.WriteLine($" - Collection {c.Name} has {c.BeatmapHashes.Count} item" + (c.BeatmapHashes.Count == 1 ? "" : "s"));
             }
         }
 

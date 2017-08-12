@@ -18,10 +18,10 @@ namespace osu_database_reader.BinaryFiles
 
                 for (int i = 0; i < amount; i++) {
                     var c = new Collection();
-                    c.Md5Hashes = new List<string>();
+                    c.BeatmapHashes = new List<string>();
                     c.Name = r.ReadString();
                     int amount2 = r.ReadInt32();
-                    for (int j = 0; j < amount2; j++) c.Md5Hashes.Add(r.ReadString());
+                    for (int j = 0; j < amount2; j++) c.BeatmapHashes.Add(r.ReadString());
 
                     db.Collections.Add(c);
                 }

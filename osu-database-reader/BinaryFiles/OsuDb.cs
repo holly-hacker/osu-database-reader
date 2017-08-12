@@ -14,7 +14,6 @@ namespace osu_database_reader.BinaryFiles
         public bool AccountUnlocked;
         public DateTime AccountUnlockDate;
         public string AccountName;
-        public int AmountOfBeatmaps => Beatmaps.Count;
         public List<BeatmapEntry> Beatmaps;
         public PlayerRank AccountRank;
 

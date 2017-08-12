@@ -30,4 +30,17 @@ namespace osu_database_reader
         Bezier,
         Perfect
     }
+
+    public enum BeatmapSection
+    {
+        _EndOfFile,
+        General,
+        Editor,
+        Metadata,
+        Difficulty,
+        Events,
+        TimingPoints,
+        Colours,
+        HitObjects,
+    }
 }
