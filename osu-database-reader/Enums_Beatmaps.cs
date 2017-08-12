@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace osu_database_reader.TextFiles.HitObjects
+namespace osu_database_reader
 {
     [Flags]
     public enum HitObjectType

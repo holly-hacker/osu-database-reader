@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using osu_database_reader.BinaryFiles.Parts;
-using osu_database_reader.TextFiles.HitObjects;
+using osu_database_reader.Components.Beatmaps;
+using osu_database_reader.Components.HitObjects;
 
 namespace osu_database_reader.IO
 {

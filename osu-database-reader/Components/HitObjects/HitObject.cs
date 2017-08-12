@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using osu_database_reader.IO;
 
-namespace osu_database_reader.TextFiles.HitObjects
+namespace osu_database_reader.Components.HitObjects
 {
     public abstract class HitObject
     {

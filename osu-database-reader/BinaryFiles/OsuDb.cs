@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using osu_database_reader.BinaryFiles.Parts;
+using osu_database_reader.Components.Beatmaps;
 using osu_database_reader.IO;
 
 namespace osu_database_reader.BinaryFiles

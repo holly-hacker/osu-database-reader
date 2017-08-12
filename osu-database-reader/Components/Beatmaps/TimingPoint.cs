@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 
-namespace osu_database_reader.BinaryFiles.Parts
+namespace osu_database_reader.Components.Beatmaps
 {
     public class TimingPoint
     {
@@ -32,7 +31,8 @@ namespace osu_database_reader.BinaryFiles.Parts
             if (splitted.Length > 4) t.CustomSampleSet = int.Parse(splitted[4]);
             if (splitted.Length > 5) t.SampleVolume = int.Parse(splitted[5]);
             if (splitted.Length > 6) t.TimingChange = int.Parse(splitted[6]) == 1;
-            if (splitted.Length > 7) {
+            if (splitted.Length > 7)
+            {
                 temp = int.Parse(splitted[7]);
                 t.Kiai = (temp & 1) != 0;
             }
@@ -50,11 +50,5 @@ namespace osu_database_reader.BinaryFiles.Parts
             };
             return t;
         }
-    }
-
-    public struct Collection
-    {
-        public string Name;
-        public List<string> Md5Hashes;
     }
 }

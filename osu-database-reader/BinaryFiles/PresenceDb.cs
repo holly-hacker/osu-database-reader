@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using osu_database_reader.BinaryFiles.Parts;
+using osu_database_reader.Components.Player;
 using osu_database_reader.IO;
 
 namespace osu_database_reader.BinaryFiles
@@ -8,7 +8,7 @@ namespace osu_database_reader.BinaryFiles
     public class PresenceDb
     {
         public int OsuVersion;
-        public List<Player> Players = new List<Player>();
+        public List<PlayerPresence> Players = new List<PlayerPresence>();
 
         public static PresenceDb Read(string path) {
             var db = new PresenceDb();
@@ -17,7 +17,7 @@ namespace osu_database_reader.BinaryFiles
                 int amount = r.ReadInt32();
 
                 for (int i = 0; i < amount; i++) {
-                    db.Players.Add(Player.ReadFromReader(r));
+                    db.Players.Add(PlayerPresence.ReadFromReader(r));
                 }
             }
 

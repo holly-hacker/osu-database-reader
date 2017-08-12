@@ -6,7 +6,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using osu_database_reader;
 using osu_database_reader.BinaryFiles;
-using osu_database_reader.BinaryFiles.Parts;
+using osu_database_reader.Components.Player;
 
 namespace UnitTestProject
 {

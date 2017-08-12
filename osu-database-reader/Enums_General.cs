@@ -89,7 +89,6 @@ namespace osu_database_reader
 
     public enum BeatmapSection
     {
-        // ReSharper disable once InconsistentNaming
         _EndOfFile,
         General,
         Editor,

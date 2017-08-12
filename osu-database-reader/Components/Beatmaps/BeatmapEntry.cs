@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using osu_database_reader.IO;
 
-namespace osu_database_reader.BinaryFiles.Parts
+namespace osu_database_reader.Components.Beatmaps
 {
     public class BeatmapEntry
     {

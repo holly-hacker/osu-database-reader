@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using osu_database_reader.BinaryFiles.Parts;
+using osu_database_reader.Components.Player;
 using osu_database_reader.IO;
 
 namespace osu_database_reader.BinaryFiles

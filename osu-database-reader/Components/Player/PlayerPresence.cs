@@ -2,9 +2,9 @@ using System;
 using System.Diagnostics;
 using osu_database_reader.IO;
 
-namespace osu_database_reader.BinaryFiles.Parts
+namespace osu_database_reader.Components.Player
 {
-    public class Player
+    public class PlayerPresence
     {
         public int PlayerId;
         public string PlayerName;
@@ -16,8 +16,8 @@ namespace osu_database_reader.BinaryFiles.Parts
         public int GlobalRank;
         public DateTime Unknown1;   //TODO: name this. Last update time?
 
-        public static Player ReadFromReader(CustomBinaryReader r) {
-            Player p = new Player();
+        public static PlayerPresence ReadFromReader(CustomBinaryReader r) {
+            PlayerPresence p = new PlayerPresence();
 
             p.PlayerId = r.ReadInt32();
             p.PlayerName = r.ReadString();

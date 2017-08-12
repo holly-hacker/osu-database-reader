@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using osu_database_reader.IO;
 
-namespace osu_database_reader.BinaryFiles.Parts
+namespace osu_database_reader.Components.Player
 {
     public class Replay //used for both scores.db and .osr files
     {
@@ -14,10 +14,10 @@ namespace osu_database_reader.BinaryFiles.Parts
         public ushort Combo;
         public bool FullCombo;
         public Mods Mods;
-        public string LifeGraph;    //not present in scores.db, TODO: parse this when implementing .osr
+        public string LifeGraphData;//null in scores.db, TODO: parse this when implementing .osr
         public DateTime TimePlayed;
-        public byte[] ReplayData;   //not present in scores.db
-        public long ScoreId;
+        public byte[] ReplayData;   //null in scores.db
+        public long? ScoreId;
 
         public static Replay Read(string path) {
             Replay replay;
@@ -46,10 +46,10 @@ namespace osu_database_reader.BinaryFiles.Parts
                 Combo = r.ReadUInt16(),
                 FullCombo = r.ReadBoolean(),
                 Mods = (Mods) r.ReadInt32(),
-                LifeGraph = r.ReadString(),
+                LifeGraphData = r.ReadString(),
                 TimePlayed = r.ReadDateTime(),
                 ReplayData = r.ReadBytes(),
-                ScoreId = readScoreId ? r.ReadInt64() : -1
+                ScoreId = readScoreId ? r.ReadInt64() : (long?)null
             };
 
             return replay;
