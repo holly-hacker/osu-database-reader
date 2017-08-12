@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using osu_database_reader.IO;
 
-namespace osu_database_reader
+namespace osu_database_reader.Components.Player
 {
     public class Replay //used for both scores.db and .osr files
     {
@@ -17,20 +14,20 @@ namespace osu_database_reader
         public ushort Combo;
         public bool FullCombo;
         public Mods Mods;
-        public string LifeGraph;    //not present in scores.db, TODO: parse this when implementing .osr
+        public string LifeGraphData;    //null in scores.db, TODO: parse this when implementing .osr
         public DateTime TimePlayed;
-        public byte[] ReplayData;   //not present in scores.db
-        public long ScoreId;
+        public byte[] ReplayData;       //null in scores.db
+        public long? ScoreId;
 
         public static Replay Read(string path) {
             Replay replay;
-            using (CustomReader r = new CustomReader(File.OpenRead(path))) {
+            using (CustomBinaryReader r = new CustomBinaryReader(File.OpenRead(path))) {
                 replay = ReadFromReader(r); //scoreid should not be needed
             }
             return replay;
         }
 
-        public static Replay ReadFromReader(CustomReader r, bool readScoreId = false) {
+        public static Replay ReadFromReader(CustomBinaryReader r, bool readScoreId = false) {
             Replay replay = new Replay {
                 GameMode = (GameMode) r.ReadByte(),
                 OsuVersion = r.ReadInt32(),
@@ -49,10 +46,10 @@ namespace osu_database_reader
                 Combo = r.ReadUInt16(),
                 FullCombo = r.ReadBoolean(),
                 Mods = (Mods) r.ReadInt32(),
-                LifeGraph = r.ReadString(),
+                LifeGraphData = r.ReadString(),
                 TimePlayed = r.ReadDateTime(),
                 ReplayData = r.ReadBytes(),
-                ScoreId = readScoreId ? r.ReadInt64() : -1
+                ScoreId = readScoreId ? r.ReadInt64() : (long?)null
             };
 
             return replay;

@@ -1,27 +1,27 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
+using osu_database_reader.IO;
 
-namespace osu_database_reader
+namespace osu_database_reader.Components.Beatmaps
 {
     public class BeatmapEntry
     {
         public string Artist, ArtistUnicode;
         public string Title, TitleUnicode;
         public string Creator;  //mapper
-        public string Difficulty;   //called "Version" in the .osu format
+        public string Version;  //difficulty name
         public string AudioFileName;
         public string BeatmapChecksum;
         public string BeatmapFileName;
         public SubmissionStatus RankedStatus;
         public ushort CountHitCircles, CountSliders, CountSpinners;
         public DateTime LastModifiedTime;
-        public float DiffAR, DiffCS, DiffHP, DiffOD;
+        public float ApproachRate, CircleSize, HPDrainRate, OveralDifficulty;
         public double SliderVelocity;
         public Dictionary<Mods, double> DiffStarRatingStandard, DiffStarRatingTaiko, DiffStarRatingCtB, DiffStarRatingMania;
-        public int DrainTimeSeconds;   //NOTE: in s
-        public int TotalTime;   //NOTE: in ms
+        public int DrainTimeSeconds;    //NOTE: in s
+        public int TotalTime;           //NOTE: in ms
         public int AudioPreviewTime;    //NOTE: in ms
         public List<TimingPoint> TimingPoints;
         public int BeatmapId, BeatmapSetId, ThreadId;
@@ -36,13 +36,13 @@ namespace osu_database_reader
         public DateTime LastPlayed;
         public bool IsOsz2;
         public string FolderName;
-        public DateTime LastCheckAgainstOsuRepo;    //wtf
+        public DateTime LastCheckAgainstOsuRepo;
         public bool IgnoreBeatmapSounds, IgnoreBeatmapSkin, DisableStoryBoard, DisableVideo, VisualOverride;
         public short OldUnknown1;   //unused
         public int Unknown2;
         public byte ManiaScrollSpeed;
 
-        public static BeatmapEntry ReadFromReader(CustomReader r, bool readLength = true, int version = 20160729) {
+        public static BeatmapEntry ReadFromReader(CustomBinaryReader r, bool readLength = true, int version = 20160729) {
             BeatmapEntry e = new BeatmapEntry();
 
             int length = 0;
@@ -54,12 +54,10 @@ namespace osu_database_reader
             e.Title = r.ReadString();
             e.TitleUnicode = r.ReadString();
             e.Creator = r.ReadString();
-            e.Difficulty = r.ReadString();
+            e.Version = r.ReadString();
             e.AudioFileName = r.ReadString();
             e.BeatmapChecksum = r.ReadString(); //always 32 in length, so the 2 preceding bytes in the file are practically wasting space
             e.BeatmapFileName = r.ReadString();
-
-            //Debug.WriteLine($"{e.Artist} - {e.Title} [{e.Difficulty}]");
 
             e.RankedStatus = (SubmissionStatus)r.ReadByte();
             e.CountHitCircles = r.ReadUInt16();
@@ -67,22 +65,18 @@ namespace osu_database_reader
             e.CountSpinners = r.ReadUInt16();
             e.LastModifiedTime = r.ReadDateTime();
 
-            //Debug.WriteLine("Last modified: " + e.LastModifiedTime + ", ranked status is " + e.RankedStatus);
-
             if (version >= 20140609) {
-                e.DiffAR = r.ReadSingle();
-                e.DiffCS = r.ReadSingle();
-                e.DiffHP = r.ReadSingle();
-                e.DiffOD = r.ReadSingle();
+                e.ApproachRate = r.ReadSingle();
+                e.CircleSize = r.ReadSingle();
+                e.HPDrainRate = r.ReadSingle();
+                e.OveralDifficulty = r.ReadSingle();
             }
             else {
-                e.DiffAR = r.ReadByte();
-                e.DiffCS = r.ReadByte();
-                e.DiffHP = r.ReadByte();
-                e.DiffOD = r.ReadByte();
+                e.ApproachRate = r.ReadByte();
+                e.CircleSize = r.ReadByte();
+                e.HPDrainRate = r.ReadByte();
+                e.OveralDifficulty = r.ReadByte();
             }
-
-            //Debug.WriteLine($"AR: {e.DiffAR} CS: {e.DiffCS} HP: {e.DiffHP} OD: {e.DiffOD}");
 
             e.SliderVelocity = r.ReadDouble();
 
@@ -100,7 +94,7 @@ namespace osu_database_reader
             e.TimingPoints = r.ReadTimingPointList();
             e.BeatmapId = r.ReadInt32();
             e.BeatmapSetId = r.ReadInt32();
-            e.ThreadId = r.ReadInt32(); //no idea what this is
+            e.ThreadId = r.ReadInt32();
 
             e.GradeStandard = (Ranking)r.ReadByte();
             e.GradeTaiko = (Ranking)r.ReadByte();
@@ -111,8 +105,6 @@ namespace osu_database_reader
             e.StackLeniency = r.ReadSingle();
             e.GameMode = (GameMode)r.ReadByte();
 
-            //Debug.WriteLine("gamemode: " + e.GameMode);
-
             e.SongSource = r.ReadString();
             e.SongTags = r.ReadString();
             e.OffsetOnline = r.ReadInt16();
@@ -120,13 +112,9 @@ namespace osu_database_reader
             e.Unplayed = r.ReadBoolean();
             e.LastPlayed = r.ReadDateTime();
 
-            //Debug.WriteLine("Last played: " + e.LastPlayed);
-
             e.IsOsz2 = r.ReadBoolean();
             e.FolderName = r.ReadString();
             e.LastCheckAgainstOsuRepo = r.ReadDateTime();
-
-            //Debug.WriteLine("Last osu! repo check: " + e.LastCheckAgainstOsuRepo);
 
             e.IgnoreBeatmapSounds = r.ReadBoolean();
             e.IgnoreBeatmapSkin = r.ReadBoolean();
@@ -138,11 +126,8 @@ namespace osu_database_reader
             e.Unknown2 = r.ReadInt32();
             e.ManiaScrollSpeed = r.ReadByte();
 
-            //Debug.WriteLine("Mania scroll speed: " + e.ManiaScrollSpeed);
-
             int endPosition = (int) r.BaseStream.Position;
-            Debug.Assert(!readLength || length == endPosition - startPosition); //TODO: could throw error here
-            //Debug.WriteLine("---");
+            Debug.Assert(!readLength || length == endPosition - startPosition); //could throw error here
 
             return e;
         }

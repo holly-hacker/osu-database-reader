@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using osu_database_reader.IO;
 
-namespace osu_database_reader
+namespace osu_database_reader.Components.Player
 {
-    public class Player
+    public class PlayerPresence
     {
         public int PlayerId;
         public string PlayerName;
@@ -19,17 +16,17 @@ namespace osu_database_reader
         public int GlobalRank;
         public DateTime Unknown1;   //TODO: name this. Last update time?
 
-        public static Player ReadFromReader(CustomReader r) {
-            Player p = new Player();
+        public static PlayerPresence ReadFromReader(CustomBinaryReader r) {
+            PlayerPresence p = new PlayerPresence();
 
             p.PlayerId = r.ReadInt32();
             p.PlayerName = r.ReadString();
             p.UtcOffset = r.ReadByte();
-            p.CountryByte = r.ReadByte();   //TODO: turn into enum?
+            p.CountryByte = r.ReadByte();   //TODO: create Country enum
 
             byte b = r.ReadByte();
-            p.PlayerRank = (PlayerRank) (b & -225);
-            p.GameMode = (GameMode)((b & 224) >> 5);
+            p.PlayerRank = (PlayerRank)(b & 0b0001_1111);
+            p.GameMode = (GameMode)((b & 0b1110_0000) >> 5);
             Debug.Assert((byte)p.GameMode <= 3, $"GameMode is byte {(byte)p.GameMode}, should be between 0 and 3");
 
             p.Longitude = r.ReadSingle();
