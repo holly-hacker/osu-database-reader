@@ -21,7 +21,7 @@ namespace UnitTestProject
                 && !Directory.Exists(PathOsu = @"C:\Program Files\osu!\")) {        //old install dir (x86-based)
                 PathOsu = string.Empty; //if none of the previous paths exist
             }
-            //TODO: dev to create file with custom location
+            //TODO: allow dev to create file with custom location
         }
 
         public static void PreTestCheck()

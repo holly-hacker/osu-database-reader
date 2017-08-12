@@ -27,7 +27,6 @@ namespace UnitTestProject
                 Assert.Inconclusive("Hardcoded path does not exist:  " + beatmap);
             if (!SharedCode.VerifyFileChecksum(beatmap, "2D687E5EE79F3862AD0C60651471CDCC"))
                 Assert.Inconclusive("Beatmap was modified.");
-            //TODO: check file to not be modified. if it is: inconclusive
 
             var bm = BeatmapFile.Read(beatmap);
 
