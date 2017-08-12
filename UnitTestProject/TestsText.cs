@@ -31,30 +31,28 @@ namespace UnitTestProject
 
             var bm = BeatmapFile.Read(beatmap);
 
-            Assert.AreEqual(bm.BeatmapVersion, 9);
-
-            Assert.IsTrue(bm.SectionGeneral.Count >= 2);   //disco prince only has 2
-            Assert.IsTrue(bm.SectionMetadata.Count >= 4);  //disco prince only has 4
-            Assert.IsTrue(bm.SectionDifficulty.Count >= 5);//disco prince only has 5
-
+            Assert.AreEqual(bm.FileFormatVersion, 9);
+            
             //check General
             Assert.AreEqual(bm.SectionGeneral["AudioFilename"], "02 The Big Black.mp3");
             Assert.AreEqual(bm.SectionGeneral["AudioLeadIn"], "0");
             Assert.AreEqual(bm.SectionGeneral["PreviewTime"], "18957");
             
             //check Metadata
-            Assert.AreEqual(bm.SectionMetadata["Title"], "The Big Black");
-            Assert.AreEqual(bm.SectionMetadata["Artist"], "The Quick Brown Fox");
-            Assert.AreEqual(bm.SectionMetadata["Creator"], "Blue Dragon");
-            Assert.AreEqual(bm.SectionMetadata["Version"], "WHO'S AFRAID OF THE BIG BLACK");
-            Assert.AreEqual(bm.SectionMetadata["Source"], string.Empty);
-            Assert.AreEqual(bm.SectionMetadata["Tags"], "Onosakihito speedcore renard lapfox");
+            Assert.AreEqual(bm.Title, "The Big Black");
+            Assert.AreEqual(bm.Artist, "The Quick Brown Fox");
+            Assert.AreEqual(bm.Creator, "Blue Dragon");
+            Assert.AreEqual(bm.Version, "WHO'S AFRAID OF THE BIG BLACK");
+            Assert.AreEqual(bm.Source, string.Empty);
+            Assert.IsTrue(Enumerable.SequenceEqual(bm.Tags, new[] { "Onosakihito", "speedcore", "renard", "lapfox" }));
 
             //check Difficulty
-            Assert.AreEqual(bm.SectionDifficulty["HPDrainRate"], "5");
-            Assert.AreEqual(bm.SectionDifficulty["CircleSize"], "4");
-            Assert.AreEqual(bm.SectionDifficulty["OverallDifficulty"], "7");
-            Assert.AreEqual(bm.SectionDifficulty["SliderMultiplier"], "1.8");
+            Assert.AreEqual(bm.HPDrainRate, 5f);
+            Assert.AreEqual(bm.CircleSize, 4f);
+            Assert.AreEqual(bm.OverallDifficulty, 7f);
+            Assert.AreEqual(bm.ApproachRate, 10f);
+            Assert.AreEqual(bm.SliderMultiplier, 1.8f);
+            Assert.AreEqual(bm.SliderTickRate, 2f);
 
             //check Events
             //TODO

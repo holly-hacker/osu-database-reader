@@ -10,14 +10,14 @@ namespace osu_database_reader.Components.Beatmaps
         public string Artist, ArtistUnicode;
         public string Title, TitleUnicode;
         public string Creator;  //mapper
-        public string Difficulty;   //called "Version" in the .osu format
+        public string Version;  //called "Version" in the .osu format
         public string AudioFileName;
         public string BeatmapChecksum;
         public string BeatmapFileName;
         public SubmissionStatus RankedStatus;
         public ushort CountHitCircles, CountSliders, CountSpinners;
         public DateTime LastModifiedTime;
-        public float DiffAR, DiffCS, DiffHP, DiffOD;
+        public float ApproachRate, CircleSize, HPDrainRate, OveralDifficulty;
         public double SliderVelocity;
         public Dictionary<Mods, double> DiffStarRatingStandard, DiffStarRatingTaiko, DiffStarRatingCtB, DiffStarRatingMania;
         public int DrainTimeSeconds;   //NOTE: in s
@@ -54,12 +54,12 @@ namespace osu_database_reader.Components.Beatmaps
             e.Title = r.ReadString();
             e.TitleUnicode = r.ReadString();
             e.Creator = r.ReadString();
-            e.Difficulty = r.ReadString();
+            e.Version = r.ReadString();
             e.AudioFileName = r.ReadString();
             e.BeatmapChecksum = r.ReadString(); //always 32 in length, so the 2 preceding bytes in the file are practically wasting space
             e.BeatmapFileName = r.ReadString();
 
-            //Debug.WriteLine($"{e.Artist} - {e.Title} [{e.Difficulty}]");
+            //Debug.WriteLine($"{e.Artist} - {e.Title} [{e.Version}]");
 
             e.RankedStatus = (SubmissionStatus)r.ReadByte();
             e.CountHitCircles = r.ReadUInt16();
@@ -70,19 +70,19 @@ namespace osu_database_reader.Components.Beatmaps
             //Debug.WriteLine("Last modified: " + e.LastModifiedTime + ", ranked status is " + e.RankedStatus);
 
             if (version >= 20140609) {
-                e.DiffAR = r.ReadSingle();
-                e.DiffCS = r.ReadSingle();
-                e.DiffHP = r.ReadSingle();
-                e.DiffOD = r.ReadSingle();
+                e.ApproachRate = r.ReadSingle();
+                e.CircleSize = r.ReadSingle();
+                e.HPDrainRate = r.ReadSingle();
+                e.OveralDifficulty = r.ReadSingle();
             }
             else {
-                e.DiffAR = r.ReadByte();
-                e.DiffCS = r.ReadByte();
-                e.DiffHP = r.ReadByte();
-                e.DiffOD = r.ReadByte();
+                e.ApproachRate = r.ReadByte();
+                e.CircleSize = r.ReadByte();
+                e.HPDrainRate = r.ReadByte();
+                e.OveralDifficulty = r.ReadByte();
             }
 
-            //Debug.WriteLine($"AR: {e.DiffAR} CS: {e.DiffCS} HP: {e.DiffHP} OD: {e.DiffOD}");
+            //Debug.WriteLine($"AR: {e.ApproachRate} CS: {e.CircleSize} HP: {e.HPDrainRate} OD: {e.OveralDifficulty}");
 
             e.SliderVelocity = r.ReadDouble();
 

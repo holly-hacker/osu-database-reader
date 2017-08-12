@@ -44,6 +44,7 @@
     <Compile Include="BinaryFiles\CollectionDb.cs" />
     <Compile Include="Components\Beatmaps\TimingPoint.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="IO\CustomBinaryReader.cs" />
     <Compile Include="Enums_General.cs" />
     <Compile Include="BinaryFiles\OsuDb.cs" />

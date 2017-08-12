@@ -28,7 +28,7 @@ namespace UnitTestProject
             Debug.WriteLine("Account rank: " + db.AccountRank);
             for (int i = 0; i < Math.Min(10, db.AmountOfBeatmaps); i++) {   //print 10 at most
                 var b = db.Beatmaps[i];
-                Debug.WriteLine($"{b.Artist} - {b.Title} [{b.Difficulty}]");
+                Debug.WriteLine($"{b.Artist} - {b.Title} [{b.Version}]");
             }
         }
 

@@ -29,10 +29,14 @@ namespace UnitTestProject
                 BeatmapFile bm = BeatmapFile.Read(SharedCode.GetRelativeFile($"Songs/{entry.FolderName}/{entry.BeatmapFileName}", true));
                 //BUG: this can still fail when maps use the hold note (used in some mania maps?)
 
-                Assert.AreEqual(entry.Artist, bm.SectionMetadata["Artist"]);
-                Assert.AreEqual(entry.Difficulty, bm.SectionMetadata["Version"]);
-                Assert.AreEqual(entry.Creator, bm.SectionMetadata["Creator"]);
-                Assert.AreEqual(entry.Title, bm.SectionMetadata["Title"]);
+                Assert.IsTrue(bm.SectionGeneral.Count >= 2);   //disco prince only has 2
+                Assert.IsTrue(bm.SectionMetadata.Count >= 4);  //disco prince only has 4
+                Assert.IsTrue(bm.SectionDifficulty.Count >= 5);//disco prince only has 5
+
+                Assert.AreEqual(entry.Artist, bm.Artist);
+                Assert.AreEqual(entry.Version, bm.Version);
+                Assert.AreEqual(entry.Creator, bm.Creator);
+                Assert.AreEqual(entry.Title, bm.Title);
 
                 //TODO: more, but check if the entries are present in the beatmap
             }
