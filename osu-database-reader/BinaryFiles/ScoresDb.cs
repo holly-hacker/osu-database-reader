@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using osu.Shared.Serialization;
 using osu_database_reader.Components.Player;
-using osu_database_reader.IO;
 
 namespace osu_database_reader.BinaryFiles
 {
@@ -15,7 +15,7 @@ namespace osu_database_reader.BinaryFiles
 
         public static ScoresDb Read(string path) {
             var db = new ScoresDb();
-            using (CustomBinaryReader r = new CustomBinaryReader(File.OpenRead(path)))
+            using (var r = new SerializationReader(File.OpenRead(path)))
             {
                 db.OsuVersion = r.ReadInt32();
                 int amount = r.ReadInt32();

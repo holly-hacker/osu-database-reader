@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using osu.Shared;
+using osu.Shared.Serialization;
 using osu_database_reader.Components.Beatmaps;
-using osu_database_reader.IO;
 
 namespace osu_database_reader.BinaryFiles
 {
@@ -19,7 +20,7 @@ namespace osu_database_reader.BinaryFiles
 
         public static OsuDb Read(string path) {
             OsuDb db = new OsuDb();
-            using (CustomBinaryReader r = new CustomBinaryReader(File.OpenRead(path))) {
+            using (var r = new SerializationReader(File.OpenRead(path))) {
                 db.OsuVersion = r.ReadInt32();
                 db.FolderCount = r.ReadInt32();
                 db.AccountUnlocked = r.ReadBoolean();

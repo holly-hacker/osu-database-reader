@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using osu.Shared;
 using osu_database_reader;
 using osu_database_reader.Components.HitObjects;
 using osu_database_reader.TextFiles;

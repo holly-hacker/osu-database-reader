@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using osu.Shared.Serialization;
 using osu_database_reader.Components.Beatmaps;
-using osu_database_reader.IO;
 
 namespace osu_database_reader.BinaryFiles
 {
@@ -12,7 +12,7 @@ namespace osu_database_reader.BinaryFiles
 
         public static CollectionDb Read(string path) {
             var db = new CollectionDb();
-            using (CustomBinaryReader r = new CustomBinaryReader(File.OpenRead(path))) {
+            using (var r = new SerializationReader(File.OpenRead(path))) {
                 db.OsuVersion = r.ReadInt32();
                 int amount = r.ReadInt32();
 

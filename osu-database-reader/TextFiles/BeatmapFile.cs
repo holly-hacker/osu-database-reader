@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using osu_database_reader;
 using osu_database_reader.Components.Beatmaps;
 using osu_database_reader.Components.HitObjects;
-using osu_database_reader.IO;
 
 namespace osu_database_reader.TextFiles
 {
@@ -40,7 +41,7 @@ namespace osu_database_reader.TextFiles
         {
             var file = new BeatmapFile();
 
-            using (var r = new CustomStreamReader(path)) {
+            using (var r = new StreamReader(path)) {
                 if (!int.TryParse(r.ReadLine()?.Replace("osu file format v", string.Empty), out file.FileFormatVersion))
                     throw new Exception("Not a valid beatmap"); //very simple check, could be better
 

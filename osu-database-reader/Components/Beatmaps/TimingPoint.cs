@@ -1,8 +1,8 @@
-﻿using System.IO;
+﻿using osu.Shared.Serialization;
 
 namespace osu_database_reader.Components.Beatmaps
 {
-    public class TimingPoint
+    public class TimingPoint : ISerializable
     {
         public double Time, MsPerQuarter;
         public bool TimingChange;
@@ -40,15 +40,25 @@ namespace osu_database_reader.Components.Beatmaps
             return t;
         }
 
-        public static TimingPoint ReadFromReader(BinaryReader r)
+        public static TimingPoint ReadFromReader(SerializationReader r)
         {
-            TimingPoint t = new TimingPoint
-            {
-                MsPerQuarter = r.ReadDouble(),
-                Time = r.ReadDouble(),
-                TimingChange = r.ReadByte() != 0
-            };
+            var t = new TimingPoint();
+            t.ReadFromStream(r);
             return t;
+        }
+
+        public void ReadFromStream(SerializationReader r)
+        {
+            MsPerQuarter = r.ReadDouble();
+            Time = r.ReadDouble();
+            TimingChange = r.ReadBoolean();
+        }
+
+        public void WriteToStream(SerializationWriter w)
+        {
+            w.Write(MsPerQuarter);
+            w.Write(Time);
+            w.Write(TimingChange);
         }
     }
 }

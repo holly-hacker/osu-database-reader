@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using osu_database_reader.IO;
+using osu.Shared;
+using osu.Shared.Serialization;
 
 namespace osu_database_reader.Components.Beatmaps
 {
@@ -42,7 +43,7 @@ namespace osu_database_reader.Components.Beatmaps
         public int Unknown2;
         public byte ManiaScrollSpeed;
 
-        public static BeatmapEntry ReadFromReader(CustomBinaryReader r, bool readLength = true, int version = 20160729) {
+        public static BeatmapEntry ReadFromReader(SerializationReader r, bool readLength = true, int version = 20160729) {
             BeatmapEntry e = new BeatmapEntry();
 
             int length = 0;
@@ -81,17 +82,17 @@ namespace osu_database_reader.Components.Beatmaps
             e.SliderVelocity = r.ReadDouble();
 
             if (version >= 20140609) {
-                e.DiffStarRatingStandard = r.ReadModsDoubleDictionary();
-                e.DiffStarRatingTaiko = r.ReadModsDoubleDictionary();
-                e.DiffStarRatingCtB = r.ReadModsDoubleDictionary();
-                e.DiffStarRatingMania = r.ReadModsDoubleDictionary();
+                e.DiffStarRatingStandard = r.ReadDictionary<Mods, double>();
+                e.DiffStarRatingTaiko = r.ReadDictionary<Mods, double>();
+                e.DiffStarRatingCtB = r.ReadDictionary<Mods, double>();
+                e.DiffStarRatingMania = r.ReadDictionary<Mods, double>();
             }
 
             e.DrainTimeSeconds = r.ReadInt32();
             e.TotalTime = r.ReadInt32();
             e.AudioPreviewTime = r.ReadInt32();
 
-            e.TimingPoints = r.ReadTimingPointList();
+            e.TimingPoints = r.ReadSerializableList<TimingPoint>();
             e.BeatmapId = r.ReadInt32();
             e.BeatmapSetId = r.ReadInt32();
             e.ThreadId = r.ReadInt32();

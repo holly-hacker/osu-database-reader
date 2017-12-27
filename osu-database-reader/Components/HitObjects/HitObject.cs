@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using osu.Shared;
 
 namespace osu_database_reader.Components.HitObjects
 {

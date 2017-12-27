@@ -45,12 +45,9 @@
     <Compile Include="Components\Beatmaps\TimingPoint.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="IO\CustomBinaryReader.cs" />
-    <Compile Include="Enums_General.cs" />
     <Compile Include="BinaryFiles\OsuDb.cs" />
     <Compile Include="Components\Player\PlayerPresence.cs" />
     <Compile Include="BinaryFiles\PresenceDb.cs" />
-    <Compile Include="IO\CustomStreamReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Components\Player\Replay.cs" />
     <Compile Include="BinaryFiles\ScoresDb.cs" />
@@ -63,7 +60,12 @@
     <Compile Include="Components\HitObjects\HitObjectSpinner.cs" />
     <Compile Include="Components\Vector2.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\osu.Shared\osu.Shared\osu.Shared.csproj">
+      <Project>{6b012cb8-dbab-41cc-a678-cbf4d05a45cc}</Project>
+      <Name>osu.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

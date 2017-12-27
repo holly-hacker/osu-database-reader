@@ -1,10 +1,11 @@
 using System;
 using System.Diagnostics;
-using osu_database_reader.IO;
+using osu.Shared;
+using osu.Shared.Serialization;
 
 namespace osu_database_reader.Components.Player
 {
-    public class PlayerPresence
+    public class PlayerPresence : ISerializable
     {
         public int PlayerId;
         public string PlayerName;
@@ -16,25 +17,33 @@ namespace osu_database_reader.Components.Player
         public int GlobalRank;
         public DateTime Unknown1;   //TODO: name this. Last update time?
 
-        public static PlayerPresence ReadFromReader(CustomBinaryReader r) {
-            PlayerPresence p = new PlayerPresence();
+        public static PlayerPresence ReadFromReader(SerializationReader r) {
+            var p = new PlayerPresence();
+            p.ReadFromStream(r);
+            return p;
+        }
 
-            p.PlayerId = r.ReadInt32();
-            p.PlayerName = r.ReadString();
-            p.UtcOffset = r.ReadByte();
-            p.CountryByte = r.ReadByte();   //TODO: create Country enum
+        public void ReadFromStream(SerializationReader r)
+        {
+            PlayerId = r.ReadInt32();
+            PlayerName = r.ReadString();
+            UtcOffset = r.ReadByte();
+            CountryByte = r.ReadByte();   //TODO: create Country enum
 
             byte b = r.ReadByte();
-            p.PlayerRank = (PlayerRank)(b & 0b0001_1111);
-            p.GameMode = (GameMode)((b & 0b1110_0000) >> 5);
-            Debug.Assert((byte)p.GameMode <= 3, $"GameMode is byte {(byte)p.GameMode}, should be between 0 and 3");
+            PlayerRank = (PlayerRank)(b & 0b0001_1111);
+            GameMode = (GameMode)((b & 0b1110_0000) >> 5);
+            Debug.Assert((byte)GameMode <= 3, $"GameMode is byte {(byte)GameMode}, should be between 0 and 3");
 
-            p.Longitude = r.ReadSingle();
-            p.Latitude = r.ReadSingle();
-            p.GlobalRank = r.ReadInt32();
-            p.Unknown1 = r.ReadDateTime();
+            Longitude = r.ReadSingle();
+            Latitude = r.ReadSingle();
+            GlobalRank = r.ReadInt32();
+            Unknown1 = r.ReadDateTime();
+        }
 
-            return p;
+        public void WriteToStream(SerializationWriter w)
+        {
+            throw new NotImplementedException();
         }
     }
 }
