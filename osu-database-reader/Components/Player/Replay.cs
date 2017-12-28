@@ -33,6 +33,7 @@ namespace osu_database_reader.Components.Player
         public static Replay ReadFromReader(SerializationReader r, bool readScoreId = false) {
             var replay = new Replay();
             replay._readScoreId = readScoreId;
+            replay.ReadFromStream(r);
             return replay;
         }
 

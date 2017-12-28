@@ -90,7 +90,9 @@ namespace UnitTestProject
             for (int i = 0; i < Math.Min(files.Length, 10); i++) {  //10 at most
                 var r = Replay.Read(files[i]);
                 Debug.WriteLine("Version: " + r.OsuVersion);
+                Assert.IsTrue(r.OsuVersion >= 20070000, "osu! version is too low, is the replay object empty?");
                 Debug.WriteLine("Beatmap hash: " + r.BeatmapHash);
+                Assert.AreEqual(r.BeatmapHash.Length, 32, "invalid beatmap hash");
                 Debug.WriteLine($"Replay by {r.PlayerName}, for {r.Score} score with {r.Combo}x combo. Played at {r.TimePlayed}");
                 Debug.WriteLine("");
             }
