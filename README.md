@@ -24,3 +24,6 @@ NOTE: No parsing for storyboards, use [osuElements](https://github.com/JasperDeS
 ## Usage
 Add to your project and include the osu_database_reader namespace.
 See unit tests for more detailed usage.
+
+## Credits
+This project includes the 7zip LZMA SDK, which is released in the public domain.
