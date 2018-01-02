@@ -8,7 +8,7 @@ using osu_database_reader.Components.Beatmaps;
 
 namespace osu_database_reader.BinaryFiles
 {
-    public class OsuDb
+    public class OsuDb : ISerializable
     {
         public int OsuVersion;
         public int FolderCount;
@@ -20,28 +20,37 @@ namespace osu_database_reader.BinaryFiles
 
         public static OsuDb Read(string path) {
             OsuDb db = new OsuDb();
-            using (var r = new SerializationReader(File.OpenRead(path))) {
-                db.OsuVersion = r.ReadInt32();
-                db.FolderCount = r.ReadInt32();
-                db.AccountUnlocked = r.ReadBoolean();
-                db.AccountUnlockDate = r.ReadDateTime();
-                db.AccountName = r.ReadString();
-
-                db.Beatmaps = new List<BeatmapEntry>();
-                int length = r.ReadInt32();
-                for (int i = 0; i < length; i++) {
-                    int currentIndex = (int)r.BaseStream.Position;
-                    int entryLength = r.ReadInt32();
-
-                    db.Beatmaps.Add(BeatmapEntry.ReadFromReader(r, false, db.OsuVersion));
-
-                    if (r.BaseStream.Position != currentIndex + entryLength + 4) {
-                        Debug.Fail($"Length doesn't match, {r.BaseStream.Position} instead of expected {currentIndex + entryLength + 4}");
-                    }
-                }
-                db.AccountRank = (PlayerRank)r.ReadByte();
-            }
+            using (var r = new SerializationReader(File.OpenRead(path)))
+                db.ReadFromStream(r);
             return db;
+        }
+
+        public void ReadFromStream(SerializationReader r)
+        {
+            OsuVersion = r.ReadInt32();
+            FolderCount = r.ReadInt32();
+            AccountUnlocked = r.ReadBoolean();
+            AccountUnlockDate = r.ReadDateTime();
+            AccountName = r.ReadString();
+
+            Beatmaps = new List<BeatmapEntry>();
+            int length = r.ReadInt32();
+            for (int i = 0; i < length; i++) {
+                int currentIndex = (int)r.BaseStream.Position;
+                int entryLength = r.ReadInt32();
+
+                Beatmaps.Add(BeatmapEntry.ReadFromReader(r, false, OsuVersion));
+
+                if (r.BaseStream.Position != currentIndex + entryLength + 4) {
+                    Debug.Fail($"Length doesn't match, {r.BaseStream.Position} instead of expected {currentIndex + entryLength + 4}");
+                }
+            }
+            AccountRank = (PlayerRank)r.ReadByte();
+        }
+
+        public void WriteToStream(SerializationWriter w)
+        {
+            throw new NotImplementedException();
         }
     }
 }

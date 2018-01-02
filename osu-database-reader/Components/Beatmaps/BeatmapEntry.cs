@@ -6,7 +6,7 @@ using osu.Shared.Serialization;
 
 namespace osu_database_reader.Components.Beatmaps
 {
-    public class BeatmapEntry
+    public class BeatmapEntry : ISerializable
     {
         public string Artist, ArtistUnicode;
         public string Title, TitleUnicode;
@@ -43,94 +43,112 @@ namespace osu_database_reader.Components.Beatmaps
         public int Unknown2;
         public byte ManiaScrollSpeed;
 
+        private bool _readLength;
+        private int _version;
+
         public static BeatmapEntry ReadFromReader(SerializationReader r, bool readLength = true, int version = 20160729) {
-            BeatmapEntry e = new BeatmapEntry();
+            BeatmapEntry e = new BeatmapEntry {
+                _readLength = readLength,
+                _version = version
+            };
 
-            int length = 0;
-            if (readLength) length = r.ReadInt32();
-            int startPosition = (int) r.BaseStream.Position;
-
-            e.Artist = r.ReadString();
-            e.ArtistUnicode = r.ReadString();
-            e.Title = r.ReadString();
-            e.TitleUnicode = r.ReadString();
-            e.Creator = r.ReadString();
-            e.Version = r.ReadString();
-            e.AudioFileName = r.ReadString();
-            e.BeatmapChecksum = r.ReadString(); //always 32 in length, so the 2 preceding bytes in the file are practically wasting space
-            e.BeatmapFileName = r.ReadString();
-
-            e.RankedStatus = (SubmissionStatus)r.ReadByte();
-            e.CountHitCircles = r.ReadUInt16();
-            e.CountSliders = r.ReadUInt16();
-            e.CountSpinners = r.ReadUInt16();
-            e.LastModifiedTime = r.ReadDateTime();
-
-            if (version >= 20140609) {
-                e.ApproachRate = r.ReadSingle();
-                e.CircleSize = r.ReadSingle();
-                e.HPDrainRate = r.ReadSingle();
-                e.OveralDifficulty = r.ReadSingle();
-            }
-            else {
-                e.ApproachRate = r.ReadByte();
-                e.CircleSize = r.ReadByte();
-                e.HPDrainRate = r.ReadByte();
-                e.OveralDifficulty = r.ReadByte();
-            }
-
-            e.SliderVelocity = r.ReadDouble();
-
-            if (version >= 20140609) {
-                e.DiffStarRatingStandard = r.ReadDictionary<Mods, double>();
-                e.DiffStarRatingTaiko = r.ReadDictionary<Mods, double>();
-                e.DiffStarRatingCtB = r.ReadDictionary<Mods, double>();
-                e.DiffStarRatingMania = r.ReadDictionary<Mods, double>();
-            }
-
-            e.DrainTimeSeconds = r.ReadInt32();
-            e.TotalTime = r.ReadInt32();
-            e.AudioPreviewTime = r.ReadInt32();
-
-            e.TimingPoints = r.ReadSerializableList<TimingPoint>();
-            e.BeatmapId = r.ReadInt32();
-            e.BeatmapSetId = r.ReadInt32();
-            e.ThreadId = r.ReadInt32();
-
-            e.GradeStandard = (Ranking)r.ReadByte();
-            e.GradeTaiko = (Ranking)r.ReadByte();
-            e.GradeCtB = (Ranking)r.ReadByte();
-            e.GradeMania = (Ranking)r.ReadByte();
-
-            e.OffsetLocal = r.ReadInt16();
-            e.StackLeniency = r.ReadSingle();
-            e.GameMode = (GameMode)r.ReadByte();
-
-            e.SongSource = r.ReadString();
-            e.SongTags = r.ReadString();
-            e.OffsetOnline = r.ReadInt16();
-            e.TitleFont = r.ReadString();
-            e.Unplayed = r.ReadBoolean();
-            e.LastPlayed = r.ReadDateTime();
-
-            e.IsOsz2 = r.ReadBoolean();
-            e.FolderName = r.ReadString();
-            e.LastCheckAgainstOsuRepo = r.ReadDateTime();
-
-            e.IgnoreBeatmapSounds = r.ReadBoolean();
-            e.IgnoreBeatmapSkin = r.ReadBoolean();
-            e.DisableStoryBoard = r.ReadBoolean();
-            e.DisableVideo = r.ReadBoolean();
-            e.VisualOverride = r.ReadBoolean();
-            if (version < 20140609)
-                e.OldUnknown1 = r.ReadInt16();
-            e.Unknown2 = r.ReadInt32();
-            e.ManiaScrollSpeed = r.ReadByte();
-
-            int endPosition = (int) r.BaseStream.Position;
-            Debug.Assert(!readLength || length == endPosition - startPosition); //could throw error here
+            e.ReadFromStream(r);
 
             return e;
+        }
+
+        public void ReadFromStream(SerializationReader r)
+        {
+            int length = 0;
+            if (_readLength) length = r.ReadInt32();
+            int startPosition = (int)r.BaseStream.Position;
+
+            Artist = r.ReadString();
+            ArtistUnicode = r.ReadString();
+            Title = r.ReadString();
+            TitleUnicode = r.ReadString();
+            Creator = r.ReadString();
+            Version = r.ReadString();
+            AudioFileName = r.ReadString();
+            BeatmapChecksum = r.ReadString();   //always 32 in length, so the 2 preceding bytes in the file are practically wasting space
+            BeatmapFileName = r.ReadString();
+
+            RankedStatus = (SubmissionStatus)r.ReadByte();
+            CountHitCircles = r.ReadUInt16();
+            CountSliders = r.ReadUInt16();
+            CountSpinners = r.ReadUInt16();
+            LastModifiedTime = r.ReadDateTime();
+
+            if (_version >= 20140609)
+            {
+                ApproachRate = r.ReadSingle();
+                CircleSize = r.ReadSingle();
+                HPDrainRate = r.ReadSingle();
+                OveralDifficulty = r.ReadSingle();
+            }
+            else
+            {
+                ApproachRate = r.ReadByte();
+                CircleSize = r.ReadByte();
+                HPDrainRate = r.ReadByte();
+                OveralDifficulty = r.ReadByte();
+            }
+
+            SliderVelocity = r.ReadDouble();
+
+            if (_version >= 20140609)
+            {
+                DiffStarRatingStandard = r.ReadDictionary<Mods, double>();
+                DiffStarRatingTaiko = r.ReadDictionary<Mods, double>();
+                DiffStarRatingCtB = r.ReadDictionary<Mods, double>();
+                DiffStarRatingMania = r.ReadDictionary<Mods, double>();
+            }
+
+            DrainTimeSeconds = r.ReadInt32();
+            TotalTime = r.ReadInt32();
+            AudioPreviewTime = r.ReadInt32();
+            
+            TimingPoints = r.ReadSerializableList<TimingPoint>();
+            BeatmapId = r.ReadInt32();
+            BeatmapSetId = r.ReadInt32();
+            ThreadId = r.ReadInt32();
+
+            GradeStandard = (Ranking)r.ReadByte();
+            GradeTaiko = (Ranking)r.ReadByte();
+            GradeCtB = (Ranking)r.ReadByte();
+            GradeMania = (Ranking)r.ReadByte();
+
+            OffsetLocal = r.ReadInt16();
+            StackLeniency = r.ReadSingle();
+            GameMode = (GameMode)r.ReadByte();
+
+            SongSource = r.ReadString();
+            SongTags = r.ReadString();
+            OffsetOnline = r.ReadInt16();
+            TitleFont = r.ReadString();
+            Unplayed = r.ReadBoolean();
+            LastPlayed = r.ReadDateTime();
+
+            IsOsz2 = r.ReadBoolean();
+            FolderName = r.ReadString();
+            LastCheckAgainstOsuRepo = r.ReadDateTime();
+
+            IgnoreBeatmapSounds = r.ReadBoolean();
+            IgnoreBeatmapSkin = r.ReadBoolean();
+            DisableStoryBoard = r.ReadBoolean();
+            DisableVideo = r.ReadBoolean();
+            VisualOverride = r.ReadBoolean();
+            if (_version < 20140609)
+                OldUnknown1 = r.ReadInt16();
+            Unknown2 = r.ReadInt32();
+            ManiaScrollSpeed = r.ReadByte();
+
+            Debug.Assert(!_readLength || length == r.BaseStream.Position - startPosition); //could throw error here
+        }
+
+        public void WriteToStream(SerializationWriter w)
+        {
+            throw new NotImplementedException();
         }
     }
 }

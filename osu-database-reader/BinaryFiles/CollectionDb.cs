@@ -5,29 +5,33 @@ using osu_database_reader.Components.Beatmaps;
 
 namespace osu_database_reader.BinaryFiles
 {
-    public class CollectionDb
+    public class CollectionDb : ISerializable
     {
         public int OsuVersion;
         public List<Collection> Collections = new List<Collection>();
 
         public static CollectionDb Read(string path) {
             var db = new CollectionDb();
-            using (var r = new SerializationReader(File.OpenRead(path))) {
-                db.OsuVersion = r.ReadInt32();
-                int amount = r.ReadInt32();
-
-                for (int i = 0; i < amount; i++) {
-                    var c = new Collection();
-                    c.BeatmapHashes = new List<string>();
-                    c.Name = r.ReadString();
-                    int amount2 = r.ReadInt32();
-                    for (int j = 0; j < amount2; j++) c.BeatmapHashes.Add(r.ReadString());
-
-                    db.Collections.Add(c);
-                }
-            }
-
+            using (var r = new SerializationReader(File.OpenRead(path)))
+                db.ReadFromStream(r);
             return db;
+        }
+
+        public void ReadFromStream(SerializationReader r)
+        {
+            OsuVersion = r.ReadInt32();
+            int amount = r.ReadInt32();
+
+            for (int i = 0; i < amount; i++) {
+                var c = new Collection();
+                c.ReadFromStream(r);
+                Collections.Add(c);
+            }
+        }
+
+        public void WriteToStream(SerializationWriter w)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
