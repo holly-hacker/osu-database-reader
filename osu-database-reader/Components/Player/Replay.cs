@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 using osu.Shared;
 using osu.Shared.Serialization;
 
@@ -17,9 +18,36 @@ namespace osu_database_reader.Components.Player
         public Mods Mods;
         public string LifeGraphData;    //null in scores.db, TODO: parse this when implementing .osr
         public DateTime TimePlayed;
-        public byte[] ReplayData;       //null in scores.db
+
+        public byte[] ReplayData
+        {
+            get => _replayData;
+            set {
+                if (_replayData != value) {
+                    _frames = null;
+                    _replayData = value;
+                }
+            }
+        }
+
+        public ReplayFrame[] ReplayFrames
+        {
+            get {
+                if (_replayData == null) return null;
+                if (_frames != null)
+                    return _frames;
+                else {
+                    byte[] decomp = LZMACoder.Decompress(_replayData);
+                    string str = Encoding.ASCII.GetString(decomp); //ascii should be faster than UTF8, though not that it matters
+                    return _frames = ReplayFrame.FromStrings(ref str);
+                }
+            }
+        }
+
         public long? ScoreId;
 
+        private byte[] _replayData; //null in scores.db
+        private ReplayFrame[] _frames;
         private bool _readScoreId;
 
         public static Replay Read(string path) {
@@ -58,7 +86,7 @@ namespace osu_database_reader.Components.Player
             Mods = (Mods) r.ReadInt32();
             LifeGraphData = r.ReadString();
             TimePlayed = r.ReadDateTime();
-            ReplayData = r.ReadBytes();
+            _replayData = r.ReadBytes();
             ScoreId = _readScoreId ? r.ReadInt64() : (long?) null;
         }
 

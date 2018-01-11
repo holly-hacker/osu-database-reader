@@ -94,6 +94,9 @@ namespace UnitTestProject
                 Debug.WriteLine("Beatmap hash: " + r.BeatmapHash);
                 Assert.AreEqual(r.BeatmapHash.Length, 32, "invalid beatmap hash");
                 Debug.WriteLine($"Replay by {r.PlayerName}, for {r.Score} score with {r.Combo}x combo. Played at {r.TimePlayed}");
+                Debug.WriteLine($"Amount of replay frames: {r.ReplayFrames.Length}");
+                for (int j = 0; j < Math.Min(r.ReplayFrames.Length, 10); j++)
+                    Debug.WriteLine(r.ReplayFrames[j]);
                 Debug.WriteLine("");
             }
         }

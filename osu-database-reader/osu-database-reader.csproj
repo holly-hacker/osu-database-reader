@@ -52,9 +52,11 @@
     <Compile Include="7zip\Compress\RangeCoder\RangeCoderBit.cs" />
     <Compile Include="7zip\Compress\RangeCoder\RangeCoderBitTree.cs" />
     <Compile Include="7zip\ICoder.cs" />
+    <Compile Include="7zip\LZMACoder.cs" />
     <Compile Include="Components\Beatmaps\BeatmapEntry.cs" />
     <Compile Include="BinaryFiles\CollectionDb.cs" />
     <Compile Include="Components\Beatmaps\TimingPoint.cs" />
+    <Compile Include="Components\Player\ReplayFrame.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="BinaryFiles\OsuDb.cs" />
@@ -65,7 +67,7 @@
     <Compile Include="BinaryFiles\ScoresDb.cs" />
     <Compile Include="Components\Beatmaps\Collection.cs" />
     <Compile Include="TextFiles\BeatmapFile.cs" />
-    <Compile Include="Enums_Beatmaps.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Components\HitObjects\HitObject.cs" />
     <Compile Include="Components\HitObjects\HitObjectCircle.cs" />
     <Compile Include="Components\HitObjects\HitObjectSlider.cs" />
