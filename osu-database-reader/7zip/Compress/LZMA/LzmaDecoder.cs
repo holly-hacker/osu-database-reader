@@ -1,5 +1,3 @@
-// LzmaDecoder.cs
-
 using System;
 
 namespace SevenZip.Compression.LZMA
@@ -122,15 +120,12 @@ namespace SevenZip.Compression.LZMA
 					m_Coders[i].Init();
 			}
 
-			uint GetState(uint pos, byte prevByte)
-			{ return ((pos & m_PosMask) << m_NumPrevBits) + (uint)(prevByte >> (8 - m_NumPrevBits)); }
+			uint GetState(uint pos, byte prevByte) => ((pos & m_PosMask) << m_NumPrevBits) + (uint)(prevByte >> (8 - m_NumPrevBits));
 
-			public byte DecodeNormal(RangeCoder.Decoder rangeDecoder, uint pos, byte prevByte)
-			{ return m_Coders[GetState(pos, prevByte)].DecodeNormal(rangeDecoder); }
+		    public byte DecodeNormal(RangeCoder.Decoder rangeDecoder, uint pos, byte prevByte) => m_Coders[GetState(pos, prevByte)].DecodeNormal(rangeDecoder);
 
-			public byte DecodeWithMatchByte(RangeCoder.Decoder rangeDecoder, uint pos, byte prevByte, byte matchByte)
-			{ return m_Coders[GetState(pos, prevByte)].DecodeWithMatchByte(rangeDecoder, matchByte); }
-		};
+		    public byte DecodeWithMatchByte(RangeCoder.Decoder rangeDecoder, uint pos, byte prevByte, byte matchByte) => m_Coders[GetState(pos, prevByte)].DecodeWithMatchByte(rangeDecoder, matchByte);
+		}
 
 		LZ.OutWindow m_OutWindow = new LZ.OutWindow();
 		RangeCoder.Decoder m_RangeDecoder = new RangeCoder.Decoder();

@@ -32,7 +32,7 @@ namespace SevenZip
 		/// output size. -1 if unknown.
 		/// </param>
 		void SetProgress(Int64 inSize, Int64 outSize);
-	};
+	}
 
 	public interface ICoder
 	{
@@ -59,7 +59,7 @@ namespace SevenZip
 		/// </exception>
 		void Code(System.IO.Stream inStream, System.IO.Stream outStream,
 			Int64 inSize, Int64 outSize, ICodeProgress progress);
-	};
+	}
 
 	/*
 	public interface ICoder2
@@ -97,18 +97,18 @@ namespace SevenZip
 		/// Specifies Block Size.
 		/// </summary>
 		BlockSize,
-		/// <summary>
-		/// Specifies number of postion state bits for LZMA (0 <= x <= 4).
-		/// </summary>
-		PosStateBits,
-		/// <summary>
-		/// Specifies number of literal context bits for LZMA (0 <= x <= 8).
-		/// </summary>
-		LitContextBits,
-		/// <summary>
-		/// Specifies number of literal position bits for LZMA (0 <= x <= 4).
-		/// </summary>
-		LitPosBits,
+        /// <summary>
+        /// Specifies number of postion state bits for LZMA (0 &lt;= x &lt;= 4).
+        /// </summary>
+        PosStateBits,
+        /// <summary>
+        /// Specifies number of literal context bits for LZMA (0 &lt;= x &lt;= 8).
+        /// </summary>
+        LitContextBits,
+        /// <summary>
+        /// Specifies number of literal position bits for LZMA (0 &lt;= x &lt;= 4).
+        /// </summary>
+        LitPosBits,
 		/// <summary>
 		/// Specifies number of fast bytes for LZ*.
 		/// </summary>
@@ -137,13 +137,12 @@ namespace SevenZip
 		/// Specifies mode with end marker.
 		/// </summary>
 		EndMarker
-	};
-
-
+	}
+    
 	public interface ISetCoderProperties
 	{
 		void SetCoderProperties(CoderPropID[] propIDs, object[] properties);
-	};
+	}
 
 	public interface IWriteCoderProperties
 	{

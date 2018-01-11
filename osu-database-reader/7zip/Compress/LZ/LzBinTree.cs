@@ -1,5 +1,3 @@
-// LzBinTree.cs
-
 using System;
 
 namespace SevenZip.Compression.LZ
@@ -83,8 +81,7 @@ namespace SevenZip.Compression.LZ
 				throw new Exception();
 			_cutValue = 16 + (matchMaxLen >> 1);
 				
-			UInt32 windowReservSize = (historySize + keepAddBufferBefore +
-					matchMaxLen + keepAddBufferAfter) / 2 + 256;
+			UInt32 windowReservSize = ((historySize + keepAddBufferBefore + matchMaxLen + keepAddBufferAfter) / 2) + 256;
 
 			base.Create(historySize + keepAddBufferBefore, matchMaxLen + keepAddBufferAfter, windowReservSize);
 

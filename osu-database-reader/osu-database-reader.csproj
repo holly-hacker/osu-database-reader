@@ -48,7 +48,8 @@
     <Compile Include="7zip\Compress\LZ\LzBinTree.cs" />
     <Compile Include="7zip\Compress\LZ\LzInWindow.cs" />
     <Compile Include="7zip\Compress\LZ\LzOutWindow.cs" />
-    <Compile Include="7zip\Compress\RangeCoder\RangeCoder.cs" />
+    <Compile Include="7zip\Compress\RangeCoder\Decoder.cs" />
+    <Compile Include="7zip\Compress\RangeCoder\Encoder.cs" />
     <Compile Include="7zip\Compress\RangeCoder\RangeCoderBit.cs" />
     <Compile Include="7zip\Compress\RangeCoder\RangeCoderBitTree.cs" />
     <Compile Include="7zip\ICoder.cs" />
