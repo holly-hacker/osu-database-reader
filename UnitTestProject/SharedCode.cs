@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace UnitTestProject
 {
@@ -26,32 +26,26 @@ namespace UnitTestProject
 
         public static void PreTestCheck()
         {
-            if (string.IsNullOrEmpty(PathOsu))
-                Assert.Inconclusive("osu! installation directory not found.");
+            Skip.If(string.IsNullOrEmpty(PathOsu), "osu! installation directory not found.");
         }
 
         public static string GetRelativeFile(string rel, bool shouldError = false)
         {
             string absolute = Path.Combine(PathOsu, rel);
-            if (!File.Exists(absolute)) {
-                if (shouldError)
-                    Assert.Fail($"File does not exist: {absolute}");
-                else
-                    Assert.Inconclusive($"File does not exist: {absolute}");
-            }
+            if (shouldError)
+                Assert.True(File.Exists(absolute), $"File does not exist: {absolute}");
+            else
+                Skip.IfNot(File.Exists(absolute), $"File does not exist: {absolute}");
             return absolute;
         }
 
         public static string GetRelativeDirectory(string rel, bool shouldError = false)
         {
             string absolute = Path.Combine(PathOsu, rel);
-            if (!Directory.Exists(absolute))
-            {
-                if (shouldError)
-                    Assert.Fail($"Directory does not exist: {absolute}");
-                else
-                    Assert.Inconclusive($"Directory does not exist: {absolute}");
-            }
+            if (shouldError)
+                Assert.True(Directory.Exists(absolute), $"Directory does not exist: {absolute}");
+            else
+                Skip.IfNot(Directory.Exists(absolute), $"Directory does not exist: {absolute}");
             return absolute;
         }
 

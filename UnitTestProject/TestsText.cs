@@ -1,109 +1,105 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using osu.Shared;
 using osu_database_reader;
 using osu_database_reader.Components.HitObjects;
 using osu_database_reader.TextFiles;
+using Xunit;
 
 namespace UnitTestProject
 {
-    [TestClass]
     public class TestsText
     {
-        [TestInitialize]
-        public void Init()
+        public TestsText()
         {
             SharedCode.PreTestCheck();
         }
 
-        [TestMethod]
+        [Fact]
         public void VerifyBigBlack()
         {
             //most people should have this map
             string beatmap = SharedCode.GetRelativeFile(@"Songs\41823 The Quick Brown Fox - The Big Black\The Quick Brown Fox - The Big Black (Blue Dragon) [WHO'S AFRAID OF THE BIG BLACK].osu");
 
-            if (!File.Exists(beatmap))
-                Assert.Inconclusive("Hardcoded path does not exist:  " + beatmap);
-            if (!SharedCode.VerifyFileChecksum(beatmap, "2D687E5EE79F3862AD0C60651471CDCC"))
-                Assert.Inconclusive("Beatmap was modified.");
+            Skip.IfNot(File.Exists(beatmap), "Hardcoded path does not exist:  " + beatmap);
+            Skip.IfNot(SharedCode.VerifyFileChecksum(beatmap, "2D687E5EE79F3862AD0C60651471CDCC"), "Beatmap was modified.");
 
             var bm = BeatmapFile.Read(beatmap);
 
-            Assert.AreEqual(bm.FileFormatVersion, 9);
+            Assert.Equal(9, bm.FileFormatVersion);
             
             //check General
-            Assert.AreEqual(bm.SectionGeneral["AudioFilename"], "02 The Big Black.mp3");
-            Assert.AreEqual(bm.SectionGeneral["AudioLeadIn"], "0");
-            Assert.AreEqual(bm.SectionGeneral["PreviewTime"], "18957");
+            Assert.Equal("02 The Big Black.mp3", bm.SectionGeneral["AudioFilename"]);
+            Assert.Equal("0", bm.SectionGeneral["AudioLeadIn"]);
+            Assert.Equal("18957", bm.SectionGeneral["PreviewTime"]);
             
             //check Metadata
-            Assert.AreEqual(bm.Title, "The Big Black");
-            Assert.AreEqual(bm.Artist, "The Quick Brown Fox");
-            Assert.AreEqual(bm.Creator, "Blue Dragon");
-            Assert.AreEqual(bm.Version, "WHO'S AFRAID OF THE BIG BLACK");
-            Assert.AreEqual(bm.Source, string.Empty);
-            Assert.IsTrue(Enumerable.SequenceEqual(bm.Tags, new[] { "Onosakihito", "speedcore", "renard", "lapfox" }));
+            Assert.Equal("The Big Black", bm.Title);
+            Assert.Equal("The Quick Brown Fox", bm.Artist);
+            Assert.Equal("Blue Dragon", bm.Creator);
+            Assert.Equal("WHO'S AFRAID OF THE BIG BLACK", bm.Version);
+            Assert.Equal(bm.Source, string.Empty);
+            Assert.Equal(bm.Tags, new[] { "Onosakihito", "speedcore", "renard", "lapfox" });
 
             //check Difficulty
-            Assert.AreEqual(bm.HPDrainRate, 5f);
-            Assert.AreEqual(bm.CircleSize, 4f);
-            Assert.AreEqual(bm.OverallDifficulty, 7f);
-            Assert.AreEqual(bm.ApproachRate, 10f);
-            Assert.AreEqual(bm.SliderMultiplier, 1.8f);
-            Assert.AreEqual(bm.SliderTickRate, 2f);
+            Assert.Equal(5f, bm.HPDrainRate);
+            Assert.Equal(4f, bm.CircleSize);
+            Assert.Equal(7f, bm.OverallDifficulty);
+            Assert.Equal(10f, bm.ApproachRate);
+            Assert.Equal(1.8f, bm.SliderMultiplier);
+            Assert.Equal(2f, bm.SliderTickRate);
 
             //check Events
             //TODO
 
             //check TimingPoints
-            Assert.AreEqual(bm.TimingPoints.Count, 5);
-            Assert.AreEqual(bm.TimingPoints[0].Time, 6966);
-            Assert.AreEqual(bm.TimingPoints[1].Kiai, true);
-            Assert.AreEqual(bm.TimingPoints[2].MsPerQuarter, -100); //means no timing change
-            Assert.AreEqual(bm.TimingPoints[3].TimingChange, false);
+            Assert.Equal(5, bm.TimingPoints.Count);
+            Assert.Equal(6966, bm.TimingPoints[0].Time);
+            Assert.True(bm.TimingPoints[1].Kiai);
+            Assert.Equal(bm.TimingPoints[2].MsPerQuarter, -100); //means no timing change
+            Assert.False(bm.TimingPoints[3].TimingChange);
 
             //check Colours
             //Combo1 : 249,91,9
             //(...)
             //Combo5 : 255,255,128
-            Assert.AreEqual(bm.SectionColours["Combo1"], "249,91,91");
-            Assert.AreEqual(bm.SectionColours["Combo5"], "255,255,128");
-            Assert.AreEqual(bm.SectionColours.Count, 5);
+            Assert.Equal("249,91,91", bm.SectionColours["Combo1"]);
+            Assert.Equal("255,255,128", bm.SectionColours["Combo5"]);
+            Assert.Equal(5, bm.SectionColours.Count);
 
             //check HitObjects
-            Assert.AreEqual(bm.HitObjects.Count, 746);
-            Assert.AreEqual(bm.HitObjects.Count(a => a is HitObjectCircle), 410);
-            Assert.AreEqual(bm.HitObjects.Count(a => a is HitObjectSlider), 334);
-            Assert.AreEqual(bm.HitObjects.Count(a => a is HitObjectSpinner), 2);
+            Assert.Equal(746, bm.HitObjects.Count);
+            Assert.Equal(410, bm.HitObjects.Count(a => a is HitObjectCircle));
+            Assert.Equal(334, bm.HitObjects.Count(a => a is HitObjectSlider));
+            Assert.Equal(2, bm.HitObjects.Count(a => a is HitObjectSpinner));
 
             //56,56,6966,1,4
             HitObjectCircle firstCircle = (HitObjectCircle) bm.HitObjects.First(a => a.Type.HasFlag(HitObjectType.Normal));
-            Assert.AreEqual(firstCircle.X, 56);
-            Assert.AreEqual(firstCircle.Y, 56);
-            Assert.AreEqual(firstCircle.Time, 6966);
-            Assert.AreEqual(firstCircle.HitSound, HitSound.Finish);
+            Assert.Equal(56, firstCircle.X);
+            Assert.Equal(56, firstCircle.Y);
+            Assert.Equal(6966, firstCircle.Time);
+            Assert.Equal(HitSound.Finish, firstCircle.HitSound);
 
             //178,50,7299,2,0,B|210:0|300:0|332:50,1,180,2|0
             HitObjectSlider firstSlider = (HitObjectSlider)bm.HitObjects.First(a => a.Type.HasFlag(HitObjectType.Slider));
-            Assert.AreEqual(firstSlider.X, 178);
-            Assert.AreEqual(firstSlider.Y, 50);
-            Assert.AreEqual(firstSlider.Time, 7299);
-            Assert.AreEqual(firstSlider.HitSound, HitSound.None);
-            Assert.AreEqual(firstSlider.CurveType, CurveType.Bezier);
-            Assert.AreEqual(firstSlider.Points.Count, 3);
-            Assert.AreEqual(firstSlider.RepeatCount, 1);
-            Assert.AreEqual(firstSlider.Length, 180);
+            Assert.Equal(178, firstSlider.X);
+            Assert.Equal(50, firstSlider.Y);
+            Assert.Equal(7299, firstSlider.Time);
+            Assert.Equal(HitSound.None, firstSlider.HitSound);
+            Assert.Equal(CurveType.Bezier, firstSlider.CurveType);
+            Assert.Equal(3, firstSlider.Points.Count);
+            Assert.Equal(1, firstSlider.RepeatCount);
+            Assert.Equal(180, firstSlider.Length);
 
             //256,192,60254,12,4,61587
             HitObjectSpinner firstSpinner = (HitObjectSpinner)bm.HitObjects.First(a => a.Type.HasFlag(HitObjectType.Spinner));
-            Assert.AreEqual(firstSpinner.X, 256);
-            Assert.AreEqual(firstSpinner.Y, 192);
-            Assert.AreEqual(firstSpinner.Time, 60254);
-            Assert.AreEqual(firstSpinner.HitSound, HitSound.Finish);
-            Assert.AreEqual(firstSpinner.EndTime, 61587);
-            Assert.IsTrue(firstSpinner.IsNewCombo);
+            Assert.Equal(256, firstSpinner.X);
+            Assert.Equal(192, firstSpinner.Y);
+            Assert.Equal(60254, firstSpinner.Time);
+            Assert.Equal(HitSound.Finish, firstSpinner.HitSound);
+            Assert.Equal(61587, firstSpinner.EndTime);
+            Assert.True(firstSpinner.IsNewCombo);
         }
     }
 }

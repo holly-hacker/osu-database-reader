@@ -3,22 +3,20 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using osu_database_reader.BinaryFiles;
 using osu_database_reader.Components.Player;
+using Xunit;
 
 namespace UnitTestProject
 {
-    [TestClass]
     public class TestsBinary
     {
-        [TestInitialize]
-        public void Init()
+        public TestsBinary()
         {
             SharedCode.PreTestCheck();
         }
 
-        [TestMethod]
+        [Fact]
         public void ReadOsuDb()
         {
             OsuDb db = OsuDb.Read(SharedCode.GetRelativeFile("osu!.db"));
@@ -32,7 +30,7 @@ namespace UnitTestProject
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ReadCollectionDb()
         {
             CollectionDb db = CollectionDb.Read(SharedCode.GetRelativeFile("collection.db"));
@@ -43,7 +41,7 @@ namespace UnitTestProject
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ReadScoresDb()
         {
             ScoresDb db = ScoresDb.Read(SharedCode.GetRelativeFile("scores.db"));
@@ -64,7 +62,7 @@ namespace UnitTestProject
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ReadPresenceDb()
         {
             var db = PresenceDb.Read(SharedCode.GetRelativeFile("presence.db"));
@@ -77,22 +75,21 @@ namespace UnitTestProject
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ReadReplay()
         {
             //get random file
             string path = SharedCode.GetRelativeDirectory("Replays");
             string[] files = Directory.GetFiles(path);
             
-            if (files.Length == 0)
-                Assert.Inconclusive("No replays in your replay folder!");
+            Skip.If(files.Length == 0, "No replays in your replay folder!");
 
             for (int i = 0; i < Math.Min(files.Length, 10); i++) {  //10 at most
                 var r = Replay.Read(files[i]);
                 Debug.WriteLine("Version: " + r.OsuVersion);
-                Assert.IsTrue(r.OsuVersion >= 20070000, "osu! version is too low, is the replay object empty?");
+                Assert.True(r.OsuVersion >= 20070000, "osu! version is too low, is the replay object empty?");
                 Debug.WriteLine("Beatmap hash: " + r.BeatmapHash);
-                Assert.AreEqual(r.BeatmapHash.Length, 32, "invalid beatmap hash");
+                Assert.Equal(32, r.BeatmapHash.Length); //invalid beatmap hash
                 Debug.WriteLine($"Replay by {r.PlayerName}, for {r.Score} score with {r.Combo}x combo. Played at {r.TimePlayed}");
                 Debug.WriteLine($"Amount of replay frames: {r.ReplayFrames.Length}");
                 for (int j = 0; j < Math.Min(r.ReplayFrames.Length, 10); j++)
