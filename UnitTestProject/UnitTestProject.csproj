@@ -35,6 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="osu.Shared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -60,10 +61,6 @@
     <ProjectReference Include="..\osu-database-reader\osu-database-reader.csproj">
       <Project>{c3078606-8055-4122-845d-7f9a0154883d}</Project>
       <Name>osu-database-reader</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\osu.Shared\osu.Shared\osu.Shared.csproj">
-      <Project>{6b012cb8-dbab-41cc-a678-cbf4d05a45cc}</Project>
-      <Name>osu.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
