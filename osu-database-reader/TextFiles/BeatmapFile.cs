@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using osu_database_reader;
 using osu_database_reader.Components.Beatmaps;
 using osu_database_reader.Components.HitObjects;
 

@@ -81,7 +81,7 @@ namespace UnitTestProject
             //get random file
             string path = SharedCode.GetRelativeDirectory("Replays");
             string[] files = Directory.GetFiles(path);
-            
+
             Skip.If(files.Length == 0, "No replays in your replay folder!");
 
             for (int i = 0; i < Math.Min(files.Length, 10); i++) {  //10 at most

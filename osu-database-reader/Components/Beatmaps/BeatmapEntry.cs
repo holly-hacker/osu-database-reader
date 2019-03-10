@@ -107,7 +107,7 @@ namespace osu_database_reader.Components.Beatmaps
             DrainTimeSeconds = r.ReadInt32();
             TotalTime = r.ReadInt32();
             AudioPreviewTime = r.ReadInt32();
-            
+
             TimingPoints = r.ReadSerializableList<TimingPoint>();
             BeatmapId = r.ReadInt32();
             BeatmapSetId = r.ReadInt32();

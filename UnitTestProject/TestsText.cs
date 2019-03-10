@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using osu.Shared;
 using osu_database_reader;
@@ -28,12 +27,12 @@ namespace UnitTestProject
             var bm = BeatmapFile.Read(beatmap);
 
             Assert.Equal(9, bm.FileFormatVersion);
-            
+
             //check General
             Assert.Equal("02 The Big Black.mp3", bm.SectionGeneral["AudioFilename"]);
             Assert.Equal("0", bm.SectionGeneral["AudioLeadIn"]);
             Assert.Equal("18957", bm.SectionGeneral["PreviewTime"]);
-            
+
             //check Metadata
             Assert.Equal("The Big Black", bm.Title);
             Assert.Equal("The Quick Brown Fox", bm.Artist);

@@ -25,7 +25,7 @@ namespace SevenZip.Compression.LZ
 			// we need one additional byte, since MovePos moves on 1 byte.
 			if (offset > 0)
 				offset--;
-			
+
 			UInt32 numBytes = (UInt32)(_bufferOffset) + _streamPos - offset;
 
 			// check negative offset ????

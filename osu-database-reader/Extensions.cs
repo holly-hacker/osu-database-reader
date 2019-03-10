@@ -11,8 +11,8 @@ namespace osu_database_reader
     {
         public static string GetValueOrNull(this Dictionary<string, string> dic, string key)
         {
-            return dic.ContainsKey(key) 
-                ? dic[key] 
+            return dic.ContainsKey(key)
+                ? dic[key]
                 : null;
         }
 
@@ -25,13 +25,12 @@ namespace osu_database_reader
                 if (string.IsNullOrWhiteSpace(str)) continue;
 
                 string stripped = str.TrimStart('[').TrimEnd(']');
-                if (Enum.TryParse(stripped, out BeatmapSection a))
-                    return a;
-                else //oh shit 
+                if (!Enum.TryParse(stripped, out BeatmapSection a))
                     throw new Exception("Unrecognized beatmap section: " + stripped);
+                return a;
             }
 
-            //we reached an end of stream 
+            //we reached an end of stream
             return BeatmapSection._EndOfFile;
         }
 
@@ -50,9 +49,9 @@ namespace osu_database_reader
                 string key = line.Substring(0, i);
                 string value = line.Substring(i + 1);
 
-                //This is just so we can recreate files properly in the future. 
-                //It is very likely not needed at all, but it makes me sleep  
-                //better at night knowing everything is 100% correct. 
+                //This is just so we can recreate files properly in the future.
+                //It is very likely not needed at all, but it makes me sleep
+                //better at night knowing everything is 100% correct.
                 if (extraSpaceBeforeColon && key.EndsWith(" ")) key = key.Substring(0, key.Length - 1);
                 if (extraSpaceAfterColon && value.StartsWith(" ")) value = value.Substring(1);
 

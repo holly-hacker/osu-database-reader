@@ -138,7 +138,7 @@ namespace SevenZip
 		/// </summary>
 		EndMarker
 	}
-    
+
 	public interface ISetCoderProperties
 	{
 		void SetCoderProperties(CoderPropID[] propIDs, object[] properties);
