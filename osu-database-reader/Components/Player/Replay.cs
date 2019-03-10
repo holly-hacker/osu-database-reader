@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using osu.Shared;
 using osu.Shared.Serialization;
@@ -10,7 +12,7 @@ namespace osu_database_reader.Components.Player
     {
         public GameMode GameMode;
         public int OsuVersion;
-        public string BeatmapHash, PlayerName, ReplayHash;  //may the chickenmcnuggets be with you
+        public string BeatmapHash, PlayerName, ReplayHash;
         public ushort Count300, Count100, Count50, CountGeki, CountKatu, CountMiss;
         public int Score;
         public ushort Combo;
@@ -65,6 +67,17 @@ namespace osu_database_reader.Components.Player
             return replay;
         }
 
+        /// <summary>
+        /// Set the replay hash for a given rank
+        /// </summary>
+        /// <param name="rank">A rank such as SS, S, A, etc</param>
+        /// <returns></returns>
+        public void SetReplayHash(Ranking rank)
+        {
+            byte[] bytes = MD5.Create().ComputeHash(Encoding.ASCII.GetBytes($"{Combo}osu{PlayerName}{BeatmapHash}{Score}{rank}"));
+            ReplayHash = string.Join(string.Empty, bytes.Select(x => x.ToString("X2")));
+        }
+
         public void ReadFromStream(SerializationReader r)
         {
             GameMode = (GameMode) r.ReadByte();
@@ -92,7 +105,27 @@ namespace osu_database_reader.Components.Player
 
         public void WriteToStream(SerializationWriter w)
         {
-            throw new NotImplementedException();
+            w.Write((byte)GameMode);
+            w.Write(OsuVersion);
+            w.Write(BeatmapHash);
+            w.Write(PlayerName);
+            w.Write(ReplayHash);
+
+            w.Write(Count300);
+            w.Write(Count100);
+            w.Write(Count50);
+            w.Write(CountGeki);
+            w.Write(CountKatu);
+            w.Write(CountMiss);
+
+            w.Write(Score);
+            w.Write(Combo);
+            w.Write(FullCombo);
+            w.Write((int)Mods);
+            w.Write(LifeGraphData);
+            w.Write(TimePlayed);
+            w.Write(_replayData);
+            w.Write(Score);
         }
     }
 }
