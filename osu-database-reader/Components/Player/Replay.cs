@@ -44,6 +44,12 @@ namespace osu_database_reader.Components.Player
                     return _frames = ReplayFrame.FromStrings(ref str);
                 }
             }
+            set {
+                _frames = value;
+                var clearFrames = string.Join(";", value.Select(x => x.ToString()));
+                var decomp = Encoding.ASCII.GetBytes(clearFrames);
+                _replayData = LZMACoder.Compress(decomp);
+            }
         }
 
         public long? ScoreId;
@@ -75,7 +81,7 @@ namespace osu_database_reader.Components.Player
         public void SetReplayHash(Ranking rank)
         {
             byte[] bytes = MD5.Create().ComputeHash(Encoding.ASCII.GetBytes($"{Combo}osu{PlayerName}{BeatmapHash}{Score}{rank}"));
-            ReplayHash = string.Join(string.Empty, bytes.Select(x => x.ToString("X2")));
+            ReplayHash = string.Join(string.Empty, bytes.Select(x => x.ToString("X2"))).ToLower();
         }
 
         public void ReadFromStream(SerializationReader r)
@@ -126,6 +132,7 @@ namespace osu_database_reader.Components.Player
             w.Write(TimePlayed);
             w.Write(_replayData);
             w.Write(Score);
+            if (ScoreId != null) w.Write(ScoreId.Value);
         }
     }
 }
