@@ -34,17 +34,27 @@ namespace osu_database_reader.BinaryFiles
             AccountName = r.ReadString();
 
             Beatmaps = new List<BeatmapEntry>();
+            
             int length = r.ReadInt32();
+            
             for (int i = 0; i < length; i++) {
                 int currentIndex = (int)r.BaseStream.Position;
-                int entryLength = r.ReadInt32();
+                int entryLength = 0;
+                
+                // After version 20191107, the size of the beatmap entry is no longer present
+                // https://github.com/ppy/osu-wiki/commit/7ce3b8988d9945fe5867029a65750b40d66a3820
+                const int lengthOsuVersion = 20191107;
+                
+                if (OsuVersion < lengthOsuVersion)
+                    entryLength = r.ReadInt32();
 
                 Beatmaps.Add(BeatmapEntry.ReadFromReader(r, false, OsuVersion));
 
-                if (r.BaseStream.Position != currentIndex + entryLength + 4) {
+                if (OsuVersion < lengthOsuVersion && r.BaseStream.Position != currentIndex + entryLength + 4) {
                     Debug.Fail($"Length doesn't match, {r.BaseStream.Position} instead of expected {currentIndex + entryLength + 4}");
                 }
             }
+            
             AccountRank = (PlayerRank)r.ReadByte();
         }
 
