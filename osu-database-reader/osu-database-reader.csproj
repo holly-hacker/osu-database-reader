@@ -2,23 +2,21 @@
   <PropertyGroup>
     <TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.1.0</Version>
+    <Version>2.1.1</Version>
     <Authors>HoLLy</Authors>
     <Company />
     <Product>osu! Database Reader</Product>
     <PackageId>HoLLy.osu.DatabaseReader</PackageId>
-    <AssemblyVersion>2.1.0.0</AssemblyVersion>
-    <FileVersion>2.1.0.0</FileVersion>
+    <AssemblyVersion>2.1.1.0</AssemblyVersion>
+    <FileVersion>2.1.1.0</FileVersion>
     <PackageProjectUrl>https://github.com/holly-hacker/osu-database-reader/</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/HoLLy-HaCKeR/osu-database-reader/blob/master/LICENSE</PackageLicenseUrl>
-    <Copyright>Copyright © HoLLy 2018</Copyright>
+    <Copyright>Copyright © HoLLy 2019</Copyright>
     <Description>A library to read almost all of osu!'s data files.</Description>
     <RepositoryUrl>https://github.com/holly-hacker/osu-database-reader/</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageTags>osu! osu database replay beatmap</PackageTags>
-    <PackageReleaseNotes>- Use osu.Shared for common types
-- Add replay decompression, allowing you to access replay frames
-- Add NuGet package</PackageReleaseNotes>
+    <PackageReleaseNotes>- Update for 20191107</PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <LangVersion>7.1</LangVersion>
