@@ -10,9 +10,16 @@ namespace osu_database_reader.BinaryFiles
         public int OsuVersion;
         public readonly List<Collection> Collections = new();
 
-        public static CollectionDb Read(string path) {
+        public static CollectionDb Read(string path)
+        {
+            using var stream = File.OpenRead(path);
+            return Read(stream);
+        }
+
+        public static CollectionDb Read(Stream stream)
+        {
             var db = new CollectionDb();
-            using var r = new SerializationReader(File.OpenRead(path));
+            using var r = new SerializationReader(stream);
             db.ReadFromStream(r);
             return db;
         }

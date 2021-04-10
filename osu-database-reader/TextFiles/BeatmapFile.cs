@@ -21,9 +21,15 @@ namespace osu_database_reader.TextFiles
 
         public static BeatmapFile Read(string path)
         {
+            using var fs = File.OpenRead(path);
+            return Read(fs);
+        }
+
+        public static BeatmapFile Read(Stream stream)
+        {
             var file = new BeatmapFile();
 
-            using var r = new StreamReader(path);
+            using var r = new StreamReader(stream);
             if (!int.TryParse(r.ReadLine()?.Replace("osu file format v", string.Empty), out file.FileFormatVersion))
                 throw new Exception("Not a valid beatmap"); //very simple check, could be better
 

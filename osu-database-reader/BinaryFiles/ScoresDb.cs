@@ -13,9 +13,16 @@ namespace osu_database_reader.BinaryFiles
         public readonly Dictionary<string, List<Replay>> Beatmaps = new();
         public IEnumerable<Replay> Scores => Beatmaps.SelectMany(a => a.Value);
 
-        public static ScoresDb Read(string path) {
+        public static ScoresDb Read(string path)
+        {
+            using var stream = File.OpenRead(path);
+            return Read(stream);
+        }
+
+        public static ScoresDb Read(Stream stream)
+        {
             var db = new ScoresDb();
-            using var r = new SerializationReader(File.OpenRead(path));
+            using var r = new SerializationReader(stream);
             db.ReadFromStream(r);
 
             return db;

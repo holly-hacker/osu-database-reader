@@ -18,9 +18,15 @@ namespace osu_database_reader.BinaryFiles
         public List<BeatmapEntry> Beatmaps;
         public PlayerRank AccountRank;
 
-        public static OsuDb Read(string path) {
+        public static OsuDb Read(string path)
+        {
+            using var stream = File.OpenRead(path);
+            return Read(stream);
+        }
+
+        public static OsuDb Read(Stream stream) {
             OsuDb db = new OsuDb();
-            using var r = new SerializationReader(File.OpenRead(path));
+            using var r = new SerializationReader(stream);
             db.ReadFromStream(r);
             return db;
         }

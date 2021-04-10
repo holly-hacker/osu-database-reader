@@ -10,9 +10,16 @@ namespace osu_database_reader.BinaryFiles
         public int OsuVersion;
         public readonly List<PlayerPresence> Players = new();
 
-        public static PresenceDb Read(string path) {
+        public static PresenceDb Read(string path)
+        {
+            using var stream = File.OpenRead(path);
+            return Read(stream);
+        }
+
+        public static PresenceDb Read(Stream stream)
+        {
             var db = new PresenceDb();
-            using var r = new SerializationReader(File.OpenRead(path));
+            using var r = new SerializationReader(stream);
             db.ReadFromStream(r);
             return db;
         }

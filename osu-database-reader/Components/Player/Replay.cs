@@ -58,9 +58,15 @@ namespace osu_database_reader.Components.Player
         private ReplayFrame[] _frames;
         private bool _readScoreId;
 
-        public static Replay Read(string path) {
+        public static Replay Read(string path)
+        {
+            using var stream = File.OpenRead(path);
+            return Read(stream);
+        }
+
+        public static Replay Read(Stream stream) {
             Replay replay;
-            using var r = new SerializationReader(File.OpenRead(path));
+            using var r = new SerializationReader(stream);
             replay = ReadFromReader(r); //scoreid should not be needed
             return replay;
         }
