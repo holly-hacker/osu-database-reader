@@ -1,33 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
+    <LangVersion>7.1</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
     <Version>2.1.1</Version>
-    <Authors>HoLLy</Authors>
-    <Company />
-    <Product>osu! Database Reader</Product>
-    <PackageId>HoLLy.osu.DatabaseReader</PackageId>
     <AssemblyVersion>2.1.1.0</AssemblyVersion>
     <FileVersion>2.1.1.0</FileVersion>
-    <PackageProjectUrl>https://github.com/holly-hacker/osu-database-reader/</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/HoLLy-HaCKeR/osu-database-reader/blob/master/LICENSE</PackageLicenseUrl>
-    <Copyright>Copyright © HoLLy 2019</Copyright>
+
+    <Product>osu! Database Reader</Product>
+    <Authors>HoLLy</Authors>
     <Description>A library to read almost all of osu!'s data files.</Description>
-    <RepositoryUrl>https://github.com/holly-hacker/osu-database-reader/</RepositoryUrl>
+    <Copyright>Copyright © HoLLy 2019</Copyright>
+    <PackageId>HoLLy.osu.DatabaseReader</PackageId>
+
     <RepositoryType>Git</RepositoryType>
+    <PackageProjectUrl>https://github.com/holly-hacker/osu-database-reader/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/holly-hacker/osu-database-reader/</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/HoLLy-HaCKeR/osu-database-reader/blob/master/LICENSE</PackageLicenseUrl>
+
     <PackageTags>osu! osu database replay beatmap</PackageTags>
     <PackageReleaseNotes>- Update for 20191107</PackageReleaseNotes>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-    <LangVersion>7.1</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <LangVersion>7.1</LangVersion>
-  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="osu.Shared" Version="1.0.2" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 </Project>
