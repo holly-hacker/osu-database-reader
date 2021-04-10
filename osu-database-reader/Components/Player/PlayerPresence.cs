@@ -15,7 +15,7 @@ namespace osu_database_reader.Components.Player
         public GameMode GameMode;
         public float Longitude, Latitude;   //position in the world
         public int GlobalRank;
-        public DateTime Unknown1;   //TODO: name this. Last update time?
+        public DateTime LastUpdate;
 
         public static PlayerPresence ReadFromReader(SerializationReader r) {
             var p = new PlayerPresence();
@@ -38,7 +38,7 @@ namespace osu_database_reader.Components.Player
             Longitude = r.ReadSingle();
             Latitude = r.ReadSingle();
             GlobalRank = r.ReadInt32();
-            Unknown1 = r.ReadDateTime();
+            LastUpdate = r.ReadDateTime();
         }
 
         public void WriteToStream(SerializationWriter w)

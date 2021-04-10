@@ -1,7 +1,7 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
+using System.Reflection;
+using FluentAssertions;
 using osu.Shared;
-using osu_database_reader;
 using osu_database_reader.Components.HitObjects;
 using osu_database_reader.TextFiles;
 using Xunit;
@@ -10,95 +10,80 @@ namespace UnitTestProject
 {
     public class TestsText
     {
-        public TestsText()
-        {
-            SharedCode.PreTestCheck();
-        }
-
         [Fact]
-        public void VerifyBigBlack()
+        public void CheckBeatmapV14()
         {
-            //most people should have this map
-            string beatmap = SharedCode.GetRelativeFile(@"Songs\41823 The Quick Brown Fox - The Big Black\The Quick Brown Fox - The Big Black (Blue Dragon) [WHO'S AFRAID OF THE BIG BLACK].osu");
+            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("UnitTestProject.Data.Beatmaps.beatmap_v14.osu");
+            var bm = BeatmapFile.Read(stream);
 
-            Skip.IfNot(File.Exists(beatmap), "Hardcoded path does not exist:  " + beatmap);
-            Skip.IfNot(SharedCode.VerifyFileChecksum(beatmap, "2D687E5EE79F3862AD0C60651471CDCC"), "Beatmap was modified.");
+            bm.FileFormatVersion.Should().Be(14);
 
-            var bm = BeatmapFile.Read(beatmap);
+            // general
+            bm.AudioFilename.Should().Be("audio.mp3");
+            bm.AudioLeadIn.Should().Be(0);
+            bm.PreviewTime.Should().Be(64366);
+            bm.Countdown.Should().BeTrue();
+            // bm.SampleSet.Should().Be("audio.mp3");
+            bm.StackLeniency.Should().Be(0.7f);
+            bm.Mode.Should().Be(0);
+            bm.LetterboxInBreaks.Should().BeFalse();
+            bm.WidescreenStoryboard.Should().BeTrue();
 
-            Assert.Equal(9, bm.FileFormatVersion);
+            // editor
+            bm.Bookmarks.Should().BeEquivalentTo(1500, 7614, 13729, 22901, 35130, 47359, 59589, 64175, 90162, 93219, 105449);
+            bm.DistanceSpacing.Should().Be(0.3);
+            bm.BeatDivisor.Should().Be(4);
+            bm.GridSize.Should().Be(8);
+            bm.TimelineZoom.Should().BeApproximately(1.950003f, 0.000001f);
 
-            //check General
-            Assert.Equal("02 The Big Black.mp3", bm.SectionGeneral["AudioFilename"]);
-            Assert.Equal("0", bm.SectionGeneral["AudioLeadIn"]);
-            Assert.Equal("18957", bm.SectionGeneral["PreviewTime"]);
+            // metadata
+            bm.Title.Should().Be("The Whole Rest");
+            bm.TitleUnicode.Should().Be("The Whole Rest");
+            bm.Artist.Should().Be("KIVA");
+            bm.ArtistUnicode.Should().Be("KIVΛ");
+            bm.Creator.Should().Be("Ilex");
+            bm.Version.Should().Be("Insane v1");
+            bm.Source.Should().Be("Cytus II");
+            bm.Tags.Should().Be("Cytus II 2 OST");
+            bm.BeatmapID.Should().Be(2026717);
+            bm.BeatmapSetID.Should().Be(968597);
 
-            //check Metadata
-            Assert.Equal("The Big Black", bm.Title);
-            Assert.Equal("The Quick Brown Fox", bm.Artist);
-            Assert.Equal("Blue Dragon", bm.Creator);
-            Assert.Equal("WHO'S AFRAID OF THE BIG BLACK", bm.Version);
-            Assert.Equal(bm.Source, string.Empty);
-            Assert.Equal(bm.Tags, new[] { "Onosakihito", "speedcore", "renard", "lapfox" });
+            // difficulty
+            bm.HPDrainRate.Should().Be(6);
+            bm.CircleSize.Should().Be(4);
+            bm.OverallDifficulty.Should().Be(7.3f);
+            bm.ApproachRate.Should().Be(9.4f);
+            bm.SliderMultiplier.Should().Be(1.8);
+            bm.SliderTickRate.Should().Be(1);
 
-            //check Difficulty
-            Assert.Equal(5f, bm.HPDrainRate);
-            Assert.Equal(4f, bm.CircleSize);
-            Assert.Equal(7f, bm.OverallDifficulty);
-            Assert.Equal(10f, bm.ApproachRate);
-            Assert.Equal(1.8f, bm.SliderMultiplier);
-            Assert.Equal(2f, bm.SliderTickRate);
+            // TODO: events
 
-            //check Events
-            //TODO
+            bm.TimingPoints.Should().HaveCount(7);
+            bm.TimingPoints[0].Time.Should().Be(1500);
+            bm.TimingPoints[0].Kiai.Should().BeFalse();
+            bm.TimingPoints[0].MsPerQuarter.Should().Be(382.165605095541);
+            bm.TimingPoints[0].SampleSet.Should().Be(1);
+            bm.TimingPoints[0].SampleVolume.Should().Be(100);
+            bm.TimingPoints[0].CustomSampleSet.Should().Be(0);
+            bm.TimingPoints[0].TimingChange.Should().BeTrue();
+            bm.TimingPoints[0].TimingSignature.Should().Be(4);
 
-            //check TimingPoints
-            Assert.Equal(5, bm.TimingPoints.Count);
-            Assert.Equal(6966, bm.TimingPoints[0].Time);
-            Assert.True(bm.TimingPoints[1].Kiai);
-            Assert.Equal(bm.TimingPoints[2].MsPerQuarter, -100); //means no timing change
-            Assert.False(bm.TimingPoints[3].TimingChange);
+            bm.TimingPoints[1].MsPerQuarter.Should().Be(-133.333333333333);
 
-            //check Colours
-            //Combo1 : 249,91,9
-            //(...)
-            //Combo5 : 255,255,128
-            Assert.Equal("249,91,91", bm.SectionColours["Combo1"]);
-            Assert.Equal("255,255,128", bm.SectionColours["Combo5"]);
-            Assert.Equal(5, bm.SectionColours.Count);
+            bm.HitObjects.Should().HaveCount(335);
+            bm.HitObjects.Where(x => (x.Type & HitObjectType.Normal) != 0).Should().HaveCount(252);
+            bm.HitObjects.Where(x => (x.Type & HitObjectType.Slider) != 0).Should().HaveCount(83);
 
-            //check HitObjects
-            Assert.Equal(746, bm.HitObjects.Count);
-            Assert.Equal(410, bm.HitObjects.Count(a => a is HitObjectCircle));
-            Assert.Equal(334, bm.HitObjects.Count(a => a is HitObjectSlider));
-            Assert.Equal(2, bm.HitObjects.Count(a => a is HitObjectSpinner));
-
-            //56,56,6966,1,4
-            HitObjectCircle firstCircle = (HitObjectCircle) bm.HitObjects.First(a => a.Type.HasFlag(HitObjectType.Normal));
-            Assert.Equal(56, firstCircle.X);
-            Assert.Equal(56, firstCircle.Y);
-            Assert.Equal(6966, firstCircle.Time);
-            Assert.Equal(HitSound.Finish, firstCircle.HitSound);
-
-            //178,50,7299,2,0,B|210:0|300:0|332:50,1,180,2|0
-            HitObjectSlider firstSlider = (HitObjectSlider)bm.HitObjects.First(a => a.Type.HasFlag(HitObjectType.Slider));
-            Assert.Equal(178, firstSlider.X);
-            Assert.Equal(50, firstSlider.Y);
-            Assert.Equal(7299, firstSlider.Time);
-            Assert.Equal(HitSound.None, firstSlider.HitSound);
-            Assert.Equal(CurveType.Bezier, firstSlider.CurveType);
-            Assert.Equal(3, firstSlider.Points.Count);
-            Assert.Equal(1, firstSlider.RepeatCount);
-            Assert.Equal(180, firstSlider.Length);
-
-            //256,192,60254,12,4,61587
-            HitObjectSpinner firstSpinner = (HitObjectSpinner)bm.HitObjects.First(a => a.Type.HasFlag(HitObjectType.Spinner));
-            Assert.Equal(256, firstSpinner.X);
-            Assert.Equal(192, firstSpinner.Y);
-            Assert.Equal(60254, firstSpinner.Time);
-            Assert.Equal(HitSound.Finish, firstSpinner.HitSound);
-            Assert.Equal(61587, firstSpinner.EndTime);
-            Assert.True(firstSpinner.IsNewCombo);
+            var firstNoteBase = bm.HitObjects[0];
+            firstNoteBase.Should().BeOfType<HitObjectCircle>();
+            var firstNote = (HitObjectCircle)firstNoteBase;
+            firstNote.Time.Should().Be(1500);
+            firstNote.X.Should().Be(136);
+            firstNote.Y.Should().Be(87);
+            firstNote.IsNewCombo.Should().BeTrue();
+            firstNote.Type.Should().Be(HitObjectType.Normal | HitObjectType.NewCombo);
+            firstNote.HitSound.Should().Be(HitSound.None);
+            firstNote.SoundSampleData.Should().Be("0:0:0:0:");
         }
     }
 }

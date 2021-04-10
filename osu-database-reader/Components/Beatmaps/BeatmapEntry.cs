@@ -40,7 +40,7 @@ namespace osu_database_reader.Components.Beatmaps
         public DateTime LastCheckAgainstOsuRepo;
         public bool IgnoreBeatmapSounds, IgnoreBeatmapSkin, DisableStoryBoard, DisableVideo, VisualOverride;
         public short OldUnknown1;   //unused
-        public int Unknown2;
+        public int LastEditTime;
         public byte ManiaScrollSpeed;
 
         private bool _readLength;
@@ -140,7 +140,7 @@ namespace osu_database_reader.Components.Beatmaps
             VisualOverride = r.ReadBoolean();
             if (_version < 20140609)
                 OldUnknown1 = r.ReadInt16();
-            Unknown2 = r.ReadInt32();
+            LastEditTime = r.ReadInt32();
             ManiaScrollSpeed = r.ReadByte();
 
             Debug.Assert(!_readLength || length == r.BaseStream.Position - startPosition); //could throw error here
