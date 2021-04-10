@@ -16,8 +16,8 @@ namespace osu_database_reader.TextFiles
         public Dictionary<string, string> SectionDifficulty;
         public Dictionary<string, string> SectionColours;
 
-        public List<TimingPoint> TimingPoints = new List<TimingPoint>();
-        public List<HitObject> HitObjects = new List<HitObject>();
+        public List<TimingPoint> TimingPoints = new();
+        public List<HitObject> HitObjects = new();
 
         //making some stuff easier to access
         public string Artist        => SectionMetadata.GetValueOrNull("Artist");
@@ -40,41 +40,40 @@ namespace osu_database_reader.TextFiles
         {
             var file = new BeatmapFile();
 
-            using (var r = new StreamReader(path)) {
-                if (!int.TryParse(r.ReadLine()?.Replace("osu file format v", string.Empty), out file.FileFormatVersion))
-                    throw new Exception("Not a valid beatmap"); //very simple check, could be better
+            using var r = new StreamReader(path);
+            if (!int.TryParse(r.ReadLine()?.Replace("osu file format v", string.Empty), out file.FileFormatVersion))
+                throw new Exception("Not a valid beatmap"); //very simple check, could be better
 
-                BeatmapSection bs;
-                while ((bs = r.ReadUntilSectionStart()) != BeatmapSection._EndOfFile) {
-                    switch (bs) {
-                        case BeatmapSection.General:
-                            file.SectionGeneral = r.ReadBasicSection();
-                            break;
-                        case BeatmapSection.Editor:
-                            file.SectionEditor = r.ReadBasicSection();
-                            break;
-                        case BeatmapSection.Metadata:
-                            file.SectionMetadata = r.ReadBasicSection(false);
-                            break;
-                        case BeatmapSection.Difficulty:
-                            file.SectionDifficulty = r.ReadBasicSection(false);
-                            break;
-                        case BeatmapSection.Events:
-                            //TODO
-                            r.SkipSection();
-                            break;
-                        case BeatmapSection.TimingPoints:
-                            file.TimingPoints.AddRange(r.ReadTimingPoints());
-                            break;
-                        case BeatmapSection.Colours:
-                            file.SectionColours = r.ReadBasicSection(true, true);
-                            break;
-                        case BeatmapSection.HitObjects:
-                            file.HitObjects.AddRange(r.ReadHitObjects());
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
+            BeatmapSection? bs;
+            while ((bs = r.ReadUntilSectionStart()) != null) {
+                switch (bs.Value) {
+                    case BeatmapSection.General:
+                        file.SectionGeneral = r.ReadBasicSection();
+                        break;
+                    case BeatmapSection.Editor:
+                        file.SectionEditor = r.ReadBasicSection();
+                        break;
+                    case BeatmapSection.Metadata:
+                        file.SectionMetadata = r.ReadBasicSection(false);
+                        break;
+                    case BeatmapSection.Difficulty:
+                        file.SectionDifficulty = r.ReadBasicSection(false);
+                        break;
+                    case BeatmapSection.Events:
+                        //TODO
+                        r.SkipSection();
+                        break;
+                    case BeatmapSection.TimingPoints:
+                        file.TimingPoints.AddRange(r.ReadTimingPoints());
+                        break;
+                    case BeatmapSection.Colours:
+                        file.SectionColours = r.ReadBasicSection(true, true);
+                        break;
+                    case BeatmapSection.HitObjects:
+                        file.HitObjects.AddRange(r.ReadHitObjects());
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
 

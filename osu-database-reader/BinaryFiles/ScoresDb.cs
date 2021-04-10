@@ -10,13 +10,13 @@ namespace osu_database_reader.BinaryFiles
     public class ScoresDb : ISerializable
     {
         public int OsuVersion;
-        public Dictionary<string, List<Replay>> Beatmaps = new Dictionary<string, List<Replay>>();
+        public readonly Dictionary<string, List<Replay>> Beatmaps = new();
         public IEnumerable<Replay> Scores => Beatmaps.SelectMany(a => a.Value);
 
         public static ScoresDb Read(string path) {
             var db = new ScoresDb();
-            using (var r = new SerializationReader(File.OpenRead(path)))
-                db.ReadFromStream(r);
+            using var r = new SerializationReader(File.OpenRead(path));
+            db.ReadFromStream(r);
 
             return db;
         }
@@ -30,7 +30,7 @@ namespace osu_database_reader.BinaryFiles
             {
                 string md5 = r.ReadString();
 
-                Tuple<string, List<Replay>> tuple = new Tuple<string, List<Replay>>(md5, new List<Replay>());
+                var tuple = new Tuple<string, List<Replay>>(md5, new List<Replay>());
 
                 int amount2 = r.ReadInt32();
                 for (int j = 0; j < amount2; j++)

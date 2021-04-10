@@ -20,8 +20,8 @@ namespace osu_database_reader.BinaryFiles
 
         public static OsuDb Read(string path) {
             OsuDb db = new OsuDb();
-            using (var r = new SerializationReader(File.OpenRead(path)))
-                db.ReadFromStream(r);
+            using var r = new SerializationReader(File.OpenRead(path));
+            db.ReadFromStream(r);
             return db;
         }
 

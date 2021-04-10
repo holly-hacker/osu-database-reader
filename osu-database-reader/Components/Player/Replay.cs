@@ -60,9 +60,8 @@ namespace osu_database_reader.Components.Player
 
         public static Replay Read(string path) {
             Replay replay;
-            using (var r = new SerializationReader(File.OpenRead(path))) {
-                replay = ReadFromReader(r); //scoreid should not be needed
-            }
+            using var r = new SerializationReader(File.OpenRead(path));
+            replay = ReadFromReader(r); //scoreid should not be needed
             return replay;
         }
 

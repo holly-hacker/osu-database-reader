@@ -49,7 +49,7 @@ namespace osu_database_reader.Components.Beatmaps
         public static BeatmapEntry ReadFromReader(SerializationReader r, bool readLength = true, int version = 20160729) {
             BeatmapEntry e = new BeatmapEntry {
                 _readLength = readLength,
-                _version = version
+                _version = version,
             };
 
             e.ReadFromStream(r);

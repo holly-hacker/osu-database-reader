@@ -8,12 +8,12 @@ namespace osu_database_reader.BinaryFiles
     public class PresenceDb : ISerializable
     {
         public int OsuVersion;
-        public List<PlayerPresence> Players = new List<PlayerPresence>();
+        public readonly List<PlayerPresence> Players = new();
 
         public static PresenceDb Read(string path) {
             var db = new PresenceDb();
-            using (var r = new SerializationReader(File.OpenRead(path)))
-                db.ReadFromStream(r);
+            using var r = new SerializationReader(File.OpenRead(path));
+            db.ReadFromStream(r);
             return db;
         }
 

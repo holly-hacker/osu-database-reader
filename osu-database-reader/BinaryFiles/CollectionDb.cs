@@ -8,12 +8,12 @@ namespace osu_database_reader.BinaryFiles
     public class CollectionDb : ISerializable
     {
         public int OsuVersion;
-        public List<Collection> Collections = new List<Collection>();
+        public readonly List<Collection> Collections = new();
 
         public static CollectionDb Read(string path) {
             var db = new CollectionDb();
-            using (var r = new SerializationReader(File.OpenRead(path)))
-                db.ReadFromStream(r);
+            using var r = new SerializationReader(File.OpenRead(path));
+            db.ReadFromStream(r);
             return db;
         }
 

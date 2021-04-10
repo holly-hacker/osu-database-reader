@@ -17,7 +17,7 @@ namespace osu_database_reader
         }
 
         //for StreamReader
-        public static BeatmapSection ReadUntilSectionStart(this StreamReader sr)
+        public static BeatmapSection? ReadUntilSectionStart(this StreamReader sr)
         {
             while (!sr.EndOfStream)
             {
@@ -31,7 +31,7 @@ namespace osu_database_reader
             }
 
             //we reached an end of stream
-            return BeatmapSection._EndOfFile;
+            return null;
         }
 
         public static Dictionary<string, string> ReadBasicSection(this StreamReader sr, bool extraSpaceAfterColon = true, bool extraSpaceBeforeColon = false)

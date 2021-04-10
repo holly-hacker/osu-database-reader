@@ -7,12 +7,11 @@ namespace osu_database_reader
         Linear,
         Catmull,
         Bezier,
-        Perfect
+        Perfect,
     }
 
     public enum BeatmapSection
     {
-        _EndOfFile,
         General,
         Editor,
         Metadata,
