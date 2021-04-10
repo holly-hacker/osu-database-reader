@@ -1,0 +1,47 @@
+# this file contains a definition for all common properties in a .osu file
+# source code gets generated from this
+# taken from https://github.com/ppy/osu/blob/53ae24db9b40895c08fed45e1fb2650533ae96c6/osu.Game/Beatmaps/Formats/LegacyBeatmapDecoder.cs
+
+namespace = "osu_database_reader.TextFiles"
+class = "BeatmapFile"
+
+[General]
+AudioFilename = "string"
+AudioLeadIn = "int"
+PreviewTime = "int"
+Countdown = "intbool"
+SampleSet = "string" # TODO: "enum:SampleSet"
+SampleVolume = "int"
+StackLeniency = "float"
+Mode = "int" # TODO: cast int to enum?
+LetterboxInBreaks = "intbool"
+SpecialStyle = "intbool"
+WidescreenStoryboard = "intbool"
+EpilepsyWarning = "intbool"
+
+[Editor]
+Bookmarks = "int[]"
+DistanceSpacing = "double"
+BeatDivisor = "int"
+GridSize = "int"
+TimelineZoom = "double"
+
+[Metadata]
+Title = "string"
+TitleUnicode = "string"
+Artist = "string"
+ArtistUnicode = "string"
+Creator = "string"
+Version = "string"
+Source = "string"
+Tags = "string"
+BeatmapID = "int"
+BeatmapSetID = "int"
+
+[Difficulty]
+HPDrainRate = "float"
+CircleSize = "float"
+OverallDifficulty = "float"
+ApproachRate = "float"
+SliderMultiplier = "double"
+SliderTickRate = "double"

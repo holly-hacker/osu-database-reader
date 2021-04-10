@@ -24,6 +24,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="osu.Shared" Version="1.0.2" />
+    <PackageReference Include="osu.Shared" Version="1.0.2"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\osu-database-reader.SourceGenerator\osu-database-reader.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
   </ItemGroup>
 </Project>
