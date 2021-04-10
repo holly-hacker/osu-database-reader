@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
-    <LangVersion>7.1</LangVersion>
+    <LangVersion>9</LangVersion>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
     <Version>2.1.1</Version>
@@ -11,7 +11,7 @@
     <Product>osu! Database Reader</Product>
     <Authors>HoLLy</Authors>
     <Description>A library to read almost all of osu!'s data files.</Description>
-    <Copyright>Copyright © HoLLy 2019</Copyright>
+    <Copyright>Copyright © HoLLy</Copyright>
     <PackageId>HoLLy.osu.DatabaseReader</PackageId>
 
     <RepositoryType>Git</RepositoryType>
