@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using osu.Shared;
 using osu.Shared.Serialization;
+using osu_database_reader.BinaryFiles;
 
 namespace osu_database_reader.Components.Beatmaps
 {
+    /// <summary>
+    /// An entry in <see cref="OsuDb"/> with information about a beatmap.
+    /// </summary>
     public class BeatmapEntry : ISerializable
     {
         public string Artist, ArtistUnicode;
@@ -43,12 +46,10 @@ namespace osu_database_reader.Components.Beatmaps
         public int LastEditTime;
         public byte ManiaScrollSpeed;
 
-        private bool _readLength;
         private int _version;
 
-        public static BeatmapEntry ReadFromReader(SerializationReader r, bool readLength = true, int version = 20160729) {
-            BeatmapEntry e = new BeatmapEntry {
-                _readLength = readLength,
+        public static BeatmapEntry ReadFromReader(SerializationReader r, int version) {
+            var e = new BeatmapEntry {
                 _version = version,
             };
 
@@ -59,14 +60,12 @@ namespace osu_database_reader.Components.Beatmaps
 
         public void ReadFromStream(SerializationReader r)
         {
-            int length = 0;
-            if (_readLength) length = r.ReadInt32();
-            int startPosition = (int)r.BaseStream.Position;
-
             Artist = r.ReadString();
-            ArtistUnicode = r.ReadString();
+            if (_version >= OsuVersions.FirstOsz2)
+                ArtistUnicode = r.ReadString();
             Title = r.ReadString();
-            TitleUnicode = r.ReadString();
+            if (_version >= OsuVersions.FirstOsz2)
+                TitleUnicode = r.ReadString();
             Creator = r.ReadString();
             Version = r.ReadString();
             AudioFileName = r.ReadString();
@@ -79,7 +78,7 @@ namespace osu_database_reader.Components.Beatmaps
             CountSpinners = r.ReadUInt16();
             LastModifiedTime = r.ReadDateTime();
 
-            if (_version >= 20140609)
+            if (_version >= OsuVersions.FloatDifficultyValues)
             {
                 ApproachRate = r.ReadSingle();
                 CircleSize = r.ReadSingle();
@@ -96,12 +95,14 @@ namespace osu_database_reader.Components.Beatmaps
 
             SliderVelocity = r.ReadDouble();
 
-            if (_version >= 20140609)
+            if (_version >= OsuVersions.FloatDifficultyValues)
             {
                 DiffStarRatingStandard = r.ReadDictionary<Mods, double>();
                 DiffStarRatingTaiko = r.ReadDictionary<Mods, double>();
                 DiffStarRatingCtB = r.ReadDictionary<Mods, double>();
                 DiffStarRatingMania = r.ReadDictionary<Mods, double>();
+
+                // TODO: there may be different reading behavior for versions before 20190204, 20200916, 20200504 and 20191024 here.
             }
 
             DrainTimeSeconds = r.ReadInt32();
@@ -138,12 +139,10 @@ namespace osu_database_reader.Components.Beatmaps
             DisableStoryBoard = r.ReadBoolean();
             DisableVideo = r.ReadBoolean();
             VisualOverride = r.ReadBoolean();
-            if (_version < 20140609)
+            if (_version < OsuVersions.FloatDifficultyValues)
                 OldUnknown1 = r.ReadInt16();
             LastEditTime = r.ReadInt32();
             ManiaScrollSpeed = r.ReadByte();
-
-            Debug.Assert(!_readLength || length == r.BaseStream.Position - startPosition); //could throw error here
         }
 
         public void WriteToStream(SerializationWriter w)

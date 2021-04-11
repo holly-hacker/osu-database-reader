@@ -56,7 +56,6 @@ namespace osu_database_reader.Components.Player
 
         private byte[] _replayData; //null in scores.db
         private ReplayFrame[] _frames;
-        private bool _readScoreId;
 
         public static Replay Read(string path)
         {
@@ -65,15 +64,12 @@ namespace osu_database_reader.Components.Player
         }
 
         public static Replay Read(Stream stream) {
-            Replay replay;
             using var r = new SerializationReader(stream);
-            replay = ReadFromReader(r); //scoreid should not be needed
-            return replay;
+            return ReadFromReader(r);
         }
 
-        public static Replay ReadFromReader(SerializationReader r, bool readScoreId = false) {
+        public static Replay ReadFromReader(SerializationReader r) {
             var replay = new Replay();
-            replay._readScoreId = readScoreId;
             replay.ReadFromStream(r);
             return replay;
         }
@@ -111,7 +107,13 @@ namespace osu_database_reader.Components.Player
             LifeGraphData = r.ReadString();
             TimePlayed = r.ReadDateTime();
             _replayData = r.ReadBytes();
-            ScoreId = _readScoreId ? r.ReadInt64() : (long?) null;
+
+            ScoreId = OsuVersion switch
+            {
+                >= OsuVersions.ReplayScoreId64Bit => r.ReadInt64(),
+                >= OsuVersions.FirstOsz2 => r.ReadInt32(),
+                _ => null,
+            };
         }
 
         public void WriteToStream(SerializationWriter w)
@@ -137,7 +139,16 @@ namespace osu_database_reader.Components.Player
             w.Write(TimePlayed);
             w.Write(_replayData);
             w.Write(Score);
-            if (ScoreId != null) w.Write(ScoreId.Value);
+
+            switch (OsuVersion)
+            {
+                case >= OsuVersions.ReplayScoreId64Bit:
+                    w.Write(ScoreId ?? 0);
+                    break;
+                case >= OsuVersions.FirstOsz2:
+                    w.Write((int) (ScoreId ?? 0));
+                    break;
+            }
         }
     }
 }

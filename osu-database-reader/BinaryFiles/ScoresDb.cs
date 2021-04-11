@@ -37,13 +37,13 @@ namespace osu_database_reader.BinaryFiles
             {
                 string md5 = r.ReadString();
 
-                var tuple = new Tuple<string, List<Replay>>(md5, new List<Replay>());
+                var list = new List<Replay>();
 
                 int amount2 = r.ReadInt32();
                 for (int j = 0; j < amount2; j++)
-                    tuple.Item2.Add(Replay.ReadFromReader(r, true));
+                    list.Add(Replay.ReadFromReader(r));
 
-                Beatmaps.Add(tuple.Item1, tuple.Item2);
+                Beatmaps.Add(md5, list);
             }
         }
 
