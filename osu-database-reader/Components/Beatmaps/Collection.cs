@@ -3,7 +3,7 @@ using osu.Shared.Serialization;
 
 namespace osu_database_reader.Components.Beatmaps
 {
-    public struct Collection : ISerializable
+    public class Collection : ISerializable
     {
         public string Name;
         public List<string> BeatmapHashes;
@@ -20,7 +20,13 @@ namespace osu_database_reader.Components.Beatmaps
 
         public void WriteToStream(SerializationWriter w)
         {
-            throw new System.NotImplementedException();
+            w.Write(Name);
+            w.Write(BeatmapHashes.Count);
+
+            foreach (string beatmapHash in BeatmapHashes)
+            {
+                w.Write(beatmapHash);
+            }
         }
     }
 }

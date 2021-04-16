@@ -24,7 +24,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="osu.Shared" Version="1.0.2" />
+    <PackageReference Include="osu.Shared" Version="1.0.3" />
   </ItemGroup>
 
   <ItemGroup>

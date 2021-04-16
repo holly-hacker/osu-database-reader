@@ -232,7 +232,7 @@ namespace UnitTestProject
             replay.TimePlayed.Should().BeAfter(new DateTime(2021, 4, 10, 18, 15, 05, DateTimeKind.Utc))
                 .And.BeBefore(new DateTime(2021, 4, 10, 18, 15, 06, DateTimeKind.Utc));
             replay.ReplayData.Length.Should().Be(35350);
-            replay.ScoreId.Should().Be(null); // TODO: should be 0 instead!!
+            replay.ScoreId.Should().Be(0);
         }
     }
 }

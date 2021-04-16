@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using osu.Shared;
 using osu.Shared.Serialization;
 using osu_database_reader.BinaryFiles;
@@ -147,7 +148,92 @@ namespace osu_database_reader.Components.Beatmaps
 
         public void WriteToStream(SerializationWriter w)
         {
-            throw new NotImplementedException();
+            w.Write(Artist);
+            if (_version >= OsuVersions.FirstOsz2)
+                w.Write(ArtistUnicode);
+            w.Write(Title);
+            if (_version >= OsuVersions.FirstOsz2)
+                w.Write(TitleUnicode);
+            w.Write(Creator);
+            w.Write(Version);
+            w.Write(AudioFileName);
+            w.Write(BeatmapChecksum);
+            w.Write(BeatmapFileName);
+
+            w.Write((byte)RankedStatus);
+            w.Write(CountHitCircles);
+            w.Write(CountSliders);
+            w.Write(CountSpinners);
+            w.Write(LastModifiedTime);
+
+            if (_version >= OsuVersions.FloatDifficultyValues)
+            {
+                w.Write(ApproachRate);
+                w.Write(CircleSize);
+                w.Write(HPDrainRate);
+                w.Write(OveralDifficulty);
+            }
+            else
+            {
+                w.Write(ApproachRate);
+                w.Write(CircleSize);
+                w.Write(HPDrainRate);
+                w.Write(OveralDifficulty);
+            }
+
+            w.Write(SliderVelocity);
+
+            if (_version >= OsuVersions.FloatDifficultyValues)
+            {
+                static Dictionary<int, double> ConvertToWritableDictionary(IDictionary<Mods, double> dic)
+                    => dic.ToDictionary(pair => (int) pair.Key, pair => pair.Value);
+
+                w.Write(ConvertToWritableDictionary(DiffStarRatingStandard));
+                w.Write(ConvertToWritableDictionary(DiffStarRatingTaiko));
+                w.Write(ConvertToWritableDictionary(DiffStarRatingCtB));
+                w.Write(ConvertToWritableDictionary(DiffStarRatingMania));
+
+                // TODO: there may be different reading behavior for versions before 20190204, 20200916, 20200504 and 20191024 here.
+            }
+
+            w.Write(DrainTimeSeconds);
+            w.Write(TotalTime);
+            w.Write(AudioPreviewTime);
+
+            w.WriteSerializableList(TimingPoints);
+            w.Write(BeatmapId);
+            w.Write(BeatmapSetId);
+            w.Write(ThreadId);
+
+            w.Write((byte)GradeStandard);
+            w.Write((byte)GradeTaiko);
+            w.Write((byte)GradeCtB);
+            w.Write((byte)GradeMania);
+
+            w.Write(OffsetLocal);
+            w.Write(StackLeniency);
+            w.Write((byte)GameMode);
+
+            w.Write(SongSource);
+            w.Write(SongTags);
+            w.Write(OffsetOnline);
+            w.Write(TitleFont);
+            w.Write(Unplayed);
+            w.Write(LastPlayed);
+
+            w.Write(IsOsz2);
+            w.Write(FolderName);
+            w.Write(LastCheckAgainstOsuRepo);
+
+            w.Write(IgnoreBeatmapSounds);
+            w.Write(IgnoreBeatmapSkin);
+            w.Write(DisableStoryBoard);
+            w.Write(DisableVideo);
+            w.Write(VisualOverride);
+            if (_version < OsuVersions.FloatDifficultyValues)
+                w.Write(OldUnknown1);
+            w.Write(LastEditTime);
+            w.Write(ManiaScrollSpeed);
         }
     }
 }

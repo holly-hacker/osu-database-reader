@@ -49,7 +49,19 @@ namespace osu_database_reader.BinaryFiles
 
         public void WriteToStream(SerializationWriter w)
         {
-            throw new NotImplementedException();
+            w.Write(OsuVersion);
+            w.Write(Beatmaps.Count);
+
+            foreach (var kvp in Beatmaps)
+            {
+                w.Write(kvp.Key);
+                w.Write(kvp.Value.Count);
+
+                foreach (var replay in kvp.Value)
+                {
+                    replay.WriteToStream(w);
+                }
+            }
         }
     }
 }

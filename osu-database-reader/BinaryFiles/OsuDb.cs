@@ -66,7 +66,37 @@ namespace osu_database_reader.BinaryFiles
 
         public void WriteToStream(SerializationWriter w)
         {
-            throw new NotImplementedException();
+            bool hasEntryLength = OsuVersion
+                is >= OsuVersions.EntryLengthInOsuDbMin
+                and < OsuVersions.EntryLengthInOsuDbMax;
+
+            w.Write(OsuVersion);
+            w.Write(FolderCount);
+            w.Write(AccountUnlocked);
+            w.Write(AccountUnlockDate);
+            w.Write(AccountName);
+
+            w.Write(Beatmaps.Count);
+
+            foreach (var beatmap in Beatmaps)
+            {
+                if (hasEntryLength)
+                {
+                    using var ms = new MemoryStream();
+                    using var w2 = new SerializationWriter(ms);
+                    beatmap.WriteToStream(w2);
+
+                    var bytes = ms.ToArray();
+                    w.Write(bytes.Length);
+                    w.WriteRaw(bytes);
+                }
+                else
+                {
+                    beatmap.WriteToStream(w);
+                }
+            }
+
+            w.Write((byte)AccountRank);
         }
     }
 }

@@ -38,7 +38,13 @@ namespace osu_database_reader.BinaryFiles
 
         public void WriteToStream(SerializationWriter w)
         {
-            throw new System.NotImplementedException();
+            w.Write(OsuVersion);
+            w.Write(Collections.Count);
+
+            foreach (var collection in Collections)
+            {
+                collection.WriteToStream(w);
+            }
         }
     }
 }

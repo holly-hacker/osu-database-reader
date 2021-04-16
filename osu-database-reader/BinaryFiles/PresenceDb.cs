@@ -27,15 +27,21 @@ namespace osu_database_reader.BinaryFiles
         public void ReadFromStream(SerializationReader r)
         {
             OsuVersion = r.ReadInt32();
-
             int amount = r.ReadInt32();
+
             for (int i = 0; i < amount; i++)
                 Players.Add(PlayerPresence.ReadFromReader(r));
         }
 
         public void WriteToStream(SerializationWriter w)
         {
-            throw new System.NotImplementedException();
+            w.Write(OsuVersion);
+            w.Write(Players.Count);
+
+            foreach (var playerPresence in Players)
+            {
+                playerPresence.WriteToStream(w);
+            }
         }
     }
 }

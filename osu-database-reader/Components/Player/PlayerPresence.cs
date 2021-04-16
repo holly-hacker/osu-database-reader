@@ -43,7 +43,19 @@ namespace osu_database_reader.Components.Player
 
         public void WriteToStream(SerializationWriter w)
         {
-            throw new NotImplementedException();
+            w.Write(PlayerId);
+            w.Write(PlayerName);
+            w.Write(UtcOffset);
+            w.Write(CountryByte);
+
+            int rankPart = (byte)PlayerRank & 0b0001_1111;
+            int modePart = ((byte)GameMode << 5) & 0b1110_0000;
+            w.Write((byte)(rankPart | modePart));
+
+            w.Write(Longitude);
+            w.Write(Latitude);
+            w.Write(GlobalRank);
+            w.Write(LastUpdate);
         }
     }
 }

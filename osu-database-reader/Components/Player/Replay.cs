@@ -138,12 +138,11 @@ namespace osu_database_reader.Components.Player
             w.Write(LifeGraphData);
             w.Write(TimePlayed);
             w.Write(_replayData);
-            w.Write(Score);
 
             switch (OsuVersion)
             {
                 case >= OsuVersions.ReplayScoreId64Bit:
-                    w.Write(ScoreId ?? 0);
+                    w.Write(ScoreId ?? 0L);
                     break;
                 case >= OsuVersions.FirstOsz2:
                     w.Write((int) (ScoreId ?? 0));
