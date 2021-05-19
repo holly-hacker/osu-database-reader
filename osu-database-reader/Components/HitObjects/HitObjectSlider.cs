@@ -23,7 +23,7 @@ namespace osu_database_reader.Components.HitObjects
                         'C' => CurveType.Catmull,
                         'P' => CurveType.Perfect,
                         'B' => CurveType.Bezier,
-                        _ => CurveType
+                        _ => CurveType,
                     };
                     continue;
                 }
