@@ -2,6 +2,7 @@
 using System.Reflection;
 using FluentAssertions;
 using osu.Shared;
+using osu_database_reader.Components.Events;
 using osu_database_reader.Components.HitObjects;
 using osu_database_reader.TextFiles;
 using Xunit;
@@ -56,8 +57,22 @@ namespace UnitTestProject
             bm.SliderMultiplier.Should().Be(1.8);
             bm.SliderTickRate.Should().Be(1);
 
-            // TODO: events
+            // events
+            bm.Events.Should().HaveCount(4);
 
+            bm.Events[0].Should().BeOfType<BackgroundEvent>();
+            ((BackgroundEvent) bm.Events[0]).Path.Should().Be("usedtobe.jpg");
+            bm.Events[1].Should().BeOfType<VideoEvent>();
+            ((VideoEvent) bm.Events[1]).Path.Should().Be("Cytus II Opening - The Whole Rest.mp4");
+            ((VideoEvent) bm.Events[1]).Offset.Should().Be(0);
+            bm.Events[2].Should().BeOfType<BreakEvent>();
+            ((BreakEvent) bm.Events[2]).StartTime.Should().Be(13929);
+            ((BreakEvent) bm.Events[2]).EndTime.Should().Be(22301);
+            bm.Events[3].Should().BeOfType<BreakEvent>();
+            ((BreakEvent) bm.Events[3]).StartTime.Should().Be(47559);
+            ((BreakEvent) bm.Events[3]).EndTime.Should().Be(52874);
+
+            // timing points
             bm.TimingPoints.Should().HaveCount(7);
             bm.TimingPoints[0].Time.Should().Be(1500);
             bm.TimingPoints[0].Kiai.Should().BeFalse();
@@ -70,6 +85,7 @@ namespace UnitTestProject
 
             bm.TimingPoints[1].MsPerQuarter.Should().Be(-133.333333333333);
 
+            // hit objects
             bm.HitObjects.Should().HaveCount(335);
             bm.HitObjects.Where(x => (x.Type & HitObjectType.Normal) != 0).Should().HaveCount(252);
             bm.HitObjects.Where(x => (x.Type & HitObjectType.Slider) != 0).Should().HaveCount(83);

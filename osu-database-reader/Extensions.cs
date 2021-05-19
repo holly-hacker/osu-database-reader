@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using osu_database_reader.Components.Beatmaps;
+using osu_database_reader.Components.Events;
 using osu_database_reader.Components.HitObjects;
 
 namespace osu_database_reader
@@ -75,10 +76,12 @@ namespace osu_database_reader
                 yield return TimingPoint.FromString(line);
         }
 
-        [Obsolete("This method should never be used; all sections must be parsed.")]
-        public static void SkipSection(this StreamReader sr)
+        public static IEnumerable<EventBase> ReadEvents(this StreamReader sr)
         {
-            while (!string.IsNullOrWhiteSpace(sr.ReadLine())) { }
+            string line;
+            while (!string.IsNullOrEmpty(line = sr.ReadLine()))
+                if (!line.StartsWith("//"))
+                    yield return EventBase.FromString(line);
         }
     }
 }
