@@ -4,9 +4,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
-    <Version>3.0.0</Version>
-    <AssemblyVersion>3.0.0.0</AssemblyVersion>
-    <FileVersion>3.0.0.0</FileVersion>
+    <Version>3.1.0</Version>
+    <AssemblyVersion>3.1.0.0</AssemblyVersion>
+    <FileVersion>3.1.0.0</FileVersion>
+    <PackageVersion>3.1.0-alpha1</PackageVersion>
 
     <Title>osu! Database Reader</Title>
     <Product>osu! Database Reader</Product>
@@ -23,12 +24,7 @@
 
     <PackageTags>osu! osu database replay beatmap</PackageTags>
     <PackageReleaseNotes>
-      - Implement support for writing files back out
-      - Improve handling for older osu! versions
-      - Allow reading and writing from Streams
-      - Expose all settings of beatmap files through get-only properties
-      - Drop .NET 4.0 support, keeping only .NET Standard 2.0
-      - Improve testing
+      - Implement reading for beatmap Events (WIP)
     </PackageReleaseNotes>
   </PropertyGroup>
 
