@@ -3,24 +3,12 @@
 # osu-database-reader
 Allows for parsing/reading osu!'s database files
 
-Find it on NuGet: [link](https://www.nuget.org/packages/HoLLy.osu.DatabaseReader)
+## Features
+- Read/Write .db files
+- Read/Write replay files (excluding score checksum calculation)
+- Read beatmap files
 
-NOTE: No parsing for storyboards, use [osuElements](https://github.com/JasperDeSutter/osuElements) for that.
-
-### Currently finished:
-* reading osu!.db
-* reading collection.db
-* reading scores.db
-* reading presence.db
-* reading replays
-* reading osu! beatmaps
-
-### Planned:
-* writing osu!.db
-* writing collection.db
-* writing scores.db
-* writing presence.db
-* writing osu! beatmaps (maybe?)
+For parsing storyboards, use [osuElements](https://github.com/JasperDeSutter/osuElements) or wait for a future release.
 
 ## Usage
 Add to your project and include the osu_database_reader namespace.
@@ -37,3 +25,4 @@ Or, if you use .NET Core (2.0+):
 
 ## Credits
 This project includes the 7zip LZMA SDK, which is released in the public domain.
+[Tomlyn](https://github.com/dezhidki/Tommy) is used during code generation, and is licensed under the MIT license.
