@@ -4,10 +4,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
-    <Version>3.1.0</Version>
-    <AssemblyVersion>3.1.0.0</AssemblyVersion>
-    <FileVersion>3.1.0.0</FileVersion>
-    <PackageVersion>3.1.0-alpha1</PackageVersion>
+    <Version>3.2.0</Version>
+    <AssemblyVersion>3.2.0.0</AssemblyVersion>
+    <FileVersion>3.2.0.0</FileVersion>
+    <PackageVersion>3.2.0</PackageVersion>
 
     <Title>osu! Database Reader</Title>
     <Product>osu! Database Reader</Product>
@@ -24,7 +24,7 @@
 
     <PackageTags>osu! osu database replay beatmap</PackageTags>
     <PackageReleaseNotes>
-      - Implement reading for beatmap Events (WIP)
+      - Support osu!.db for osu! versions starting from 20250108
     </PackageReleaseNotes>
   </PropertyGroup>
 
