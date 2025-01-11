@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using FluentAssertions;
 using osu.Shared;
@@ -97,6 +99,20 @@ namespace UnitTestProject
 
             bm.LastEditTime.Should().Be(0);
             bm.ManiaScrollSpeed.Should().Be(0);
+        }
+
+        [Fact]
+        public void ReadOsuDb_20250108()
+        {
+            // test new osu!.db format introduced in v20250108.3
+
+            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("UnitTestProject.Data.osu_.20250108.db");
+            var db = OsuDb.Read(stream);
+
+            db.Beatmaps.Should().HaveCount(71);
+
+            var starRatings = db.Beatmaps.SelectMany(b => b.DiffStarRatingStandard).Select(b => b.Value).ToList();
+            starRatings.Should().NotBeEmpty().And.NotContain(sr => sr <= 0);
         }
 
         [Fact]

@@ -6,7 +6,12 @@ namespace osu_database_reader
         public const int EntryLengthInOsuDbMax = 20191107;
 
         /// <summary>
-        /// First version where osu.db:
+        /// First version where osu!.db stores cached star rating as 32-bit floats instead of 64-bit doubles
+        /// </summary>
+        public const int ReducedOsuDbSize = 20250108;
+
+        /// <summary>
+        /// First version where osu!.db:
         /// - uses floats for difficulty values
         /// - contains pre-calculated difficulty ratings
         /// </summary>
@@ -15,7 +20,7 @@ namespace osu_database_reader
         /// <summary>
         /// First version where:
         /// - Replays contain a 32-bit score id
-        /// - osu.db contains ArtistUnicode and TitleUnicode
+        /// - osu!.db contains ArtistUnicode and TitleUnicode
         /// </summary>
         public const int FirstOsz2 = 20121008;
 

@@ -96,7 +96,14 @@ namespace osu_database_reader.Components.Beatmaps
 
             SliderVelocity = r.ReadDouble();
 
-            if (_version >= OsuVersions.FloatDifficultyValues)
+            if (_version >= OsuVersions.ReducedOsuDbSize)
+            {
+                DiffStarRatingStandard = r.ReadDictionary<Mods, float>().ToDictionary(kvp => kvp.Key, kvp => (double)kvp.Value);
+                DiffStarRatingTaiko = r.ReadDictionary<Mods, float>().ToDictionary(kvp => kvp.Key, kvp => (double)kvp.Value);
+                DiffStarRatingCtB = r.ReadDictionary<Mods, float>().ToDictionary(kvp => kvp.Key, kvp => (double)kvp.Value);
+                DiffStarRatingMania = r.ReadDictionary<Mods, float>().ToDictionary(kvp => kvp.Key, kvp => (double)kvp.Value);
+            }
+            else if (_version >= OsuVersions.FloatDifficultyValues)
             {
                 DiffStarRatingStandard = r.ReadDictionary<Mods, double>();
                 DiffStarRatingTaiko = r.ReadDictionary<Mods, double>();
@@ -183,7 +190,17 @@ namespace osu_database_reader.Components.Beatmaps
 
             w.Write(SliderVelocity);
 
-            if (_version >= OsuVersions.FloatDifficultyValues)
+            if (_version >= OsuVersions.ReducedOsuDbSize)
+            {
+                static Dictionary<int, float> ConvertToWritableDictionary(IDictionary<Mods, double> dic)
+                    => dic.ToDictionary(pair => (int) pair.Key, pair => (float)pair.Value);
+
+                w.Write(ConvertToWritableDictionary(DiffStarRatingStandard));
+                w.Write(ConvertToWritableDictionary(DiffStarRatingTaiko));
+                w.Write(ConvertToWritableDictionary(DiffStarRatingCtB));
+                w.Write(ConvertToWritableDictionary(DiffStarRatingMania));
+            }
+            else if (_version >= OsuVersions.FloatDifficultyValues)
             {
                 static Dictionary<int, double> ConvertToWritableDictionary(IDictionary<Mods, double> dic)
                     => dic.ToDictionary(pair => (int) pair.Key, pair => pair.Value);
