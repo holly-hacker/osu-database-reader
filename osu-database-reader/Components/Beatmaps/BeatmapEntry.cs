@@ -34,9 +34,9 @@ namespace osu_database_reader.Components.Beatmaps
         public Dictionary<Mods,double> DiffStarRatingTaiko { get; set; }
         public Dictionary<Mods,double> DiffStarRatingCtB { get; set; }
         public Dictionary<Mods,double> DiffStarRatingMania { get; set; }
-        public int DrainTimeSeconds { get; set; }
-        public int TotalTime { get; set; }
-        public int AudioPreviewTime { get; set; }
+        public int DrainTimeSeconds { get; set; } //NOTE: in s
+        public int TotalTime { get; set; }        //NOTE: in ms
+        public int AudioPreviewTime { get; set; } //NOTE: in ms
         public List<TimingPoint> TimingPoints { get; set; }
         public int BeatmapId { get; set; }
         public int BeatmapSetId { get; set; }
