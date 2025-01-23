@@ -30,9 +30,16 @@ namespace osu_database_reader.Components.HitObjects
                 string[] split2 = s.Split(':');
                 Debug.Assert(split2.Length == 2);
 
+                // beatmapID: 4615284 has float values for this
+                int firstNum;
+                int secondNum;
+                if (split2[0].Contains(".")) firstNum = (int)double.Parse(split2[0]);
+                else firstNum = int.Parse(split2[0]);
+                if (split2[1].Contains(".")) secondNum = (int)double.Parse(split2[1]);
+                else secondNum = int.Parse(split2[1]);
                 Points.Add(new Vector2(
-                    int.Parse(split2[0]),
-                    int.Parse(split2[1])));
+                    firstNum,
+                    secondNum));
             }
         }
     }

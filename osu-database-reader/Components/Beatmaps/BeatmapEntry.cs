@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using osu.Shared;
 using osu.Shared.Serialization;
-using osu_database_reader.BinaryFiles;
 
 namespace osu_database_reader.Components.Beatmaps
 {
@@ -12,42 +11,61 @@ namespace osu_database_reader.Components.Beatmaps
     /// </summary>
     public class BeatmapEntry : ISerializable
     {
-        public string Artist, ArtistUnicode;
-        public string Title, TitleUnicode;
-        public string Creator;  //mapper
-        public string Version;  //difficulty name
-        public string AudioFileName;
-        public string BeatmapChecksum;
-        public string BeatmapFileName;
-        public SubmissionStatus RankedStatus;
-        public ushort CountHitCircles, CountSliders, CountSpinners;
-        public DateTime LastModifiedTime;
-        public float ApproachRate, CircleSize, HPDrainRate, OveralDifficulty;
-        public double SliderVelocity;
-        public Dictionary<Mods, double> DiffStarRatingStandard, DiffStarRatingTaiko, DiffStarRatingCtB, DiffStarRatingMania;
-        public int DrainTimeSeconds;    //NOTE: in s
-        public int TotalTime;           //NOTE: in ms
-        public int AudioPreviewTime;    //NOTE: in ms
-        public List<TimingPoint> TimingPoints;
-        public int BeatmapId, BeatmapSetId, ThreadId;
-        public Ranking GradeStandard, GradeTaiko, GradeCtB, GradeMania;
-        public short OffsetLocal;
-        public float StackLeniency;
-        public GameMode GameMode;
-        public string SongSource, SongTags;
-        public short OffsetOnline;
-        public string TitleFont;
-        public bool Unplayed;
-        public DateTime LastPlayed;
-        public bool IsOsz2;
-        public string FolderName;
-        public DateTime LastCheckAgainstOsuRepo;
-        public bool IgnoreBeatmapSounds, IgnoreBeatmapSkin, DisableStoryBoard, DisableVideo, VisualOverride;
-        public short OldUnknown1;   //unused
-        public int LastEditTime;
-        public byte ManiaScrollSpeed;
-
-        private int _version;
+        public string Artist { get; set; }
+        public string ArtistUnicode { get; set; }
+        public string Title { get; set; }
+        public string TitleUnicode { get; set; }
+        public string Creator { get; set; }
+        public string Version { get; set; }
+        public string AudioFileName { get; set; }
+        public string BeatmapChecksum { get; set; }
+        public string BeatmapFileName { get; set; }
+        public SubmissionStatus RankedStatus { get; set; }
+        public ushort CountHitCircles { get; set; }
+        public ushort CountSliders { get; set; }
+        public ushort CountSpinners { get; set; }
+        public DateTime LastModifiedTime { get; set; }
+        public float ApproachRate { get; set; }
+        public float CircleSize { get; set; }
+        public float HPDrainRate { get; set; }
+        public float OveralDifficulty { get; set; }
+        public double SliderVelocity { get; set; }
+        public Dictionary<Mods,double> DiffStarRatingStandard { get; set; }
+        public Dictionary<Mods,double> DiffStarRatingTaiko { get; set; }
+        public Dictionary<Mods,double> DiffStarRatingCtB { get; set; }
+        public Dictionary<Mods,double> DiffStarRatingMania { get; set; }
+        public int DrainTimeSeconds { get; set; }
+        public int TotalTime { get; set; }
+        public int AudioPreviewTime { get; set; }
+        public List<TimingPoint> TimingPoints { get; set; }
+        public int BeatmapId { get; set; }
+        public int BeatmapSetId { get; set; }
+        public int ThreadId { get; set; }
+        public Ranking GradeStandard { get; set; }
+        public Ranking GradeTaiko { get; set; }
+        public Ranking GradeCtB { get; set; }
+        public Ranking GradeMania { get; set; }
+        public short OffsetLocal { get; set; }
+        public float StackLeniency { get; set; }
+        public GameMode GameMode { get; set; }
+        public string SongSource { get; set; }
+        public string SongTags { get; set; }
+        public short OffsetOnline { get; set; }
+        public string TitleFont { get; set; }
+        public bool Unplayed { get; set; }
+        public DateTime LastPlayed { get; set; }
+        public bool IsOsz2 { get; set; }
+        public string FolderName { get; set; }
+        public DateTime LastCheckAgainstOsuRepo { get; set; }
+        public bool IgnoreBeatmapSounds { get; set; }
+        public bool IgnoreBeatmapSkin { get; set; }
+        public bool DisableStoryBoard { get; set; }
+        public bool DisableVideo { get; set; }
+        public bool VisualOverride { get; set; }
+        public short OldUnknown1 { get; set; }
+        public int LastEditTime { get; set; }
+        public byte ManiaScrollSpeed { get; set; }
+        public int _version { get; set; }
 
         public static BeatmapEntry ReadFromReader(SerializationReader r, int version) {
             var e = new BeatmapEntry {

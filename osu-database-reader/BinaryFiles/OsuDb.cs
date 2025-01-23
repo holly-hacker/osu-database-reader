@@ -10,13 +10,13 @@ namespace osu_database_reader.BinaryFiles
 {
     public class OsuDb : ISerializable
     {
-        public int OsuVersion;
-        public int FolderCount;
-        public bool AccountUnlocked;
-        public DateTime AccountUnlockDate;
-        public string AccountName;
-        public List<BeatmapEntry> Beatmaps;
-        public PlayerRank AccountRank;
+        public int OsuVersion { get; set; }
+        public int FolderCount { get; set; }
+        public bool AccountUnlocked { get; set; }
+        public DateTime AccountUnlockDate { get; set; }
+        public string AccountName { get; set; }
+        public List<BeatmapEntry> Beatmaps { get; set; }
+        public PlayerRank AccountRank { get; set; }
 
         public static OsuDb Read(string path)
         {
@@ -97,6 +97,10 @@ namespace osu_database_reader.BinaryFiles
             }
 
             w.Write((byte)AccountRank);
+            // when trying to use the db in osu it says that the database is invalid unless these 3 bytes are here
+            w.Write((byte)0);
+            w.Write((byte)0);
+            w.Write((byte)0);
         }
     }
 }

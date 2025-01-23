@@ -46,15 +46,32 @@ namespace osu_database_reader.Components.HitObjects
                         ((HitObjectSpinner) h).SoundSampleData = split[6];
                     break;
                 case HitObjectType.Hold:
-                    throw new NotImplementedException("Hold notes are not yet parsed.");
+                    h = new HitObjectHold();
+                    // for some reason for mania holds its endTime:hitSample instead of endTime,hitSample ??
+                    ((HitObjectHold) h).EndTime = int.Parse(split[5].Split(':')[0]);
+                    if (split.Length > 6)
+                        ((HitObjectHold) h).SoundSampleData = split[5].Split(':')[1];
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(t), "Bad hitobject type");
             }
 
             //note: parsed as decimal but cast to int in osu!
-            h.X = int.Parse(split[0], Constants.NumberFormat);
-            h.Y = int.Parse(split[1], Constants.NumberFormat);
-            h.Time = int.Parse(split[2], Constants.NumberFormat);
+            if (split[0].Contains(".")) // beatmapsetid: 46 has x and y values that are floats sometimes
+            {
+                h.X = (int)double.Parse(split[0], Constants.NumberFormat);
+            }
+            else h.X = int.Parse(split[0], Constants.NumberFormat);
+
+            if (split[1].Contains("."))
+            {
+                h.Y = (int)double.Parse(split[1], Constants.NumberFormat);
+            }
+            else h.Y = int.Parse(split[1], Constants.NumberFormat);
+
+            // beatmapID: 4615284 has float values for this
+            if (split[2].Contains(".")) h.Time = (int)double.Parse(split[2]);
+            else h.Time = int.Parse(split[2], Constants.NumberFormat);
             h.Type = t;
             h.HitSound = (HitSound)int.Parse(split[4]);
 
