@@ -43,8 +43,9 @@ namespace osu_database_reader
             string line;
             while (!string.IsNullOrWhiteSpace(line = sr.ReadLine()))
             {
+                // don't throw on invalid lines because they occur in ranked beatmaps, e.g. 1391940
                 if (!line.Contains(':'))
-                    throw new Exception("Invalid key/value line: " + line);
+                    continue;
 
                 int i = line.IndexOf(':');
 

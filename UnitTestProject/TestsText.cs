@@ -195,5 +195,16 @@ namespace UnitTestProject
             bm.BeatmapID.Should().Be(3718961);
             bm.BeatmapSetID.Should().Be(-1);
         }
+
+        [Fact]
+        public void InvalidMetadataLine()
+        {
+            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("UnitTestProject.Data.Beatmaps.1391940.osu");
+            var bm = BeatmapFile.Read(stream);
+
+            bm.FileFormatVersion.Should().Be(14);
+            bm.BeatmapID.Should().Be(1391940);
+            bm.BeatmapSetID.Should().Be(654452);
+        }
     }
 }
