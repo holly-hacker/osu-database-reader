@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
 using FluentAssertions;
+using osu_database_reader;
 using osu.Shared;
 using osu_database_reader.Components.Events;
 using osu_database_reader.Components.HitObjects;
@@ -103,7 +104,7 @@ namespace UnitTestProject
         }
 
         [Fact]
-        public void CheckBeatmapFloatPositions()
+        public void FloatingPointCoordinates()
         {
             using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("UnitTestProject.Data.Beatmaps.128.osu");
             var bm = BeatmapFile.Read(stream);
@@ -126,6 +127,32 @@ namespace UnitTestProject
             note2.Time.Should().Be(72812);
             note2.X.Should().Be(447);
             note2.Y.Should().Be(223);
+        }
+
+        [Fact]
+        public void FloatingPointSliderCoordinates()
+        {
+            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("UnitTestProject.Data.Beatmaps.4615284.osu");
+            var bm = BeatmapFile.Read(stream);
+
+            bm.FileFormatVersion.Should().Be(14);
+            bm.BeatmapID.Should().Be(4615284);
+            bm.BeatmapSetID.Should().Be(2182178);
+
+            // hit objects
+            bm.HitObjects.Should().HaveCount(389);
+
+            var hitObject1 = bm.HitObjects[175];
+            var slider1 = hitObject1.Should().BeOfType<HitObjectSlider>().Which;
+            slider1.X.Should().Be(380);
+            slider1.Y.Should().Be(108);
+            slider1.Time.Should().Be(57137);
+            slider1.CurveType.Should().Be(CurveType.Bezier);
+            slider1.Points.Should().HaveCount(2);
+            slider1.Points[0].X.Should().Be(362);
+            slider1.Points[0].Y.Should().Be(151);
+            slider1.Points[1].X.Should().Be(382);
+            slider1.Points[1].Y.Should().Be(199);
         }
 
         [Fact]

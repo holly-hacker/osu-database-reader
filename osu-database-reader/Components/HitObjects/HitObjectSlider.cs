@@ -33,8 +33,8 @@ namespace osu_database_reader.Components.HitObjects
                 Debug.Assert(split2.Length == 2);
 
                 Points.Add(new Vector2(
-                    int.Parse(split2[0]),
-                    int.Parse(split2[1])));
+                    (int)double.Parse(split2[0]),
+                    (int)double.Parse(split2[1])));
             }
         }
     }
