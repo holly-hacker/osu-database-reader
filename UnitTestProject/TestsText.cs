@@ -101,5 +101,31 @@ namespace UnitTestProject
             firstNote.HitSound.Should().Be(HitSound.None);
             firstNote.SoundSampleData.Should().Be("0:0:0:0:");
         }
+
+        [Fact]
+        public void CheckBeatmapFloatPositions()
+        {
+            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("UnitTestProject.Data.Beatmaps.128.osu");
+            var bm = BeatmapFile.Read(stream);
+
+            bm.FileFormatVersion.Should().Be(3);
+            bm.BeatmapID.Should().Be(128);
+            bm.BeatmapSetID.Should().Be(46);
+
+            // hit objects
+            bm.HitObjects.Should().HaveCount(76);
+
+            var noteWithFloat1 = bm.HitObjects[68];
+            var note1 = noteWithFloat1.Should().BeOfType<HitObjectSlider>().Which;
+            note1.Time.Should().Be(71034);
+            note1.X.Should().Be(64);
+            note1.Y.Should().Be(320);
+
+            var noteWithFloat2 = bm.HitObjects[69];
+            var note2 = noteWithFloat2.Should().BeOfType<HitObjectSlider>().Which;
+            note2 .Time.Should().Be(72812);
+            note2.X.Should().Be(447);
+            note2.Y.Should().Be(223);
+        }
     }
 }

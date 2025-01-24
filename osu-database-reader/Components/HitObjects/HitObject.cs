@@ -51,10 +51,10 @@ namespace osu_database_reader.Components.HitObjects
                     throw new ArgumentOutOfRangeException(nameof(t), "Bad hitobject type");
             }
 
-            //note: parsed as decimal but cast to int in osu!
-            h.X = int.Parse(split[0], Constants.NumberFormat);
-            h.Y = int.Parse(split[1], Constants.NumberFormat);
-            h.Time = int.Parse(split[2], Constants.NumberFormat);
+            // parsed as decimal but cast to int to match osu! behavior
+            h.X = (int)double.Parse(split[0], Constants.NumberFormat);
+            h.Y = (int)double.Parse(split[1], Constants.NumberFormat);
+            h.Time = (int)double.Parse(split[2], Constants.NumberFormat);
             h.Type = t;
             h.HitSound = (HitSound)int.Parse(split[4]);
 
