@@ -182,10 +182,10 @@ namespace osu_database_reader.Components.Beatmaps
             }
             else
             {
-                w.Write(ApproachRate);
-                w.Write(CircleSize);
-                w.Write(HPDrainRate);
-                w.Write(OveralDifficulty);
+                w.Write((byte)ApproachRate);
+                w.Write((byte)CircleSize);
+                w.Write((byte)HPDrainRate);
+                w.Write((byte)OveralDifficulty);
             }
 
             w.Write(SliderVelocity);
