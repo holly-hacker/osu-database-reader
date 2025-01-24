@@ -5,14 +5,16 @@ namespace osu_database_reader.Components.HitObjects
 {
     public abstract class HitObject
     {
-        public int X, Y;  //based on a 512x384 field
+        /// <summary> The X coordinate, based on a 512x384 field. </summary>
+        public int X;
+        /// <summary> The y coordinate, based on a 512x384 field. </summary>
+        public int Y;
         public int Time;
         public HitObjectType Type;
         public HitSound HitSound;
 
         public bool IsNewCombo => Type.HasFlag(HitObjectType.NewCombo);
 
-        //automatically returns the correct type
         public static HitObject FromString(string s)
         {
             string[] split = s.Split(',');

@@ -6,9 +6,11 @@ namespace osu_database_reader.Components.HitObjects
     public class HitObjectSlider : HitObject
     {
         public CurveType CurveType;
-        public List<Vector2> Points = new();  //does not include initial point!
+        /// <summary> The points on this slider's curve, excluding the starting points. </summary>
+        public List<Vector2> Points = new();
         public int RepeatCount;
-        public double Length; //seems to be length in o!p, so it doesn't have to be calculated?
+        /// <summary> Length of the slider in osu!pixels. </summary>
+        public double Length;
 
         public void ParseSliderSegments(string sliderString)
         {

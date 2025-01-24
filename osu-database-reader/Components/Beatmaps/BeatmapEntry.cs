@@ -14,8 +14,10 @@ namespace osu_database_reader.Components.Beatmaps
     {
         public string Artist, ArtistUnicode;
         public string Title, TitleUnicode;
-        public string Creator;  //mapper
-        public string Version;  //difficulty name
+        /// <summary> The mapper username </summary>
+        public string Creator;
+        /// <summary> The difficulty name </summary>
+        public string Version;
         public string AudioFileName;
         public string BeatmapChecksum;
         public string BeatmapFileName;
@@ -26,8 +28,10 @@ namespace osu_database_reader.Components.Beatmaps
         public double SliderVelocity;
         public Dictionary<Mods, double> DiffStarRatingStandard, DiffStarRatingTaiko, DiffStarRatingCtB, DiffStarRatingMania;
         public int DrainTimeSeconds;    //NOTE: in s
+        /// <summary> Total beatmap time in milliseconds </summary>
         public int TotalTime;           //NOTE: in ms
-        public int AudioPreviewTime;    //NOTE: in ms
+        /// <summary> Point in the audio track to play in song select, in milliseconds </summary>
+        public int AudioPreviewTime;
         public List<TimingPoint> TimingPoints;
         public int BeatmapId, BeatmapSetId, ThreadId;
         public Ranking GradeStandard, GradeTaiko, GradeCtB, GradeMania;
@@ -43,7 +47,8 @@ namespace osu_database_reader.Components.Beatmaps
         public string FolderName;
         public DateTime LastCheckAgainstOsuRepo;
         public bool IgnoreBeatmapSounds, IgnoreBeatmapSkin, DisableStoryBoard, DisableVideo, VisualOverride;
-        public short OldUnknown1;   //unused
+        /// <summary> Unknown unused entry </summary>
+        public short OldUnknown1;
         public int LastEditTime;
         public byte ManiaScrollSpeed;
 
