@@ -47,7 +47,11 @@ namespace osu_database_reader.Components.HitObjects
                         ((HitObjectSpinner) h).SoundSampleData = split[6];
                     break;
                 case HitObjectType.Hold:
-                    throw new NotImplementedException("Hold notes are not yet parsed.");
+                    h = new HitObjectHold();
+                    var sampleDataFirstColon = split[5].IndexOf(':');
+                    ((HitObjectHold) h).EndTime = int.Parse(split[5].Substring(0, sampleDataFirstColon));
+                    ((HitObjectHold) h).SoundSampleData = split[5].Substring(sampleDataFirstColon + 1);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(t), "Bad hitobject type");
             }

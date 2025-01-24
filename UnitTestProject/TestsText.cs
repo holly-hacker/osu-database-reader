@@ -123,9 +123,39 @@ namespace UnitTestProject
 
             var noteWithFloat2 = bm.HitObjects[69];
             var note2 = noteWithFloat2.Should().BeOfType<HitObjectSlider>().Which;
-            note2 .Time.Should().Be(72812);
+            note2.Time.Should().Be(72812);
             note2.X.Should().Be(447);
             note2.Y.Should().Be(223);
+        }
+
+        [Fact]
+        public void ManiaBeatmap()
+        {
+            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("UnitTestProject.Data.Beatmaps.294291.osu");
+            var bm = BeatmapFile.Read(stream);
+
+            bm.FileFormatVersion.Should().Be(12);
+            bm.BeatmapID.Should().Be(294291);
+            bm.BeatmapSetID.Should().Be(113273);
+
+            // hit objects
+            bm.HitObjects.Should().HaveCount(1219);
+
+            var hitObject1 = bm.HitObjects[10];
+            var holdNote1 = hitObject1.Should().BeOfType<HitObjectHold>().Which;
+            holdNote1.X.Should().Be(329);
+            holdNote1.Y.Should().Be(192);
+            holdNote1.Time.Should().Be(1574);
+            holdNote1.EndTime.Should().Be(1890);
+            holdNote1.SoundSampleData.Should().Be("0:0:0:0:");
+
+            var hitObject2 = bm.HitObjects[121];
+            var holdNote2 = hitObject2.Should().BeOfType<HitObjectHold>().Which;
+            holdNote2.X.Should().Be(256);
+            holdNote2.Y.Should().Be(192);
+            holdNote2.Time.Should().Be(20363);
+            holdNote2.EndTime.Should().Be(20679);
+            holdNote2.SoundSampleData.Should().Be("0:0:0:70:normal-hitclap.wav");
         }
     }
 }
