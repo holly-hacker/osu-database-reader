@@ -12,8 +12,8 @@ namespace osu_database_reader
     {
         public static string GetValueOrNull(this Dictionary<string, string> dic, string key)
         {
-            return dic.ContainsKey(key)
-                ? dic[key]
+            return dic.TryGetValue(key, out var value)
+                ? value
                 : null;
         }
 
@@ -24,6 +24,7 @@ namespace osu_database_reader
             {
                 string str = sr.ReadLine();
                 if (string.IsNullOrWhiteSpace(str)) continue;
+                if (!str.StartsWith("[")) continue; // some beatmaps contain garbage data (eg. 3718961)
 
                 string stripped = str.TrimStart('[').TrimEnd(']');
                 if (!Enum.TryParse(stripped, out BeatmapSection a))

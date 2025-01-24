@@ -184,5 +184,16 @@ namespace UnitTestProject
             holdNote2.EndTime.Should().Be(20679);
             holdNote2.SoundSampleData.Should().Be("0:0:0:70:normal-hitclap.wav");
         }
+
+        [Fact]
+        public void GarbageBetweenSections()
+        {
+            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("UnitTestProject.Data.Beatmaps.3718961.osu");
+            var bm = BeatmapFile.Read(stream);
+
+            bm.FileFormatVersion.Should().Be(14);
+            bm.BeatmapID.Should().Be(3718961);
+            bm.BeatmapSetID.Should().Be(-1);
+        }
     }
 }
