@@ -61,6 +61,7 @@ namespace osu_database_reader.BinaryFiles
                 }
             }
 
+            // NOTE: this may be an int instead?
             AccountRank = (PlayerRank)r.ReadByte();
         }
 
@@ -96,7 +97,8 @@ namespace osu_database_reader.BinaryFiles
                 }
             }
 
-            w.Write((byte)AccountRank);
+            // TODO: figure out if/when this changed from byte to int
+            w.Write((int)AccountRank);
         }
     }
 }
