@@ -4,10 +4,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
-    <Version>3.3.0</Version>
-    <AssemblyVersion>3.3.0.0</AssemblyVersion>
-    <FileVersion>3.3.0.0</FileVersion>
-    <PackageVersion>3.3.0</PackageVersion>
+    <Version>3.4.0</Version>
+    <AssemblyVersion>3.4.0.0</AssemblyVersion>
+    <FileVersion>3.4.0.0</FileVersion>
+    <PackageVersion>3.4.0</PackageVersion>
 
     <Title>osu! Database Reader</Title>
     <Product>osu! Database Reader</Product>
@@ -23,11 +23,7 @@
     <License>MIT</License>
 
     <PackageTags>osu! osu database replay beatmap</PackageTags>
-    <PackageReleaseNotes>
-      - Parse hold notes for osu!mania maps
-      - Fix written osu.db files not being readable by osu!
-      - Improve compatibility with poorly formatted beatmaps
-    </PackageReleaseNotes>
+    <PackageReleaseNotes>Bump osu.Shared to v1.1.0</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
